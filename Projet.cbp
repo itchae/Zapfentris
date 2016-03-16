@@ -46,17 +46,18 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="E_fenetreType.h" />
 		<Unit filename="ListCoo.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="ListCoo.h" />
+		<Unit filename="gestionFenetre.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gestionFenetre.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="sansInterface.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="sansInterface.h" />
 		<Unit filename="systemJeu.c">
 			<Option compilerVar="CC" />
 		</Unit>
