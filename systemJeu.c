@@ -268,23 +268,20 @@ void placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAModifier){
 
     if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide && jeu->tabNbPionJoueur[0]>seuilProtectbombe){ //si bombe elle explose
        viderList(jetonAModifier);                                               //interface ne devra plus metre a jour ceux la mais ceux toucher par la bombe
-       listPosition pionToucherBombe = declancherBombe(jeu,x,y);
-       viderElementDeuxiemeListDansPremiere(jetonAModifier,pionToucherBombe);   //on stock les pion toucher dans la liste
-       free_ListPosition(&pionToucherBombe);                                    //on libere la memoire de piontoucherBombe
-
+       declancherBombe(jeu,x,y);
     }
-    else{                                                   //sinon on place le jeton
+    else{                                                                   //sinon on place le jeton
         Coordonnees memo;
         PileCoordonnes pileMemo = jetonAModifier->pile;
-        jeu->tabNbPionJoueur[jeu->numJoueur]+=jetonAModifier->nbElement;//on augment son score de nbElement dans la liste
-        jeu->tabNbPionJoueur[0]++;                                      //on ajoute un jeton au score total
-        while(pileMemo!=NULL){                              //on modifie tout les jeton a modifier
+        jeu->tabNbPionJoueur[jeu->numJoueur]+=jetonAModifier->nbElement;    //on augment son score de nbElement dans la liste
+        jeu->tabNbPionJoueur[0]++;                                          //on ajoute un jeton au score total
+        while(pileMemo!=NULL){                                              //on modifie tout les jeton a modifier
             memo=pileMemo->position;
-            decrementationNbPion(jeu,memo.cooX,memo.cooY,false);  //on enleve les pt des jeton perdu
+            decrementationNbPion(jeu,memo.cooX,memo.cooY,false);            //on enleve les pt des jeton perdu
             jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].contenu = contenuPion;
             jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].numJoueur = jeu->numJoueur;
             jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].viePion = 0;
-            pileMemo=pileMemo->suivant;                     //on passe a la coordonne suivante
+            pileMemo=pileMemo->suivant;                                     //on passe a la coordonne suivante
 
         }
     }
@@ -348,8 +345,7 @@ void decrementationNbPion(systemJeu* jeu,int x,int y,bool destruction){
 void  boucle_IA(systemJeu* jeu){
     while(jeu->estIA[jeu->numJoueur-1] && existeCoupSurGrille(jeu)){
         actionIA_jeu(jeu);
-        listPosition stock =traitrise(jeu);
-        free_ListPosition(&stock);
+        traitrise(jeu);
     }
 }
 //-------------------------------------------------------------------------------------------------------
@@ -357,7 +353,7 @@ void  boucle_IA(systemJeu* jeu){
 //-------------------------------------------------------------------------------------------------------
 
 
-listPosition traitrise(systemJeu* jeu){
+bool traitrise(systemJeu* jeu){
     listPosition retour = NULL;
     int seuilTrahison = (jeu->grilleJeu.taille*jeu->grilleJeu.taille)/jeu->nbJoueur;        //(nbCase/nbJoueur)
     bool posteLibre = true;
@@ -407,8 +403,8 @@ listPosition traitrise(systemJeu* jeu){
 
         }
     }
-
-    return retour;
+    free_ListPosition(&retour);
+    return !posteLibre;
 }
 //-------------------------------------------------------------------------------------------------------
 void actionIA_jeu(systemJeu* jeu){
@@ -489,94 +485,77 @@ bool placerBombeDebut(systemJeu* jeu){
 
 //-------------------------------------------------------------------------------------------
 
-listPosition func_bombeExplo(systemJeu* jeu, int x, int y){
+void func_bombeExplo(systemJeu* jeu, int x, int y){
     int i, j;
-    listPosition retour = cree_listPosition();
-    Coordonnees coo;
+
     jeu->grilleJeu.tabCase[x][y].bombe = bombeVide;
+
     for (j=y-1 ; j<=y+1 ; j++){
         for(i=x-1 ; i<=x+1 ; i++){
             if (i>=0 && i<jeu->grilleJeu.taille && j>=0 && j<jeu->grilleJeu.taille){
                 decrementationNbPion(jeu,i,j,true);
                 jeu->grilleJeu.tabCase[i][j].numJoueur = 0;
                 jeu->grilleJeu.tabCase[i][j].contenu = contenuVide;
-                coo.cooX = i;
-                coo.cooY = j;
-                ajouterElement(retour,coo);
             }
         }
     }
-    return retour;
 }
 
 //-------------------------------------------------------------------------------------------
 
-listPosition func_bombeLaser(systemJeu* jeu, int x , int y ){
-    listPosition retour;
+void func_bombeLaser(systemJeu* jeu, int x , int y ){
+
     int hasard = rand()%4;
 
     switch(hasard){
-        case 0 : retour = bombeLaserVertical(jeu,x,y);
+        case 0 : bombeLaserVertical(jeu,x,y);
                 break;
-        case 1 : retour = bombeLaserHorizontal(jeu,x,y);
+        case 1 : bombeLaserHorizontal(jeu,x,y);
                 break;
-        case 2 : retour = bombeLaserDiagonalDroite(jeu,x,y);
+        case 2 : bombeLaserDiagonalDroite(jeu,x,y);
                 break;
-        case 3 : retour = bombeLaserDiagonalGauche(jeu,x,y);
+        case 3 : bombeLaserDiagonalGauche(jeu,x,y);
                 break;
         default : printf("PROBLEME : Ce type de bombe laser n'existe pas ! \n");
                 break;
     }
-    return retour;
 
 }
 
 //-------------------------------------------------------------------------------------------
 
-listPosition bombeLaserVertical(systemJeu* jeu, int x , int y ){
+void bombeLaserVertical(systemJeu* jeu, int x , int y ){
 
-    listPosition retour = cree_listPosition();
     int j;
-    Coordonnees coo;
     jeu->grilleJeu.tabCase[x][y].bombe = bombeVide;
 
     for( j=0; j<jeu->grilleJeu.taille ; j++){
         decrementationNbPion(jeu,x,j,true);
         jeu->grilleJeu.tabCase[x][j].numJoueur = 0;
         jeu->grilleJeu.tabCase[x][j].contenu = contenuVide;
-        coo.cooX = x;
-        coo.cooY = j;
-        ajouterElement(retour,coo);
     }
-    return retour;
 }
 //-------------------------------------------------------------------------------------------
 
-listPosition bombeLaserHorizontal(systemJeu* jeu, int x , int y ){
+void bombeLaserHorizontal(systemJeu* jeu, int x , int y ){
 
-    listPosition retour = cree_listPosition();
     int i;
-    Coordonnees coo;
     jeu->grilleJeu.tabCase[x][y].bombe = bombeVide;
 
     for( i=0 ; i<jeu->grilleJeu.taille ; i++){
         decrementationNbPion(jeu,i,y,true);
         jeu->grilleJeu.tabCase[i][y].numJoueur = 0;
         jeu->grilleJeu.tabCase[i][y].contenu = contenuVide;
-        coo.cooX = i;
-        coo.cooY = y;
-        ajouterElement(retour,coo);
     }
-    return retour;
+
 }
 //-------------------------------------------------------------------------------------------
 
-listPosition bombeLaserDiagonalDroite(systemJeu* jeu, int x , int y ){
+void bombeLaserDiagonalDroite(systemJeu* jeu, int x , int y ){
 
-    listPosition retour = cree_listPosition();
     int i = x;
     int j = y;
-    Coordonnees coo;
+
     jeu->grilleJeu.tabCase[x][y].bombe = bombeVide;
 
     while(i<jeu->grilleJeu.taille-1 && j>0){        //monte en haut à droite
@@ -585,33 +564,25 @@ listPosition bombeLaserDiagonalDroite(systemJeu* jeu, int x , int y ){
         decrementationNbPion(jeu,i,j,true);
         jeu->grilleJeu.tabCase[i][j].numJoueur = 0;
         jeu->grilleJeu.tabCase[i][j].contenu = contenuVide;
-        coo.cooX = i;
-        coo.cooY = j;
-        ajouterElement(retour,coo);
     }
 
     i = x;
     j = y;
+
     while(i>0 && j<jeu->grilleJeu.taille-1){        //descend en bas à gauche
         i--;
         j++;
         decrementationNbPion(jeu,i,j,true);
         jeu->grilleJeu.tabCase[i][j].numJoueur = 0;
         jeu->grilleJeu.tabCase[i][j].contenu = contenuVide;
-        coo.cooX = i;
-        coo.cooY = j;
-        ajouterElement(retour,coo);
     }
-    //OU DEUX WHILE EN 1 ?
-    return retour;
 }
 //-------------------------------------------------------------------------------------------
 
-listPosition bombeLaserDiagonalGauche(systemJeu* jeu, int x , int y ){
-    listPosition retour = cree_listPosition();
+void bombeLaserDiagonalGauche(systemJeu* jeu, int x , int y ){
+
     int i = x ;
     int j = y;
-    Coordonnees coo;
     jeu->grilleJeu.tabCase[x][y].bombe = bombeVide;
     while(i>0 && j>0){                                              //monte vers la gauche
         i--;
@@ -619,10 +590,6 @@ listPosition bombeLaserDiagonalGauche(systemJeu* jeu, int x , int y ){
         decrementationNbPion(jeu,i,j,true);
         jeu->grilleJeu.tabCase[i][j].numJoueur = 0;
         jeu->grilleJeu.tabCase[i][j].contenu = contenuVide;
-        coo.cooX = i;
-        coo.cooY = j;
-        ajouterElement(retour,coo);
-
     }
 
     i = x;
@@ -634,50 +601,37 @@ listPosition bombeLaserDiagonalGauche(systemJeu* jeu, int x , int y ){
         decrementationNbPion(jeu,i,j,true);
         jeu->grilleJeu.tabCase[i][j].numJoueur = 0;
         jeu->grilleJeu.tabCase[i][j].contenu = contenuVide;
-        coo.cooX = i;
-        coo.cooY = j;
-        ajouterElement(retour,coo);
     }
-    return retour;
 }
 
 
 //-------------------------------------------------------------------------------------------
 
-listPosition func_bombeBloc(systemJeu* jeu, int x, int y){
-    listPosition retour = cree_listPosition();
-    Coordonnees coo;
+void func_bombeBloc(systemJeu* jeu, int x, int y){
     jeu->grilleJeu.tabCase[x][y].bombe = bombeVide;
     jeu->grilleJeu.tabCase[x][y].contenu = contenuBloc;
-    coo.cooX = x;
-    coo.cooY = y;
-    ajouterElement(retour,coo);
-    return retour;
 }
 
 
 //-------------------------------------------------------------------------------------------
 
-listPosition declancherBombe(systemJeu* jeu, int x, int y){
+void declancherBombe(systemJeu* jeu, int x, int y){
 
-    listPosition retour = NULL;
     switch (jeu->grilleJeu.tabCase[x][y].bombe){
-        case bombeExplo : retour = func_bombeExplo(jeu,x,y);
+        case bombeExplo : func_bombeExplo(jeu,x,y);
                           printf("Bombe explosif en %d %d\n",x,y);
                           break;
-        case bombeLaser : retour = func_bombeLaser(jeu,x,y);
+        case bombeLaser : func_bombeLaser(jeu,x,y);
                           printf("Bombe laser en %d %d\n",x,y);
                           break;
-        case bombeBloc : retour = func_bombeBloc(jeu,x,y);
+        case bombeBloc : func_bombeBloc(jeu,x,y);
                          printf("Bombe bloc en %d %d\n",x,y);
                           break;
         default : printf("WARNING : Type de bombe non reconnue");
-                  retour = cree_listPosition();
                   jeu->nbBombe++;                                               //incrementation car decrementation obligatoire apres
                   break;
     }
-    jeu->nbBombe--;                                                             //enleve la bombe qui a exploser
-    return retour;
+    jeu->nbBombe--;                                                             //enleve la bombe qui a explos
 
 }
 
@@ -685,20 +639,16 @@ listPosition declancherBombe(systemJeu* jeu, int x, int y){
 //---------------------------- CARTE EVENEMENT ----------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
 
-listPosition choixEvent (systemJeu* jeu, int x, int y, int numCarte){
-    listPosition retour;
+void choixEvent (systemJeu* jeu, int x, int y, int numCarte){
     switch (numCarte){
-        case 1 : retour = func_bombeBloc(jeu, x, y);
+        case 1 : func_bombeBloc(jeu, x, y);
                 break;
         case 2 : event_swapJoueur(jeu);
-                 retour = cree_listPosition();
                 break;
         default : printf("WARNING : Carte evenement non reconnue");
-                  retour = cree_listPosition();
                 break;
     }
     passerJoueurSuivant(jeu);
-    return retour;
 }
 
 

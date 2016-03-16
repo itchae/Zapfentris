@@ -62,23 +62,23 @@ void decrementationNbPion(systemJeu* jeu,int x,int y,bool destruction);     //de
 void boucle_IA(systemJeu* jeu);                                             //permet de faire jouer les ia jusqu'a un joueur
 
 //Bonus
-listPosition traitrise(systemJeu* jeu);                //augment vie pion et renvoi les coo du traitre et de ses compagnon
-void actionIA_jeu(systemJeu* jeu);                           // joue a la place du joueur
+bool traitrise(systemJeu* jeu);                                 //augment vie pion et renvoi les coo du traitre et de ses compagnon
+void actionIA_jeu(systemJeu* jeu);                              // joue a la place du joueur
 
 
 //Les bombes
-bool placerBombeDebut(systemJeu* jeu);                                  //place les bombe au début du jeu
-listPosition func_bombeExplo(systemJeu* jeu, int x, int y);             //fait exploser les bombes
-listPosition func_bombeLaser(systemJeu* jeu, int x, int y);             //lance la fonction de bombe laser
-listPosition bombeLaserVertical(systemJeu* jeu, int x , int y );        // direction verticale de la bombe laser
-listPosition bombeLaserHorizontal(systemJeu* jeu, int x , int y );      // direction horizontale de la bombe laser
-listPosition bombeLaserDiagonalDroite(systemJeu* jeu, int x , int y );  // direction de bas à gauche à haut droite de bombe laser
-listPosition bombeLaserDiagonalGauche(systemJeu* jeu, int x , int y );  // direction de haut à gauche à bas droite de bombe laser
-listPosition func_bombeBloc(systemJeu* jeu, int x, int y);              // fonction bombe bloc
-listPosition declancherBombe(systemJeu* jeu, int x, int y);             //lance la fonction de bombe associe a celle qui explose
+bool placerBombeDebut(systemJeu* jeu);                          //place les bombe au début du jeu
+void func_bombeExplo(systemJeu* jeu, int x, int y);             //fait exploser les bombes
+void func_bombeLaser(systemJeu* jeu, int x, int y);             //lance la fonction de bombe laser
+void bombeLaserVertical(systemJeu* jeu, int x , int y );        // direction verticale de la bombe laser
+void bombeLaserHorizontal(systemJeu* jeu, int x , int y );      // direction horizontale de la bombe laser
+void bombeLaserDiagonalDroite(systemJeu* jeu, int x , int y );  // direction de bas à gauche à haut droite de bombe laser
+void bombeLaserDiagonalGauche(systemJeu* jeu, int x , int y );  // direction de haut à gauche à bas droite de bombe laser
+void func_bombeBloc(systemJeu* jeu, int x, int y);              // fonction bombe bloc
+void declancherBombe(systemJeu* jeu, int x, int y);             //lance la fonction de bombe associe a celle qui explose
 
 //Les cartes
-listPosition choixEvent (systemJeu* jeu, int x, int y, int numCarte);
+void choixEvent (systemJeu* jeu, int x, int y, int numCarte);
 void event_swapJoueur(systemJeu* jeu);
 
 #endif // SYSTEMJEU_H_INCLUDED
