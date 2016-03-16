@@ -57,8 +57,8 @@ SDL_Rect position;
                     //test pour la boucle de refresh
                     position.x=event.button.x;
                     position.y=event.button.y;
-                    SDL_BlitSurface(fondCaseJeu,NULL,ecran,&position);//colle l'img sur l'ecran*/
-                break;
+                    SDL_BlitSurface(fondCaseJeu,NULL,ecran,&position);//colle l'img sur l'ecran
+                break;*/
             case SDL_MOUSEMOTION://quandd la souris bouge
                                 if(event.motion.x>=10 && event.motion.y>=10 && event.motion.x< 9+fondGrilleJeu->w && event.motion.y< 9+fondGrilleJeu->h){
                                     cooSouris.cooX=(event.motion.x-10)/(fondCaseJeu->w+1);
