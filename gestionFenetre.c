@@ -9,11 +9,11 @@
 //#include "fenetreDureePartie.h"
 //#include "fenetreSelecNbJoueur.h"
 //#include "fenetreTitre.h"
-//#include "fenetreJeu.h"
+#include "fenetreJeu.h"
 
 void mainInterface(){
 
-    E_fenetre typeFenetre=fenetreTitre;
+    E_fenetre typeFenetre=/*fenetreTitre*/fenetreJeu;
     systemJeu* jeu =init_SystemJeu_Minimal();                                                                           //reste a alloue la grille, score et ia
 
     SDL_Window* fenetre;                                                                                                //pointeur sur la fenetre
@@ -48,8 +48,8 @@ void mainInterface(){
                         break;*/
         /*case fenetreDifficulte: func_fenetreDifficulte(fenetre,ecran,jeu,&typeFenetre);
                         break;*/
-       /* case fenetreJeu: func_fenetreJeu(fenetre,ecran,jeu,&typeFenetre);
-                        break;*/
+        case fenetreJeu: func_fenetreJeu(fenetre,ecran,jeu,&typeFenetre);
+                        break;
         default:break;
         }
    }
