@@ -14,6 +14,16 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+# Windows exe
+*.exe
+
+# gcc compile output
+*.o
+
+# on ignore tous les .layout et .depend
+*.layout
+*.depend
+
 # Windows shortcuts
 *.lnk
 
