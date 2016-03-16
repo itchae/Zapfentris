@@ -36,7 +36,17 @@ systemJeu* init_SystemJeu(int nbJoueur, int nbBombe, int taille){
 
     return retour;
 }
+//-------------------------------------------------------------------------------------------
+systemJeu* init_SystemJeu_Minimal(){
+    systemJeu* retour=NULL;
+    retour = (systemJeu*)malloc(sizeof(systemJeu));
+    retour->nbBombe = 0;
+    retour->nbJoueur = 0;
+    retour->numJoueur = 1;
 
+
+    return retour;
+}
 //-------------------------------------------------------------------------------------------
 
 void init_Grille(int taille, grille* grilleJeu){

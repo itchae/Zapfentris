@@ -14,7 +14,7 @@
 void mainInterface(){
 
     E_fenetre typeFenetre=fenetreTitre;
-    systemJeu* jeu =NULL;
+    systemJeu* jeu =init_SystemJeu_Minimal();                                                                           //reste a alloue la grille, score et ia
 
     SDL_Window* fenetre;                                                                                                //pointeur sur la fenetre
     fenetre = SDL_CreateWindow("Zapfentris",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,600,SDL_WINDOW_SHOWN);  //cree la fenetre
@@ -36,19 +36,19 @@ void mainInterface(){
 
    while(typeFenetre>=0){
         switch(typeFenetre){
-        //case type : func_fenetreType(fenetre,ecran,&jeu,&typeFenetre); break;
+        //case type : func_fenetreType(fenetre,ecran,jeu,&typeFenetre); break;
 
-        /*case fenetreTitre: func_fenetreTitre(fenetre,ecran,&jeu,&typeFenetre);
+        /*case fenetreTitre: func_fenetreTitre(fenetre,ecran,jeu,&typeFenetre);
                         break;*/
-        /*case fenetreSelecNbJoueur: func_fenetreSelecNbJoueur(fenetre,ecran,&jeu,&typeFenetre);
+        /*case fenetreSelecNbJoueur: func_fenetreSelecNbJoueur(fenetre,ecran,jeu,&typeFenetre);
                         break;*/
-       /* case fenetreConfigJoueur: func_fenetreConfigJoueur(fenetre,ecran,&jeu,&typeFenetre);
+       /* case fenetreConfigJoueur: func_fenetreConfigJoueur(fenetre,ecran,jeu,&typeFenetre);
                         break;*/
-        /*case fenetrefenetreDureePartie: func_fenetreDureePartie(fenetre,ecran,&jeu,&typeFenetre);
+        /*case fenetrefenetreDureePartie: func_fenetreDureePartie(fenetre,ecran,jeu,&typeFenetre);
                         break;*/
-        /*case fenetreDifficulte: func_fenetreDifficulte(fenetre,ecran,&jeu,&typeFenetre);
+        /*case fenetreDifficulte: func_fenetreDifficulte(fenetre,ecran,jeu,&typeFenetre);
                         break;*/
-       /* case fenetreJeu: func_fenetreJeu(fenetre,ecran,&jeu,&typeFenetre);
+       /* case fenetreJeu: func_fenetreJeu(fenetre,ecran,jeu,&typeFenetre);
                         break;*/
         default:break;
         }
