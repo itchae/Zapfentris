@@ -1,24 +1,23 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <gtk/gtk.h>
+#include <time.h>
+#include <SDL2/SDL.h>//permet d'utiliser SDL de base
+#include "gestionFenetre.h"
 
-
-#include "sansInterface.h"
 
 int main(int argc,char **argv){
-    gtk_init(&argc,&argv);//init de la biblio
+    if(SDL_Init(SDL_INIT_VIDEO) < 0){// Initialisation de la SDL
+        printf("PROBLEME!! Erreur lors de l'initialisation de la SDL  \n" );//gestion de l'erreur
+        SDL_Quit();// On quitte la SDL
+        return EXIT_FAILURE;
+    }
     srand(time(NULL));//init des random
 
 
-    //test system jeu
-    char comfirmer [10];
-    do{
 
-    mainDebugSystemJeux();
-    printf("rejouer?\n");
-    scanf("%s",comfirmer);
-    }while(!(comfirmer[0]=='n' ||comfirmer[0]=='N'));
+    mainInterface();
+
 
 
     return EXIT_SUCCESS;
