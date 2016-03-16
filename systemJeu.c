@@ -40,9 +40,13 @@ systemJeu* init_SystemJeu(int nbJoueur, int nbBombe, int taille){
 systemJeu* init_SystemJeu_Minimal(){
     systemJeu* retour=NULL;
     retour = (systemJeu*)malloc(sizeof(systemJeu));
-    retour->nbBombe = 0;
-    retour->nbJoueur = 0;
-    retour->numJoueur = 1;
+    retour->nbBombe = -1;
+    retour->nbJoueur = -1;
+    retour->numJoueur = -1;
+    retour->estIA=NULL;
+    retour->grilleJeu.tabCase=NULL;
+    retour->grilleJeu.taille=-1;
+    retour->tabNbPionJoueur=NULL;
 
 
     return retour;
@@ -68,15 +72,20 @@ void init_Grille(int taille, grille* grilleJeu){
 
 void free_SystemJeu(systemJeu** jeu){       //on prend un pointeur de pointeur pour pouvoir modifier le pointeur
     int i;
-    for(i=0 ; i<(*jeu)->grilleJeu.taille ; i++){
-        free((*jeu)->grilleJeu.tabCase[i]); //on libere le tab de caseJeu
-        (*jeu)->grilleJeu.tabCase[i] = NULL;
+    if((*jeu)->grilleJeu.tabCase!=NULL){
+        for(i=0 ; i<(*jeu)->grilleJeu.taille ; i++){
+            free((*jeu)->grilleJeu.tabCase[i]); //on libere les tab de caseJeu
+            (*jeu)->grilleJeu.tabCase[i] = NULL;
+        }
+        free((*jeu)->grilleJeu.tabCase);        //on libere le tab de pointeur
+        (*jeu)->grilleJeu.tabCase = NULL;
     }
-    free((*jeu)->grilleJeu.tabCase);        //on libere le tab de pointeur
-    (*jeu)->grilleJeu.tabCase = NULL;
 
-    free((*jeu)->tabNbPionJoueur);
+    free((*jeu)->tabNbPionJoueur);              //on libere le tab
     (*jeu)->tabNbPionJoueur=NULL;
+
+    free((*jeu)->estIA);                        //on libere le tab
+    (*jeu)->estIA=NULL;
 
     free(*jeu);                             //on libere le jeu
     *jeu = NULL;
