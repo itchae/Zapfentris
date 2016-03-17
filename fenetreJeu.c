@@ -30,6 +30,14 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
     }
     SDL_FillRect(fondCaseJeu,NULL,SDL_MapRGB(fondCaseJeu->format,255,255,255));
 
+//creation d'un pion
+
+    SDL_Surface* pionSurface = SDL_CreateRGBSurface(0,30,30,32,0,0,0,0);//pour la ligne de pixel noir etntre les case
+    if(pionSurface==NULL){
+        printf("PROBLEME!! erreur lors de la creation de pionSurface");
+    }
+    SDL_FillRect(pionSurface,NULL,SDL_MapRGB(pionSurface->format,0,255,0));
+
 
 
 //creation du visuel
@@ -54,16 +62,15 @@ SDL_Rect position;
                 break;*/
            /* case SDL_MOUSEBUTTONDOWN://quand un bouton de la souris est apuiyer
                     //event.button.button pour savoir lequel est appuyer
-                    //test pour la boucle de refresh
-                    position.x=event.button.x;
-                    position.y=event.button.y;
-                    SDL_BlitSurface(fondCaseJeu,NULL,ecran,&position);//colle l'img sur l'ecran
                 break;*/
             case SDL_MOUSEMOTION://quandd la souris bouge
                                 if(event.motion.x>=10 && event.motion.y>=10 && event.motion.x< 9+fondGrilleJeu->w && event.motion.y< 9+fondGrilleJeu->h){
                                     cooSouris.cooX=(event.motion.x-10)/(fondCaseJeu->w+1);
                                     cooSouris.cooY=(event.motion.y-10)/(fondCaseJeu->h+1);
                                     printf("Je suis dans la case %d %d\n",cooSouris.cooX,cooSouris.cooY);
+                                    position.x=((cooSouris.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(pionSurface->w/2);      //origine case + centrage du pion
+                                    position.y=((cooSouris.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(pionSurface->h/2);
+                                    SDL_BlitSurface(pionSurface,NULL,ecran,&position);                                              //colle la surface sur l'ecran
                                 }
                                 else{
                                     printf("je ne suis pas dans la grille de jeu\n");
