@@ -24,7 +24,7 @@ SDL_Surface** creationSurfaceChiffre(){
 }
 
 void free_tabSurfaceChiffre(SDL_Surface*** chiffres){
-    if(*chiffres==NULL){
+    if(*chiffres!=NULL){
         int i;
 
         for(i=0 ; i<10 ;i++){
