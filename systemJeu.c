@@ -16,7 +16,7 @@ systemJeu* init_SystemJeu(int nbJoueur, int nbBombe, int taille){
         retour->numJoueur = 1;                                //1=premier joueur
         init_Grille(taille, &retour->grilleJeu);
 
-        init_SystemJeu_setNbJoueur(jeu,nbJoueur);            // alloue les tab en fonction du nbjoueur et affecte ce nb a sa variable
+        init_SystemJeu_setNbJoueur(retour,nbJoueur);            // alloue les tab en fonction du nbjoueur et affecte ce nb a sa variable
     }
     else{
         printf("\n PROBLEME!! Il est imposible de jouer avec seulement %d joueur\n",nbJoueur);
@@ -71,7 +71,7 @@ void init_SystemJeu_setNbJoueur(systemJeu* jeu,int nbJoueur){
         //creation tab IA
         jeu->estIA = (bool*) malloc(sizeof(bool));
         for(i=0;i<nbJoueur;i++){
-            jeu->tabNbPionJoueur[i]=false;                   //on mets toute les ia a faux
+            jeu->estIA[i]=false;                   //on mets toute les ia a faux
         }
 
 }

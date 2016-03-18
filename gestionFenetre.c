@@ -7,13 +7,13 @@
 //#include "fenetreConfigJoueur.h"
 //#include "fenetreDifficulte.h"
 //#include "fenetreDureePartie.h"
-//#include "fenetreSelecNbJoueur.h"
+#include "fenetreSelectNbJoueur.h"
 //#include "fenetreTitre.h"
 #include "fenetreJeu.h"
 
 void mainInterface(){
 
-    E_fenetre typeFenetre=/*fenetreTitre*/fenetreJeu;
+    E_fenetre typeFenetre=/*fenetreTitre*/fenetreSelecNbJoueur;
     systemJeu* jeu =init_SystemJeu_Minimal();                                                                           //reste a alloue la grille, score et ia
 
     SDL_Window* fenetre;                                                                                                //pointeur sur la fenetre
@@ -40,17 +40,19 @@ void mainInterface(){
 
         /*case fenetreTitre: func_fenetreTitre(fenetre,ecran,jeu,&typeFenetre);
                         break;*/
-        /*case fenetreSelecNbJoueur: func_fenetreSelecNbJoueur(fenetre,ecran,jeu,&typeFenetre);
-                        break;*/
-       /* case fenetreConfigJoueur: func_fenetreConfigJoueur(fenetre,ecran,jeu,&typeFenetre);
-                        break;*/
+        case fenetreSelecNbJoueur: func_fenetreSelectNbJoueur(fenetre,ecran,jeu,&typeFenetre);
+                        break;
+        case fenetreConfigJoueur: //func_fenetreConfigJoueur(fenetre,ecran,jeu,&typeFenetre);
+                                    typeFenetre=fenetreJeu;//on connect au jeu pour l'instant
+                        break;
         /*case fenetrefenetreDureePartie: func_fenetreDureePartie(fenetre,ecran,jeu,&typeFenetre);
                         break;*/
         /*case fenetreDifficulte: func_fenetreDifficulte(fenetre,ecran,jeu,&typeFenetre);
                         break;*/
         case fenetreJeu: func_fenetreJeu(fenetre,ecran,jeu,&typeFenetre);
                         break;
-        default:break;
+        default:typeFenetre=fenetreQuitter;
+            break;
         }
    }
 
