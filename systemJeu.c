@@ -13,22 +13,10 @@ systemJeu* init_SystemJeu(int nbJoueur, int nbBombe, int taille){
     if(nbJoueur>1){
         retour = (systemJeu*)malloc(sizeof(systemJeu));
         retour->nbBombe = nbBombe;
-        retour->nbJoueur = nbJoueur;
         retour->numJoueur = 1;                                //1=premier joueur
         init_Grille(taille, &retour->grilleJeu);
 
-        //creation tab score
-        retour->tabNbPionJoueur= (int*)malloc((nbJoueur+1)*sizeof(int));
-        int i;
-        for(i=0;i<=nbJoueur;i++){
-            retour->tabNbPionJoueur[i]=0;
-        }
-
-        //creation tab IA
-        retour->estIA = (bool*) malloc(sizeof(bool));
-        for(i=0;i<nbJoueur;i++){
-            retour->tabNbPionJoueur[i]=false;                   //on mets toute les ia a faux
-        }
+        init_SystemJeu_setNbJoueur(jeu,nbJoueur);            // alloue les tab en fonction du nbjoueur et affecte ce nb a sa variable
     }
     else{
         printf("\n PROBLEME!! Il est imposible de jouer avec seulement %d joueur\n",nbJoueur);
@@ -42,7 +30,7 @@ systemJeu* init_SystemJeu_Minimal(){
     retour = (systemJeu*)malloc(sizeof(systemJeu));
     retour->nbBombe = -1;
     retour->nbJoueur = -1;
-    retour->numJoueur = -1;
+    retour->numJoueur = 1;
     retour->estIA=NULL;
     retour->grilleJeu.tabCase=NULL;
     retour->grilleJeu.taille=-1;
@@ -68,6 +56,25 @@ void init_Grille(int taille, grille* grilleJeu){
     }
 }
 
+//-------------------------------------------------------------------------------------------
+void init_SystemJeu_setNbJoueur(systemJeu* jeu,int nbJoueur){
+
+    jeu->nbJoueur=nbJoueur;
+
+    //creation tab score
+        jeu->tabNbPionJoueur= (int*)malloc((nbJoueur+1)*sizeof(int));
+        int i;
+        for(i=0;i<=nbJoueur;i++){
+            jeu->tabNbPionJoueur[i]=0;
+        }
+
+        //creation tab IA
+        jeu->estIA = (bool*) malloc(sizeof(bool));
+        for(i=0;i<nbJoueur;i++){
+            jeu->tabNbPionJoueur[i]=false;                   //on mets toute les ia a faux
+        }
+
+}
 //-------------------------------------------------------------------------------------------
 
 void free_SystemJeu(systemJeu** jeu){       //on prend un pointeur de pointeur pour pouvoir modifier le pointeur

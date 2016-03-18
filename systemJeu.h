@@ -46,6 +46,7 @@ typedef struct {
 systemJeu* init_SystemJeu(int nbJoueur,int nbBombe,int taille);     //creation de la structure systemJeu
 systemJeu* init_SystemJeu_Minimal();                                //creation minimal de la structure systemJeu (reste a alloue la grille , tabIA et tabScore)
 void init_Grille(int taille,grille* grilleJeu);                     //creation de la structure grille
+void init_SystemJeu_setNbJoueur(systemJeu* jeu,int nbJoueur);       //alloue les tabs qui sont en fonction du nbJoueur
 void free_SystemJeu(systemJeu** jeu);                               //permet de liberee jeu et de le remettre a NULL
 
 //Placement des jetons au début
