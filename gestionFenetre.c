@@ -42,8 +42,8 @@ void mainInterface(){
                         break;*/
         case fenetreSelecNbJoueur: func_fenetreSelectNbJoueur(fenetre,ecran,jeu,&typeFenetre);
                         break;
-        case fenetreConfigJoueur: //func_fenetreConfigJoueur(fenetre,ecran,jeu,&typeFenetre);
-                                    typeFenetre=fenetreJeu;//on connect au jeu pour l'instant
+        case fenetreConfigJoueur: func_fenetreConfigJoueur(fenetre,ecran,jeu,&typeFenetre);
+                                  typeFenetre=fenetreJeu;               //on connecte au jeu pour l'instant
                         break;
         /*case fenetrefenetreDureePartie: func_fenetreDureePartie(fenetre,ecran,jeu,&typeFenetre);
                         break;*/
