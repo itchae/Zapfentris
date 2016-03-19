@@ -51,7 +51,6 @@ void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu*
         case SDL_MOUSEBUTTONDOWN :
             if (event.button.x >=250 && event.button.x<=(250+boutonHumain->w) && event.button.y>=200 && event.button.y <= (200+boutonHumain->h)){
                 printf("Joueur Humain\n");
-                init_SystemJeu_setNbJoueur(jeu,2);
                 *typeFenetre=fenetreDureePartie;
             }else{
                 if (event.button.x >=500 && event.button.x<=(500+boutonIA->w) && event.button.y>=200 && event.button.y <= (200+boutonIA->h)){
