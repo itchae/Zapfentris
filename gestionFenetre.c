@@ -4,7 +4,7 @@
 #include <string.h>
 #include <SDL2/SDL.h>//permet d'utiliser SDL de base
 #include "systemJeu.h"
-//#include "fenetreConfigJoueur.h"
+#include "fenetreConfigJoueur.h"
 //#include "fenetreDifficulte.h"
 //#include "fenetreDureePartie.h"
 #include "fenetreSelectNbJoueur.h"

@@ -105,12 +105,20 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
     }
     SDL_FillRect(boutonMagasin,NULL,SDL_MapRGB(boutonMagasin->format,0,0,255));         //color la surface
 
+//creation texte bombe
+
+    SDL_Surface* texteBombe = SDL_CreateRGBSurface(0,260,40,32,0,0,0,0);
+    if(texteBombe==NULL){
+        printf("PROBLEME!! erreur lors de la creation de texteBombe");
+    }
+    SDL_FillRect(texteBombe,NULL,SDL_MapRGB(texteBombe->format,0,255,255));         //color la surface
+
 //creation des chiffres
 
     SDL_Surface** chiffres= creationSurfaceChiffre();
 
 //creation du visuel
-    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin);
+    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
 
 Coordonnees cooSouris,cooLecture;
 SDL_Rect position;
@@ -124,7 +132,7 @@ PileCoordonnes pileLecture;
         SDL_WaitEvent(&event);                                                              //attend le prochain event
 
         //refresh du fond ici car on va ecrire sur la fenetre apres
-        refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin);
+        refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
 
         switch(event.type){                                                                 //regarde le type de l'event
             case SDL_QUIT: *typeFenetre = fenetreQuitter;                                   //event de je veux ferme la fenetre
@@ -222,12 +230,16 @@ PileCoordonnes pileLecture;
     free_tabSurfaceChiffre(&chiffres);
     SDL_FreeSurface(texteMinerai);
     SDL_FreeSurface(boutonMagasin);
+    SDL_FreeSurface(texteBombe);
 
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin){
+void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
+                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
+                         SDL_Surface* texteBombe ){
+
     SDL_Rect position;//permet de def une position sur l'ecran
 
 //creation du visuel
@@ -276,7 +288,7 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
 
     //nb de minerai
 
-    position.x=850;
+    position.x=720+(texteMinerai->w/2);
     position.y=80;
     ecritureNombre(chiffres,&position,0,ecran);             //ecrit le nb de minerai
 
@@ -285,4 +297,27 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
     position.x=720;
     position.y=120;
     SDL_BlitSurface(boutonMagasin,NULL,ecran,&position);//colle la surface sur l'ecran
+
+    //collage texteBombe
+
+    position.x=720;
+    position.y=180;
+    SDL_BlitSurface(texteBombe,NULL,ecran,&position);//colle la surface sur l'ecran
+
+    //nb bombe
+
+    position.x=720+(texteBombe->w/2);
+    position.y=240;
+    ecritureNombre(chiffres,&position,/*jeu->nbBombe*/0,ecran);
+
+    //collage du score
+
+    for(i=1 ; i<=jeu->nbJoueur ; i++){
+        position.x=800;
+        position.y=250+i*(pionSurface[i-1]->w+20);
+        SDL_BlitSurface(pionSurface[i-1],NULL,ecran,&position);//colle la surface sur l'ecran
+        position.x=810+pionSurface[i-1]->w;
+        position.y+=10;
+        ecritureNombre(chiffres,&position,jeu->tabNbPionJoueur[i],ecran);
+    }
 }

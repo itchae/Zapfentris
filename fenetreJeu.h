@@ -10,7 +10,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
 void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,
                          SDL_Surface* fondMenuScore,systemJeu* jeu,SDL_Surface** pionSurface,
                          SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,
-                         SDL_Surface* boutonMagasin
+                         SDL_Surface* boutonMagasin,SDL_Surface* texteBombe
                          );
 
 #endif // FENETREJEU_H_INCLUDED
