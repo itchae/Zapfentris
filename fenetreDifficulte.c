@@ -78,7 +78,7 @@ void  func_fenetreDifficulte(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* j
                             else{if(event.button.x >=700 && event.button.x<=(700+boutonDifficulteForte->w) && event.button.y>=200 && event.button.y <= (200+boutonDifficulteForte->h) ){
                                     jeu->nbBombe=0.15*(jeu->grilleJeu.taille*jeu->grilleJeu.taille);        //15% des case
                                     placerBombeDebut(jeu);
-                                    *typeFenetre=fenetreDifficulte;
+                                    *typeFenetre=fenetreJeu;
                                     printf("Difficulte Forte\n");
                                 }
 
