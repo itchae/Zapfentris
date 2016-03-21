@@ -5,8 +5,8 @@
 #include <SDL2/SDL.h>//permet d'utiliser SDL de base
 #include "systemJeu.h"
 #include "fenetreConfigJoueur.h"
-//#include "fenetreDifficulte.h"
-//#include "fenetreDureePartie.h"
+#include "fenetreDifficulte.h"
+#include "fenetreDureePartie.h"
 #include "fenetreSelectNbJoueur.h"
 //#include "fenetreTitre.h"
 #include "fenetreJeu.h"
@@ -43,12 +43,12 @@ void mainInterface(){
         case fenetreSelecNbJoueur: func_fenetreSelectNbJoueur(fenetre,ecran,jeu,&typeFenetre);
                         break;
         case fenetreConfigJoueur: func_fenetreConfigJoueur(fenetre,ecran,jeu,&typeFenetre);
-                                  typeFenetre=fenetreJeu;               //on connecte au jeu pour l'instant
+
                         break;
-        /*case fenetrefenetreDureePartie: func_fenetreDureePartie(fenetre,ecran,jeu,&typeFenetre);
-                        break;*/
-        /*case fenetreDifficulte: func_fenetreDifficulte(fenetre,ecran,jeu,&typeFenetre);
-                        break;*/
+        case fenetreDureePartie: func_fenetreDureePartie(fenetre,ecran,jeu,&typeFenetre);
+                        break;
+        case fenetreDifficulte: func_fenetreDifficulte(fenetre,ecran,jeu,&typeFenetre);
+                        break;
         case fenetreJeu: func_fenetreJeu(fenetre,ecran,jeu,&typeFenetre);
                         break;
         default:typeFenetre=fenetreQuitter;

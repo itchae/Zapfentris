@@ -29,14 +29,14 @@ void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
 
 //creation du bouton 4J
     SDL_Surface* bouton4J = SDL_CreateRGBSurface(0,200,150,32,0,0,0,0);
-    if(bouton3J ==NULL){
+    if(bouton4J ==NULL){
         printf("PROBLEME!! erreur lors de la creation du bouton 4J");
     }
     SDL_FillRect(bouton4J ,NULL,SDL_MapRGB(bouton4J ->format,255,255,0));                       //color la surface
 
 //creation du bouton 5J
     SDL_Surface* bouton5J = SDL_CreateRGBSurface(0,200,150,32,0,0,0,0);
-    if(bouton3J ==NULL){
+    if(bouton5J ==NULL){
         printf("PROBLEME!! erreur lors de la creation du bouton 5J");
     }
     SDL_FillRect(bouton5J ,NULL,SDL_MapRGB(bouton5J ->format,0,255,0));                       //color la surface
@@ -106,4 +106,7 @@ void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
 
     SDL_FreeSurface(titre);
     SDL_FreeSurface(bouton2J);
+    SDL_FreeSurface(bouton3J);
+    SDL_FreeSurface(bouton4J);
+    SDL_FreeSurface(bouton5J);
 }

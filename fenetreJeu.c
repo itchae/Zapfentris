@@ -17,13 +17,6 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
 
 //creation fond de la grille de jeu
 
-    //a enlever quand tout sera fait
-    printf("Combien de case en une ligne: ");
-    scanf("%d",&jeu->grilleJeu.taille);
-    init_Grille(jeu->grilleJeu.taille,&jeu->grilleJeu);
-    placerJetonDebut(jeu,1);
-    //fin de la partie a enlever
-
     SDL_Surface* fondGrilleJeu = SDL_CreateRGBSurface(0,((680/jeu->grilleJeu.taille)*jeu->grilleJeu.taille)+1,((580/jeu->grilleJeu.taille)*jeu->grilleJeu.taille)+1,32,0,0,0,0);//pour la ligne de pixel noir en haut et a droite
     if(fondGrilleJeu==NULL){
         printf("PROBLEME!! erreur lors de la creation de fondGrilleJeu");

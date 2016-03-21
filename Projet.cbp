@@ -59,6 +59,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="fenetreConfigJoueur.h" />
+		<Unit filename="fenetreDifficulte.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fenetreDifficulte.h" />
+		<Unit filename="fenetreDureePartie.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fenetreDureePartie.h" />
 		<Unit filename="fenetreJeu.c">
 			<Option compilerVar="CC" />
 		</Unit>
