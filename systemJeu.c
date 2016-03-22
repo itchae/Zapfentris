@@ -302,7 +302,7 @@ informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAMod
     for(i=2 ; i<=jeu->nbJoueur ;i++){
         seuilProtectbombe+=(i-1);
     }
-    seuilProtectbombe= seuilProtectbombe*4 + jeu->nbJoueur*(4-jeu->nbJoueur);
+    seuilProtectbombe= 2*(seuilProtectbombe*4 + jeu->nbJoueur*(4-jeu->nbJoueur));
     // les pion du debut plus 4-nbJoueur tour de protection
 
     if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide && jeu->tabNbPionJoueur[0]>seuilProtectbombe){ //si bombe elle explose
@@ -545,11 +545,11 @@ int func_bombeLaser(systemJeu* jeu, int x , int y ){
     int hasard = rand()%4;
 
     switch(hasard){
-        case 0 : bombeLaserVertical(jeu,x,y);
+        case 0 : bombeLaserHorizontal(jeu,x,y);
                 break;
         case 1 : bombeLaserDiagonalGauche(jeu,x,y);
                 break;
-        case 2 : bombeLaserHorizontal(jeu,x,y);
+        case 2 : bombeLaserVertical(jeu,x,y);
                 break;
         case 3 : bombeLaserDiagonalDroite(jeu,x,y);
                 break;

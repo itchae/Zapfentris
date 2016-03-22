@@ -431,7 +431,9 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_S
     if(rayon==NULL){
         printf("PROBLEME!! erreur lors de la creation de rayon");
     }
-    SDL_FillRect(rayon,NULL,SDL_MapRGB(rayon->format,255,0,0));         //color la surface
+    int rouge=rand()%2;
+    int vert= rand()%2;
+    SDL_FillRect(rayon,NULL,SDL_MapRGB(rayon->format,rouge*255,vert*255,((vert+2*rouge+1)%2)*255));         //color la surface
 
 
 
@@ -441,22 +443,56 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_S
     pos1.y=infoBombe.cooY;
     pos2.x=infoBombe.cooX;
     pos2.y=infoBombe.cooY;
-    while (pos1.x>0 && pos1.y>0){
-        pos1.x--;
-        pos1.y--;
+    switch(infoBombe.direction){
+    case 0://cas -
+        while (pos1.x>0 ){//= car besoin d'un centrage
+            pos1.x--;
+        }
+        while (pos2.x<jeu->grilleJeu.taille-1){
+            pos2.x++;
+        }
+    break;
+    case 1://cas \  diago
+        while (pos1.x>0 && pos1.y>0){
+            pos1.x--;
+            pos1.y--;
+        }
+        while (pos2.x<jeu->grilleJeu.taille-1 && pos2.y<jeu->grilleJeu.taille-1){
+            pos2.x++;
+            pos2.y++;
+        }
+    break;
+    case 2://cas |
+        while (pos1.y>0){
+            pos1.y--;
+        }
+        while (pos2.y<jeu->grilleJeu.taille-1){
+            pos2.y++;
+        }
+    break;
+    case 3://cas /
+        while (pos1.x<jeu->grilleJeu.taille-1 && pos1.y>0){
+            pos1.x++;
+            pos1.y--;
+        }
+        while (pos2.x>0 && pos2.y<jeu->grilleJeu.taille-1){
+            pos2.x--;
+            pos2.y++;
+        }
+    break;
+    default:break;
     }
-    while (pos2.x<jeu->grilleJeu.taille && pos2.y<jeu->grilleJeu.taille){
-        pos2.x++;
-        pos2.y++;
-    }
-    pos1.x=((pos1.x*(fondCaseJeu->w+1))+10);
-    pos1.y=((pos1.y*(fondCaseJeu->h+1))+10);
-    pos2.x=((pos2.x*(fondCaseJeu->w+1))+10);
-    pos2.y=((pos2.y*(fondCaseJeu->h+1))+10);
+
+
+    pos1.x=((pos1.x*(fondCaseJeu->w+1))+10)-(rayon->w/2)+(fondCaseJeu->w/2);
+    pos1.y=((pos1.y*(fondCaseJeu->h+1))+10)-(rayon->h/2)+(fondCaseJeu->h/2);
+    pos2.x=((pos2.x*(fondCaseJeu->w+1))+10)-(rayon->w/2)+(fondCaseJeu->w/2);
+    pos2.y=((pos2.y*(fondCaseJeu->h+1))+10)-(rayon->h/2)+(fondCaseJeu->h/2);
+
 
     //animation
     refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
     tracerLigne(pos1,pos2,ecran,rayon);
     SDL_UpdateWindowSurface(fenetre);
-    SDL_Delay(2450);
+    SDL_Delay(500);
 }
