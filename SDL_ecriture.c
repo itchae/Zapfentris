@@ -22,7 +22,7 @@ SDL_Surface** creationSurfaceChiffre(){
     }
     return retour;
 }
-
+//----------------------------------------------------------------------------------------
 void free_tabSurfaceChiffre(SDL_Surface*** chiffres){
     if(*chiffres!=NULL){
         int i;
@@ -35,7 +35,7 @@ void free_tabSurfaceChiffre(SDL_Surface*** chiffres){
     }
 
 }
-
+//---------------------------------------------------------------------------------------------------
 void ecritureNombre(SDL_Surface** chiffres,SDL_Rect* position,int nombre,SDL_Surface* ecran){
 int caractere=nombre%10;
 
@@ -49,5 +49,65 @@ int caractere=nombre%10;
         //on decale la position du collage
         position->x+=chiffres[caractere]->w-1;
 
+    }
+}
+//----------------------------------------------------------------------------------------------------
+void tracerLigne(SDL_Rect position1,SDL_Rect position2,SDL_Surface* ecran,SDL_Surface* pixel){
+
+    if(position1.x > position2.x){  //
+        SDL_Rect stock =position1;
+        position1=position2;
+        position2=stock;
+    }
+
+    if(position2.x-position1.x==0){//cas droite verticale
+        while(position1.y!=position2.y){
+
+            SDL_BlitSurface(pixel,NULL,ecran,&position1);//colle l'img sur l'ecran
+
+
+            if(position1.y<position2.y){
+                position1.y++;
+            }
+            else{
+                position1.y--;
+            }
+
+
+        }
+    }
+    else{
+         if(position2.y-position1.y==0){//cas des  droites horizontal
+            while(position1.x!=position2.x){
+
+            SDL_BlitSurface(pixel,NULL,ecran,&position1);//colle l'img sur l'ecran
+            position1.x++;
+
+            }
+         }
+         else{//cas des  droites en diagonnale
+            double gainY=(double)(position2.y-position1.y)/(position2.x-position1.x);
+            double memo=0;
+            while(position1.x!=position2.x){
+
+                SDL_BlitSurface(pixel,NULL,ecran,&position1);//colle l'img sur l'ecran
+                position1.x++;
+                memo= memo + gainY;
+                if(gainY>0){
+                    while(memo>=1){
+                        position1.y++;
+                        SDL_BlitSurface(pixel,NULL,ecran,&position1);//colle l'img sur l'ecran
+                        memo-=1;
+                    }
+                }
+                else{
+                    while(memo<=-1){
+                        position1.y--;
+                        SDL_BlitSurface(pixel,NULL,ecran,&position1);//colle l'img sur l'ecran
+                        memo+=1;
+                    }
+                }
+            }
+         }
     }
 }

@@ -113,11 +113,16 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
 
 //creation du visuel
     refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
-
+    SDL_UpdateWindowSurface(fenetre);
+    boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre);   //on fait jouer les ia jusqu'au joueur                                                  //on fait jouer les ia
+    if(verifFinPartie(jeu)){                                            //on regarde si quelqu'un peut jouer (on passe les tour de ceux qui peuvent ppas)
+        printf("Fin de partie\n");
+    }
 Coordonnees cooSouris,cooLecture;
 SDL_Rect position;
 listPosition stockCoup = NULL;
 PileCoordonnes pileLecture;
+informationBombe InfoBombe;
     //boucle evenmentiel
     SDL_Event event;
                                                                                             //permetra de stock le dernier event effectuer
@@ -139,7 +144,8 @@ PileCoordonnes pileLecture;
             case SDL_MOUSEBUTTONDOWN:                                                       //quand un bouton de la souris est apuiyer
                                                                                             //event.button.button pour savoir lequel est appuyer
                     if(cooSouris.cooX < jeu->grilleJeu.taille && stockCoup->nbElement>0){   //si on est dans la grille et que le coup est possible
-                        placeJeton(jeu,cooSouris.cooX,cooSouris.cooY,stockCoup);            //on place son jeton et retourne les jeton
+                        InfoBombe = placeJeton(jeu,cooSouris.cooX,cooSouris.cooY,stockCoup);//on place son jeton et retourne les jeton
+                        animationBombe(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,InfoBombe);
                         traitrise(jeu);                                                     //on regarde si il y a un traitre
                         boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre);                                                     //on fait jouer les ia
 
@@ -319,20 +325,23 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
 //-------------------------------------------------------------------------------------------------
 void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
                          SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
-                         SDL_Surface* texteBombe ,SDL_Window* fenetre){
+                         SDL_Surface* texteBombe ,SDL_Window* fenetre)
+{
     bool finDePartie=false;
+    informationBombe infoBombe;
     while((!finDePartie) && jeu->estIA[jeu->numJoueur-1]){          //on sort qui si c'est la fin ou que le joueur est un humain
         if(existeCoupSurGrille(jeu)){                               //on regarde si elle peut jouer
 
             refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
             SDL_UpdateWindowSurface(fenetre);
-            SDL_Delay(500);
+            SDL_Delay(300);
 
-            actionIA_jeu(jeu);                                      //elle joue son coup
+            infoBombe = actionIA_jeu(jeu);                                      //elle joue son coup
+            animationBombe(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,infoBombe);
 
             refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
             SDL_UpdateWindowSurface(fenetre);
-            SDL_Delay(500);
+            SDL_Delay(300);
 
             traitrise(jeu);                                         //on regarde si il y a un traitre
 
@@ -341,4 +350,113 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
         finDePartie = verifFinPartie(jeu);                          //on cherche le prochain joueur qui peu jouer
     }
     //ici on est sur d'avoir un joueur humain ou que se soit la fin du jeu
+}
+
+
+//-------------------------------------------------------------------------------------------------------
+void animationBombe(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
+                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
+                         SDL_Surface* texteBombe,SDL_Window* fenetre ,informationBombe infoBombe)
+{
+    switch(infoBombe.typeBombe){
+        case bombeExplo : animationBombe_BombeExplo(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe, fenetre ,infoBombe);
+                         break;
+        case bombeLaser : animationBombe_BombeLaser(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe, fenetre ,infoBombe);
+                         break;
+        case bombeBloc  : break;
+        default:break;
+    }
+}
+
+//---------------------------------------------------------------------------------------------------
+
+void animationBombe_BombeExplo(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
+                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
+                         SDL_Surface* texteBombe,SDL_Window* fenetre,informationBombe infoBombe )
+{
+
+//creation petit Rayon
+
+    SDL_Surface* rayonP = SDL_CreateRGBSurface(0,fondCaseJeu->w,fondCaseJeu->h,32,0,0,0,0);
+    if(rayonP==NULL){
+        printf("PROBLEME!! erreur lors de la creation de rayonP");
+    }
+    SDL_FillRect(rayonP,NULL,SDL_MapRGB(rayonP->format,255,0,0));         //color la surface
+//creation moyen Rayon
+
+    SDL_Surface* rayonM = SDL_CreateRGBSurface(0,2*fondCaseJeu->w,2*fondCaseJeu->h,32,0,0,0,0);
+    if(rayonM==NULL){
+        printf("PROBLEME!! erreur lors de la creation de rayonM");
+    }
+    SDL_FillRect(rayonM,NULL,SDL_MapRGB(rayonM->format,255,0,0));         //color la surface
+//creation grand Rayon
+
+    SDL_Surface* rayonG = SDL_CreateRGBSurface(0,3*fondCaseJeu->w,3*fondCaseJeu->h,32,0,0,0,0);
+    if(rayonG==NULL){
+        printf("PROBLEME!! erreur lors de la creation de rayonG");
+    }
+    SDL_FillRect(rayonG,NULL,SDL_MapRGB(rayonG->format,255,0,0));         //color la surface
+
+    SDL_Rect position;
+    position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonP->w/2);      //origine case + centrage du pion
+    position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonP->h/2);
+
+    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
+    SDL_BlitSurface(rayonP,NULL,ecran,&position);//colle la surface sur l'ecran
+    SDL_UpdateWindowSurface(fenetre);
+    SDL_Delay(250);
+
+    position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonM->w/2);      //origine case + centrage du pion
+    position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonM->h/2);
+    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
+    SDL_BlitSurface(rayonM,NULL,ecran,&position);//colle la surface sur l'ecran
+    SDL_UpdateWindowSurface(fenetre);
+    SDL_Delay(250);
+
+    position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonG->w/2);      //origine case + centrage du pion
+    position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonG->h/2);
+    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
+    SDL_BlitSurface(rayonG,NULL,ecran,&position);//colle la surface sur l'ecran
+    SDL_UpdateWindowSurface(fenetre);
+    SDL_Delay(250);
+
+}
+//---------------------------------------------------------------------------------
+void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
+                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
+                         SDL_Surface* texteBombe,SDL_Window* fenetre,informationBombe infoBombe )
+{
+//creation du rayon
+    SDL_Surface* rayon = SDL_CreateRGBSurface(0,fondCaseJeu->w/2,fondCaseJeu->h/2,32,0,0,0,0);
+    if(rayon==NULL){
+        printf("PROBLEME!! erreur lors de la creation de rayon");
+    }
+    SDL_FillRect(rayon,NULL,SDL_MapRGB(rayon->format,255,0,0));         //color la surface
+
+
+
+//calcul des position
+    SDL_Rect pos1,pos2;
+    pos1.x=infoBombe.cooX;
+    pos1.y=infoBombe.cooY;
+    pos2.x=infoBombe.cooX;
+    pos2.y=infoBombe.cooY;
+    while (pos1.x>0 && pos1.y>0){
+        pos1.x--;
+        pos1.y--;
+    }
+    while (pos2.x<jeu->grilleJeu.taille && pos2.y<jeu->grilleJeu.taille){
+        pos2.x++;
+        pos2.y++;
+    }
+    pos1.x=((pos1.x*(fondCaseJeu->w+1))+10);
+    pos1.y=((pos1.y*(fondCaseJeu->h+1))+10);
+    pos2.x=((pos2.x*(fondCaseJeu->w+1))+10);
+    pos2.y=((pos2.y*(fondCaseJeu->h+1))+10);
+
+    //animation
+    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
+    tracerLigne(pos1,pos2,ecran,rayon);
+    SDL_UpdateWindowSurface(fenetre);
+    SDL_Delay(2450);
 }

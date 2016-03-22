@@ -290,7 +290,12 @@ listPosition coupPossible(systemJeu* jeu, int x, int y){ //c'est le bordel la de
 
 //-------------------------------------------------------------------------------------------
 
-void placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAModifier){
+informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAModifier){
+    informationBombe retour;
+    retour.direction=-1;
+    retour.typeBombe=bombeVide;
+    retour.cooX=x;
+    retour.cooY=y;
     //determine la protection contre l'activation des bombe
     int seuilProtectbombe=0;
     int i;
@@ -302,7 +307,8 @@ void placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAModifier){
 
     if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide && jeu->tabNbPionJoueur[0]>seuilProtectbombe){ //si bombe elle explose
        viderList(jetonAModifier);                                               //interface ne devra plus metre a jour ceux la mais ceux toucher par la bombe
-       declancherBombe(jeu,x,y);
+       retour.typeBombe = jeu->grilleJeu.tabCase[x][y].bombe;
+       retour.direction = declancherBombe(jeu,x,y);
     }
     else{                                                                   //sinon on place le jeton
         Coordonnees memo;
@@ -321,6 +327,8 @@ void placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAModifier){
     }
     //on passe au joueur suivant
     passerJoueurSuivant(jeu);
+
+    return retour;
 }
 
 //-------------------------------------------------------------------------------------------
@@ -436,7 +444,7 @@ bool traitrise(systemJeu* jeu){
     return !posteLibre;
 }
 //-------------------------------------------------------------------------------------------------------
-void actionIA_jeu(systemJeu* jeu){
+informationBombe actionIA_jeu(systemJeu* jeu){
     Coordonnees endroitJouer;
     listPosition memoPion   = cree_listPosition();
     listPosition stock      = NULL;
@@ -481,7 +489,7 @@ void actionIA_jeu(systemJeu* jeu){
     }
 
     printf("Joueur %d joue en %d %d avec %d pion retourner\n",jeu->numJoueur,endroitJouer.cooX,endroitJouer.cooY,memoPion->nbElement-1);
-    placeJeton(jeu,endroitJouer.cooX,endroitJouer.cooY,memoPion);                   //IA joue son coup
+    return placeJeton(jeu,endroitJouer.cooX,endroitJouer.cooY,memoPion);                   //IA joue son coup
 }
 
 
@@ -532,23 +540,23 @@ void func_bombeExplo(systemJeu* jeu, int x, int y){
 
 //-------------------------------------------------------------------------------------------
 
-void func_bombeLaser(systemJeu* jeu, int x , int y ){
+int func_bombeLaser(systemJeu* jeu, int x , int y ){
 
     int hasard = rand()%4;
 
     switch(hasard){
         case 0 : bombeLaserVertical(jeu,x,y);
                 break;
-        case 1 : bombeLaserHorizontal(jeu,x,y);
+        case 1 : bombeLaserDiagonalGauche(jeu,x,y);
                 break;
-        case 2 : bombeLaserDiagonalDroite(jeu,x,y);
+        case 2 : bombeLaserHorizontal(jeu,x,y);
                 break;
-        case 3 : bombeLaserDiagonalGauche(jeu,x,y);
+        case 3 : bombeLaserDiagonalDroite(jeu,x,y);
                 break;
         default : printf("PROBLEME : Ce type de bombe laser n'existe pas ! \n");
                 break;
     }
-
+    return hasard;
 }
 
 //-------------------------------------------------------------------------------------------
@@ -644,13 +652,13 @@ void func_bombeBloc(systemJeu* jeu, int x, int y){
 
 //-------------------------------------------------------------------------------------------
 
-void declancherBombe(systemJeu* jeu, int x, int y){
-
+int declancherBombe(systemJeu* jeu, int x, int y){
+    int direction=-1;
     switch (jeu->grilleJeu.tabCase[x][y].bombe){
         case bombeExplo : func_bombeExplo(jeu,x,y);
                           printf("Bombe explosif en %d %d\n",x,y);
                           break;
-        case bombeLaser : func_bombeLaser(jeu,x,y);
+        case bombeLaser : direction=func_bombeLaser(jeu,x,y);
                           printf("Bombe laser en %d %d\n",x,y);
                           break;
         case bombeBloc : func_bombeBloc(jeu,x,y);
@@ -661,7 +669,7 @@ void declancherBombe(systemJeu* jeu, int x, int y){
                   break;
     }
     jeu->nbBombe--;                                                             //enleve la bombe qui a explos
-
+    return direction;
 }
 
 //-------------------------------------------------------------------------------------------------------
