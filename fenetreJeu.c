@@ -283,7 +283,7 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
 
     position.x=720+(texteMinerai->w/2);
     position.y=80;
-    ecritureNombre(chiffres,&position,0,ecran);             //ecrit le nb de minerai
+    ecritureNombre(chiffres,&position,jeu->tabPointEvent[jeu->numJoueur-1],ecran);             //ecrit le nb de minerai
 
     //collage du bouton Magasin
 

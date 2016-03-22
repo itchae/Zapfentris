@@ -35,7 +35,8 @@ typedef struct {
     unsigned int nbJoueur;
     int nbBombe;
     int* tabNbPionJoueur;
-    bool* estIA;//n-1 pour le joueur n
+    bool* estIA;                //n-1 pour le joueur n
+    int* tabPointEvent;         // pour le joueur n on trouve ses point en n-1 (ex: joueur2 => case 1)
 
 }systemJeu;
 

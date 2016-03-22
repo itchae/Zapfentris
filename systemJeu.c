@@ -68,12 +68,17 @@ void init_SystemJeu_setNbJoueur(systemJeu* jeu,int nbJoueur){
             jeu->tabNbPionJoueur[i]=0;
         }
 
-        //creation tab IA
-        jeu->estIA = (bool*) malloc(sizeof(bool));
+    //creation tab IA
+        jeu->estIA = (bool*) malloc(nbJoueur*sizeof(bool));
         for(i=0;i<nbJoueur;i++){
             jeu->estIA[i]=false;                   //on mets toute les ia a faux
         }
 
+    //creation tab point d'event
+        jeu->tabPointEvent = (int*)malloc(nbJoueur*sizeof(int));
+        for(i=0;i<nbJoueur;i++){
+            jeu->tabPointEvent[i]=0;                   //on mets toute a 0 les point
+        }
 }
 //-------------------------------------------------------------------------------------------
 
@@ -89,10 +94,13 @@ void free_SystemJeu(systemJeu** jeu){       //on prend un pointeur de pointeur p
     }
 
     free((*jeu)->tabNbPionJoueur);              //on libere le tab
-    (*jeu)->tabNbPionJoueur=NULL;
+    (*jeu)->tabNbPionJoueur = NULL;
 
     free((*jeu)->estIA);                        //on libere le tab
-    (*jeu)->estIA=NULL;
+    (*jeu)->estIA = NULL;
+
+    free((*jeu)->tabPointEvent);                        //on libere le tab
+    (*jeu)->tabPointEvent = NULL;
 
     free(*jeu);                             //on libere le jeu
     *jeu = NULL;
@@ -362,6 +370,7 @@ void passerJoueurSuivant(systemJeu* jeu){
 void decrementationNbPion(systemJeu* jeu,int x,int y,bool destruction){
     if(jeu->grilleJeu.tabCase[x][y].contenu==contenuPion ){
         jeu->tabNbPionJoueur[jeu->grilleJeu.tabCase[x][y].numJoueur]--;
+        jeu->tabPointEvent[jeu->grilleJeu.tabCase[x][y].numJoueur-1]++;
         if(destruction){
             jeu->tabNbPionJoueur[0]--;
         }

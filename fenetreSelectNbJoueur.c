@@ -19,6 +19,11 @@ void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
         printf("PROBLEME!! erreur lors de la creation du bouton 2J");
     }
     SDL_FillRect(bouton2J ,NULL,SDL_MapRGB(bouton2J ->format,255,0,0));                       //color la surface
+//creation du bouton 2J image
+    SDL_Surface* bouton2JImage = SDL_LoadBMP("Images/boutonNBJ2.bmp");
+    if(bouton2JImage ==NULL){
+        printf("PROBLEME!! erreur lors de la creation du bouton2JImage");
+    }
 
 //creation du bouton 3J
     SDL_Surface* bouton3J = SDL_CreateRGBSurface(0,200,150,32,0,0,0,0);
@@ -27,12 +32,24 @@ void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     }
     SDL_FillRect(bouton3J ,NULL,SDL_MapRGB(bouton3J ->format,0,0,255));                       //color la surface
 
+//creation du bouton 3J image
+    SDL_Surface* bouton3JImage = SDL_LoadBMP("Images/boutonNBJ3.bmp");
+    if(bouton3JImage ==NULL){
+        printf("PROBLEME!! erreur lors de la creation du bouton3JImage");
+    }
+
 //creation du bouton 4J
     SDL_Surface* bouton4J = SDL_CreateRGBSurface(0,200,150,32,0,0,0,0);
     if(bouton4J ==NULL){
         printf("PROBLEME!! erreur lors de la creation du bouton 4J");
     }
     SDL_FillRect(bouton4J ,NULL,SDL_MapRGB(bouton4J ->format,255,255,0));                       //color la surface
+
+//creation du bouton 4J image
+    SDL_Surface* bouton4JImage = SDL_LoadBMP("Images/boutonNBJ4.bmp");
+    if(bouton4JImage ==NULL){
+        printf("PROBLEME!! erreur lors de la creation du bouton4JImage");
+    }
 
 //creation du bouton 5J
     SDL_Surface* bouton5J = SDL_CreateRGBSurface(0,200,150,32,0,0,0,0);
@@ -41,6 +58,12 @@ void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     }
     SDL_FillRect(bouton5J ,NULL,SDL_MapRGB(bouton5J ->format,0,255,0));                       //color la surface
 
+
+//creation du bouton 5J image
+    SDL_Surface* bouton5JImage = SDL_LoadBMP("Images/boutonNBJ5.bmp");
+    if(bouton5JImage ==NULL){
+        printf("PROBLEME!! erreur lors de la creation du bouton5JImage");
+    }
 
 //creation de l'ecran
     SDL_Rect position;
@@ -52,18 +75,22 @@ void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     position.x=250;
     position.y=200;
     SDL_BlitSurface(bouton2J,NULL,ecran,&position);
+    SDL_BlitSurface(bouton2JImage,NULL,ecran,&position);
 
     position.x=500;
     position.y=200;
     SDL_BlitSurface(bouton3J,NULL,ecran,&position);
+    SDL_BlitSurface(bouton3JImage,NULL,ecran,&position);
 
     position.x=250;
     position.y=400;
     SDL_BlitSurface(bouton4J,NULL,ecran,&position);
+    SDL_BlitSurface(bouton4JImage,NULL,ecran,&position);
 
     position.x=500;
     position.y=400;
     SDL_BlitSurface(bouton5J,NULL,ecran,&position);
+    SDL_BlitSurface(bouton5JImage,NULL,ecran,&position);
 
     SDL_Event event;                                                                    //permetra de stock le dernier event effectuer
     SDL_UpdateWindowSurface(fenetre);
@@ -109,4 +136,8 @@ void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     SDL_FreeSurface(bouton3J);
     SDL_FreeSurface(bouton4J);
     SDL_FreeSurface(bouton5J);
+    SDL_FreeSurface(bouton2JImage);
+    SDL_FreeSurface(bouton3JImage);
+    SDL_FreeSurface(bouton4JImage);
+    SDL_FreeSurface(bouton5JImage);
 }
