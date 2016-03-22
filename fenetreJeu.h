@@ -12,5 +12,8 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
                          SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,
                          SDL_Surface* boutonMagasin,SDL_Surface* texteBombe
                          );
+void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
+                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
+                         SDL_Surface* texteBombe,SDL_Window* fenetre );
 
 #endif // FENETREJEU_H_INCLUDED

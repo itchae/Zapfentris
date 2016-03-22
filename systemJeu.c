@@ -376,18 +376,7 @@ void decrementationNbPion(systemJeu* jeu,int x,int y,bool destruction){
         }
     }
 }
-//-------------------------------------------------------------------------------------------------
-void  boucle_IA(systemJeu* jeu){
-    bool finDePartie=false;
-    while((!finDePartie) && jeu->estIA[jeu->numJoueur-1]){          //on sort qui si c'est la fin ou que le joueur est un humain
-        if(existeCoupSurGrille(jeu)){                               //on regarde si elle peut jouer
-            actionIA_jeu(jeu);                                      //elle joue son coup
-            traitrise(jeu);                                         //on regarde si il y a un traitre
-        }
-        finDePartie = verifFinPartie(jeu);                          //on cherche le prochain joueur qui peu jouer
-    }
-    //ici on est sur d'avoir un joueur humain ou que se soit la fin du jeu
-}
+
 //-------------------------------------------------------------------------------------------------------
 //---------------------------- BONUS --------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------

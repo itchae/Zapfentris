@@ -62,7 +62,6 @@ bool existeCoupSurGrille(systemJeu* jeu);                                   //ex
 bool verifFinPartie(systemJeu* jeu);                                        //verif si la ppartie est bloque si joueur incapable de jouer on passe au suivant
 void passerJoueurSuivant(systemJeu* jeu);                                   //permet de passer au joueur suivant
 void decrementationNbPion(systemJeu* jeu,int x,int y,bool destruction);     //decremente le score du joueur qui perd son pion
-void boucle_IA(systemJeu* jeu);                                             //permet de faire jouer les ia jusqu'a un joueur
 
 //Bonus
 bool traitrise(systemJeu* jeu);                                 //augment vie pion et renvoi les coo du traitre et de ses compagnon

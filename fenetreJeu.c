@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include "SDL_ecriture.h"
 
 void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre){
@@ -140,7 +141,7 @@ PileCoordonnes pileLecture;
                     if(cooSouris.cooX < jeu->grilleJeu.taille && stockCoup->nbElement>0){   //si on est dans la grille et que le coup est possible
                         placeJeton(jeu,cooSouris.cooX,cooSouris.cooY,stockCoup);            //on place son jeton et retourne les jeton
                         traitrise(jeu);                                                     //on regarde si il y a un traitre
-                        boucle_IA(jeu);                                                     //on fait jouer les ia
+                        boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre);                                                     //on fait jouer les ia
 
                         if(verifFinPartie(jeu)){                                            //on regarde si quelqu'un peut jouer (on passe les tour de ceux qui peuvent ppas)
                             printf("Fin de partie\n");
@@ -313,4 +314,31 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
         position.y+=10;
         ecritureNombre(chiffres,&position,jeu->tabNbPionJoueur[i],ecran);
     }
+}
+
+//-------------------------------------------------------------------------------------------------
+void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
+                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
+                         SDL_Surface* texteBombe ,SDL_Window* fenetre){
+    bool finDePartie=false;
+    while((!finDePartie) && jeu->estIA[jeu->numJoueur-1]){          //on sort qui si c'est la fin ou que le joueur est un humain
+        if(existeCoupSurGrille(jeu)){                               //on regarde si elle peut jouer
+
+            refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
+            SDL_UpdateWindowSurface(fenetre);
+            SDL_Delay(500);
+
+            actionIA_jeu(jeu);                                      //elle joue son coup
+
+            refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
+            SDL_UpdateWindowSurface(fenetre);
+            SDL_Delay(500);
+
+            traitrise(jeu);                                         //on regarde si il y a un traitre
+
+
+        }
+        finDePartie = verifFinPartie(jeu);                          //on cherche le prochain joueur qui peu jouer
+    }
+    //ici on est sur d'avoir un joueur humain ou que se soit la fin du jeu
 }
