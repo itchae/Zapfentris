@@ -301,7 +301,7 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
 
     position.x=720+(texteBombe->w/2);
     position.y=240;
-    ecritureNombre(chiffres,&position,/*jeu->nbBombe*/0,ecran);
+    ecritureNombre(chiffres,&position,jeu->nbBombe,ecran);
 
     //collage du score
 

@@ -43,7 +43,6 @@ void mainInterface(){
         case fenetreSelecNbJoueur: func_fenetreSelectNbJoueur(fenetre,ecran,jeu,&typeFenetre);
                         break;
         case fenetreConfigJoueur: func_fenetreConfigJoueur(fenetre,ecran,jeu,&typeFenetre);
-
                         break;
         case fenetreDureePartie: func_fenetreDureePartie(fenetre,ecran,jeu,&typeFenetre);
                         break;
