@@ -495,4 +495,6 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_S
     tracerLigne(pos1,pos2,ecran,rayon);
     SDL_UpdateWindowSurface(fenetre);
     SDL_Delay(500);
+
+    SDL_FreeSurface(rayon);
 }
