@@ -146,7 +146,17 @@ informationBombe InfoBombe;
                     if(cooSouris.cooX < jeu->grilleJeu.taille && stockCoup->nbElement>0){   //si on est dans la grille et que le coup est possible
                         InfoBombe = placeJeton(jeu,cooSouris.cooX,cooSouris.cooY,stockCoup);//on place son jeton et retourne les jeton
                         animationBombe(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,InfoBombe);
-                        traitrise(jeu);                                                     //on regarde si il y a un traitre
+
+                        refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
+                        SDL_UpdateWindowSurface(fenetre);
+                        SDL_Delay(600);
+
+                        if(traitrise(jeu)){                                                     //on regarde si il y a un traitre
+
+                            refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
+                            SDL_UpdateWindowSurface(fenetre);
+                            SDL_Delay(600);
+                        }
                         boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre);                                                     //on fait jouer les ia
 
                         if(verifFinPartie(jeu)){                                            //on regarde si quelqu'un peut jouer (on passe les tour de ceux qui peuvent ppas)
@@ -329,27 +339,32 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
 {
     bool finDePartie=false;
     informationBombe infoBombe;
+
     while((!finDePartie) && jeu->estIA[jeu->numJoueur-1]){          //on sort qui si c'est la fin ou que le joueur est un humain
         if(existeCoupSurGrille(jeu)){                               //on regarde si elle peut jouer
 
-            refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
-            SDL_UpdateWindowSurface(fenetre);
-            SDL_Delay(300);
+
 
             infoBombe = actionIA_jeu(jeu);                                      //elle joue son coup
             animationBombe(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,infoBombe);
 
             refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
-            SDL_UpdateWindowSurface(fenetre);
-            SDL_Delay(300);
+                SDL_UpdateWindowSurface(fenetre);
+                SDL_Delay(600);
 
-            traitrise(jeu);                                         //on regarde si il y a un traitre
+            if(traitrise(jeu)){ //on regarde si il y a un traitre
+                refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
+                SDL_UpdateWindowSurface(fenetre);
+                SDL_Delay(600);
+            }
 
 
         }
         finDePartie = verifFinPartie(jeu);                          //on cherche le prochain joueur qui peu jouer
     }
     //ici on est sur d'avoir un joueur humain ou que se soit la fin du jeu
+    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
+    SDL_UpdateWindowSurface(fenetre);//on doit avoir refresh si le joueur suivant est un huamin
 }
 
 
