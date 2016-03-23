@@ -392,7 +392,7 @@ void decrementationNbPion(systemJeu* jeu,int x,int y,bool destruction){
 
 bool traitrise(systemJeu* jeu){
     listPosition retour = NULL;
-    int seuilTrahison = (jeu->grilleJeu.taille*jeu->grilleJeu.taille)/jeu->nbJoueur;        //(nbCase/nbJoueur)
+    int seuilTrahison = (jeu->grilleJeu.taille*jeu->grilleJeu.taille)/2;        //
     bool posteLibre = true;
     bool envieTrahison = false;
     Coordonnees memo;
@@ -402,7 +402,7 @@ bool traitrise(systemJeu* jeu){
             jeu->grilleJeu.tabCase[x][y].viePion++;                                         //on augment sa vie
 
             //si il y a un pion mais pas encore de traitre et qu'il a envie de changer de camp et qu'il appartient pas deja a ce camp
-            envieTrahison = (rand()%jeu->grilleJeu.tabCase[x][y].viePion)+(rand()%jeu->grilleJeu.tabCase[x][y].viePion)>seuilTrahison;
+            envieTrahison = rand()%(2*jeu->grilleJeu.tabCase[x][y].viePion)>seuilTrahison;
 
             if(envieTrahison && posteLibre && jeu->grilleJeu.tabCase[x][y].contenu==contenuPion && jeu->grilleJeu.tabCase[x][y].numJoueur!=jeu->numJoueur){
                 //pas de % 0 car il y a un ++ avant et viePion >=0
