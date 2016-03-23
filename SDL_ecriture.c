@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
 
 SDL_Surface** creationSurfaceChiffre(){
     SDL_Surface** retour =(SDL_Surface**) malloc(10*sizeof(SDL_Surface*));
@@ -109,5 +110,22 @@ void tracerLigne(SDL_Rect position1,SDL_Rect position2,SDL_Surface* ecran,SDL_Su
                 }
             }
          }
+    }
+}
+
+//----------------------------------------------------------------------------------------------------
+void tracerCercle(SDL_Rect centre,double rayon,SDL_Surface* ecran,int angleMin,int angleMax,SDL_Surface* pixel){
+    int angle;
+    SDL_Rect position,posSuivant;
+
+
+    posSuivant.x=(rayon*cos(((double)angleMin/180)*3.14))+centre.x;
+    posSuivant.y=(-rayon*sin(((double)angleMin/180)*3.14))+centre.y;
+    for(angle=angleMin+1 ; angle<=angleMax ;angle++){
+        position.x=posSuivant.x;
+        position.y=posSuivant.y;
+        posSuivant.x=(rayon*cos(((double)angle/180)*3.14))+centre.x;
+        posSuivant.y=(-rayon*sin(((double)angle/180)*3.14))+centre.y;
+        tracerLigne(position,posSuivant,ecran,pixel);
     }
 }

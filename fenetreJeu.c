@@ -145,7 +145,7 @@ informationBombe InfoBombe;
                                                                                             //event.button.button pour savoir lequel est appuyer
                     if(cooSouris.cooX < jeu->grilleJeu.taille && stockCoup->nbElement>0){   //si on est dans la grille et que le coup est possible
                         InfoBombe = placeJeton(jeu,cooSouris.cooX,cooSouris.cooY,stockCoup);//on place son jeton et retourne les jeton
-                        viderList(liste);                                                   //on vide la liste
+                        viderList(stockCoup);                                                   //on vide la liste
                         animationBombe(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,InfoBombe);
 
                         refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
