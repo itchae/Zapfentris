@@ -10,5 +10,5 @@
 typedef enum {JoueurTypeNonDefini=-1, joueurTypeHumain=false, joueurTypeIA=true}E_typeJoueur;
 
 void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre);
-void refreshFenetreConfig (SDL_Surface* ecran,E_typeJoueur typeJoueur,systemJeu* jeu,SDL_Surface* titre,SDL_Surface* boutonHumain,SDL_Surface* boutonIA,SDL_Surface* boutonValider);
+void refreshFenetreConfig (SDL_Surface* ecran,E_typeJoueur typeJoueur,systemJeu* jeu,SDL_Surface* titre,SDL_Surface* boutonHumain,SDL_Surface* boutonIA, SDL_Surface* boutonIADessus,SDL_Surface* boutonValider);
 #endif // FENETRECONFIGJOUEUR_H_INCLUDED

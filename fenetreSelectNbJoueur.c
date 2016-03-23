@@ -7,12 +7,10 @@ void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
 
 
 //creation du titre
-    SDL_Surface* titre = SDL_CreateRGBSurface(0,800,100,32,0,0,0,0);
+    SDL_Surface* titre = SDL_LoadBMP("Images/nbJoueurTitre.bmp");
     if(titre==NULL){
         printf("PROBLEME!! erreur lors de la creation du titre");
     }
-    SDL_FillRect(titre,NULL,SDL_MapRGB(titre->format,0,0,0));                       //color la surface
-
 //creation du bouton 2J
     SDL_Surface* bouton2J = SDL_CreateRGBSurface(0,200,150,32,0,0,0,0);
     if(bouton2J ==NULL){
