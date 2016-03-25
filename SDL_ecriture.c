@@ -129,3 +129,108 @@ void tracerCercle(SDL_Rect centre,double rayon,SDL_Surface* ecran,int angleMin,i
         tracerLigne(position,posSuivant,ecran,pixel);
     }
 }
+
+//---------------------------------------------------------------------
+void ecrireCarac_1(SDL_Rect position,SDL_Surface* ecran,SDL_Surface* pixel){
+    SDL_Rect depart,fin;
+
+//barre /
+    depart.x=position.x+(4*pixel->w);
+    depart.y=position.y+pixel->h;
+    fin.x=depart.x-(2*pixel->w);
+    fin.y=depart.y+(4*pixel->h);
+
+    tracerLigne(depart,fin,ecran,pixel);
+  //barre |
+    fin.x=depart.x;
+    fin.y=depart.y+(8*pixel->h);
+    tracerLigne(depart,fin,ecran,pixel);
+}
+//-------------------------------------------------------------------------
+
+void ecrireCarac_2(SDL_Rect position,SDL_Surface* ecran,SDL_Surface* pixel){
+    SDL_Rect depart,fin;
+
+//barre /
+    depart.x=position.x;
+    depart.y=position.y+(9*pixel->h);
+    fin.x=depart.x+(3.5*pixel->w);
+    fin.y=depart.y-(4.75*pixel->h);
+
+    tracerLigne(depart,fin,ecran,pixel);
+  //barre _
+    fin.x=depart.x+(4*pixel->w);
+    fin.y=depart.y;
+    tracerLigne(depart,fin,ecran,pixel);
+
+    // boucle du 2
+
+    depart.x= depart.x+2*pixel->w;
+    depart.y= depart.y-(6*pixel->h);
+    tracerCercle(depart,2*pixel->w,ecran,-35,210,pixel);
+}
+
+//--------------------------------------------------------------------------
+void ecrireCarac_3(SDL_Rect position,SDL_Surface* ecran,SDL_Surface* pixel){
+    SDL_Rect depart,fin;
+
+//premiere boucle
+    depart.x=position.x+3*pixel->w;
+    depart.y=position.y+(3*pixel->h);
+    tracerCercle(depart,2*pixel->w,ecran,-90,180,pixel);
+  //seconde boucle
+    fin.x=depart.x;
+    fin.y=depart.y+(4*pixel->h);
+    tracerCercle(fin,2*pixel->w,ecran,-150,90,pixel);
+
+    // barre du milieu
+    depart.y= depart.y+2*pixel->h;
+    fin.x=position.x+(2*pixel->w);
+    fin.y=depart.y;
+    tracerLigne(depart,fin,ecran,pixel);
+
+}
+//--------------------------------------------------------------------------
+void ecrireCarac_4(SDL_Rect position,SDL_Surface* ecran,SDL_Surface* pixel){
+    SDL_Rect depart,fin;
+
+//barre |
+    depart.x=position.x+(4*pixel->w);
+    depart.y=position.y+pixel->h;
+    fin.x=depart.x;
+    fin.y=depart.y+(8*pixel->h);
+
+
+    tracerLigne(depart,fin,ecran,pixel);
+  //barre /
+     fin.x=depart.x-(3*pixel->w);
+    fin.y=depart.y+(5*pixel->h);
+    tracerLigne(depart,fin,ecran,pixel);
+
+    // barre _
+        depart.x= fin.x;
+        depart.y= fin.y;
+        fin.x+=(4.5*pixel->w);
+        tracerLigne(depart,fin,ecran,pixel);
+}
+//--------------------------------------------------------------------------
+void ecrireCarac_5(SDL_Rect position,SDL_Surface* ecran,SDL_Surface* pixel){
+    SDL_Rect depart,fin;
+
+//barre _
+    depart.x=position.x+pixel->w;
+    depart.y=position.y+pixel->h;
+    fin.x=depart.x+(4*pixel->w);
+    fin.y=depart.y;
+
+    tracerLigne(depart,fin,ecran,pixel);
+  //barre |
+    fin.x=depart.x;
+    fin.y=depart.y+(3*pixel->h);
+    tracerLigne(depart,fin,ecran,pixel);
+
+    // cercle du 5
+        fin.x=depart.x+pixel->w;
+        fin.y=depart.y+(5.5*pixel->h);
+        tracerCercle(fin,2.5*pixel->h,ecran,-120,100,pixel);
+}
