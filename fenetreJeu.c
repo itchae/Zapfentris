@@ -14,7 +14,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
     if(fondMenuScore==NULL){
         printf("PROBLEME!! erreur lors de la creation de fondMenuScore");
     }
-    SDL_FillRect(fondMenuScore,NULL,SDL_MapRGB(fondMenuScore->format,255,0,0));         //color la surface
+    SDL_FillRect(fondMenuScore,NULL,SDL_MapRGB(fondMenuScore->format,200,200,255));         //color la surface
 
 //creation fond de la grille de jeu
 

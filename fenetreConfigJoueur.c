@@ -8,11 +8,11 @@ void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu*
     E_typeJoueur typeJoueur = JoueurTypeNonDefini;
     // CREATION DES CARRES DE COULEUR
     // Titre
-    SDL_Surface* titre = SDL_CreateRGBSurface(0,800,100,32,0,0,0,0); //Uint32 flags, width, height, depth, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask
+    SDL_Surface* titre = SDL_LoadBMP("Images/configTitre.bmp"); //Uint32 flags, width, height, depth, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask
     if(titre==NULL){
         printf("PROBLEME!! erreur lors de la creation du titre");
     }
-    SDL_FillRect(titre,NULL,SDL_MapRGB(titre->format,0,0,0));
+
 
     //Bouton Humain
     SDL_Surface* boutonHumain = SDL_CreateRGBSurface(0,200,150,32,0,0,0,0);
