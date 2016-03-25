@@ -690,13 +690,18 @@ int declancherBombe(systemJeu* jeu, int x, int y){
 
 void choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
     switch (numCarte){
-        case carte1 : func_bombeBloc(jeu, x, y);
-                      jeu->tabPointEvent[jeu->numJoueur-1]-=1;//on enleve le prix de l'evenement
+        case carte1 : if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide){        //si la case contient une bombe
+                            jeu->nbBombe--;                                     //on decremente le nb de bombe
+                        }
+                        decrementationNbPion(jeu,x,y,true);                     //on decrement le score du proprio du jeton qui pourrai ce trouver la et aussi le nb total
+
+                      func_bombeBloc(jeu, x, y);                                //vide la case de sa bombe et du jeton quel contenait et la bloque
+                      jeu->tabPointEvent[jeu->numJoueur-1]-=1;                  //on enleve le prix de l'evenement
                 break;
         case carte2 : event_swapJoueur(jeu);
-                      jeu->tabPointEvent[jeu->numJoueur-1]-=10;//on enleve le prix de l'evenement
+                      jeu->tabPointEvent[jeu->numJoueur-1]-=10;                 //on enleve le prix de l'evenement
                 break;
-        default : printf("WARNING : Carte evenement non reconnue");
+        default : printf("WARNING : Carte evenement non reconnue\n");
                 break;
     }
     passerJoueurSuivant(jeu);
@@ -710,10 +715,12 @@ void event_swapJoueur(systemJeu* jeu){
             jeu->grilleJeu.tabCase[i][j].numJoueur = (jeu->grilleJeu.tabCase[i][j].numJoueur % jeu->nbJoueur)+1;
         }
     }
-    //changement des score
-    j=jeu->tabNbPionJoueur[1];
-    for(i=1 ; i<=jeu->nbJoueur ; i++){
-        jeu->tabNbPionJoueur[i]=jeu->tabNbPionJoueur[(i%jeu->nbJoueur)+1];
-        j=jeu->tabNbPionJoueur[(i%jeu->nbJoueur)+1];
+
+    //changement des score decalage a droite
+    j=jeu->tabNbPionJoueur[jeu->nbJoueur];  //on stock le score de 5
+    for(i=jeu->nbJoueur ; i>1 ; i--){
+
+        jeu->tabNbPionJoueur[i]=jeu->tabNbPionJoueur[i-1];                      //n prend les valeur de n-1
     }
+    jeu->tabNbPionJoueur[1] = j;                                                // 1 prend la valeur du dernier joueur
 }
