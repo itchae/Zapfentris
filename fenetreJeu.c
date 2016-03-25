@@ -116,7 +116,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
     SDL_UpdateWindowSurface(fenetre);
     boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre);   //on fait jouer les ia jusqu'au joueur                                                  //on fait jouer les ia
     if(verifFinPartie(jeu)){                                            //on regarde si quelqu'un peut jouer (on passe les tour de ceux qui peuvent ppas)
-        printf("Fin de partie\n");
+        printf("Fin de partie\n Le joueur %d est vainqueur\n",quiGagne(jeu));
     }
 Coordonnees cooSouris,cooLecture,cooTraitre;
 SDL_Rect position;
@@ -161,7 +161,7 @@ informationBombe InfoBombe;
                         boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre);                                                     //on fait jouer les ia
 
                         if(verifFinPartie(jeu)){                                            //on regarde si quelqu'un peut jouer (on passe les tour de ceux qui peuvent ppas)
-                            printf("Fin de partie\n");
+                            printf("Fin de partie\n Le joueur %d est vainqueur\n",quiGagne(jeu));
                         }
                     }
                     else{                                                                   //si on est pas dans la grille
