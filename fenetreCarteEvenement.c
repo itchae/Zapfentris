@@ -201,6 +201,7 @@ E_event carteChoisi=carteVide;
     SDL_FreeSurface(boutonValider);
     SDL_FreeSurface(carteEvent1);
     SDL_FreeSurface(carteEvent2);
+    SDL_FreeSurface(caseBloc);
 
     if(pionSurface!=NULL){
         for(i=0 ; i<jeu->nbJoueur ; i++){
