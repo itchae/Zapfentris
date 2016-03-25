@@ -88,6 +88,7 @@ void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu*
     SDL_FreeSurface(boutonIA);
     SDL_FreeSurface(boutonValider);
     SDL_FreeSurface(boutonIADessus);
+    SDL_FreeSurface(boutonValiderDessus);
 }
 
 void refreshFenetreConfig (SDL_Surface* ecran,E_typeJoueur typeJoueur,systemJeu* jeu,SDL_Surface* titre,SDL_Surface* boutonHumain,
