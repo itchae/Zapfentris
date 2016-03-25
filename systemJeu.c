@@ -676,11 +676,13 @@ int declancherBombe(systemJeu* jeu, int x, int y){
 //---------------------------- CARTE EVENEMENT ----------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
 
-void choixEvent (systemJeu* jeu, int x, int y, int numCarte){
+void choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
     switch (numCarte){
-        case 1 : func_bombeBloc(jeu, x, y);
+        case carte1 : func_bombeBloc(jeu, x, y);
+                      jeu->tabPointEvent[jeu->numJoueur-1]-=1;//on enleve le prix de l'evenement
                 break;
-        case 2 : event_swapJoueur(jeu);
+        case carte2 : event_swapJoueur(jeu);
+                      jeu->tabPointEvent[jeu->numJoueur-1]-=10;//on enleve le prix de l'evenement
                 break;
         default : printf("WARNING : Carte evenement non reconnue");
                 break;

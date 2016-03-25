@@ -167,6 +167,7 @@ informationBombe InfoBombe;
                     else{                                                                   //si on est pas dans la grille
                         if(event.button.x>=720 && event.button.y>=120 && event.button.x<720+boutonMagasin->w &&event.button.y<120+boutonMagasin->h){
                             printf("On va au Magasin\n");
+                            *typeFenetre=fenetreCarteEvenement;
                         }
                     }
                 break;

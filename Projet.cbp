@@ -55,6 +55,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="SDL_ecriture.h" />
+		<Unit filename="fenetreCarteEvenement.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fenetreCarteEvenement.h" />
 		<Unit filename="fenetreConfigJoueur.c">
 			<Option compilerVar="CC" />
 		</Unit>

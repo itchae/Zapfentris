@@ -8,6 +8,7 @@
 #include "fenetreDifficulte.h"
 #include "fenetreDureePartie.h"
 #include "fenetreSelectNbJoueur.h"
+#include "fenetreCarteEvenement.h"
 //#include "fenetreTitre.h"
 #include "fenetreJeu.h"
 
@@ -49,6 +50,8 @@ void mainInterface(){
         case fenetreDifficulte: func_fenetreDifficulte(fenetre,ecran,jeu,&typeFenetre);
                         break;
         case fenetreJeu: func_fenetreJeu(fenetre,ecran,jeu,&typeFenetre);
+                        break;
+        case fenetreCarteEvenement: func_fenetreCarteEvenement(fenetre,ecran,jeu,&typeFenetre);
                         break;
         default:typeFenetre=fenetreQuitter;
             break;
