@@ -118,7 +118,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
     if(verifFinPartie(jeu)){                                            //on regarde si quelqu'un peut jouer (on passe les tour de ceux qui peuvent ppas)
         printf("Fin de partie\n");
     }
-Coordonnees cooSouris,cooLecture;
+Coordonnees cooSouris,cooLecture,cooTraitre;
 SDL_Rect position;
 listPosition stockCoup = cree_listPosition();
 PileCoordonnes pileLecture;
@@ -152,8 +152,8 @@ informationBombe InfoBombe;
                         SDL_UpdateWindowSurface(fenetre);
                         SDL_Delay(600);
 
-                        if(traitrise(jeu)){                                                     //on regarde si il y a un traitre
-
+                        if(traitrise(jeu,&cooTraitre)){                                                     //on regarde si il y a un traitre
+                            animationTraitre(ecran,pionSurface,fenetre,cooTraitre,jeu,fondCaseJeu);
                             refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
                             SDL_UpdateWindowSurface(fenetre);
                             SDL_Delay(600);
@@ -188,15 +188,15 @@ informationBombe InfoBombe;
                                         pileLecture=stockCoup->pile;
                                         while(!estVide(pileLecture)){                                                                       //on affiche tous les jetons a retourner
                                             cooLecture = pileLecture->position;
-                                            position.x = ((cooLecture.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(pionSurface[jeu->numJoueur-1]->w/2);      //origine case + centrage du pion
-                                            position.y = ((cooLecture.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(pionSurface[jeu->numJoueur-1]->h/2);
+                                            position.x = ((cooLecture.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(pionOKSurface[jeu->numJoueur-1]->w/2);      //origine case + centrage du pion
+                                            position.y = ((cooLecture.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(pionOKSurface[jeu->numJoueur-1]->h/2);
                                             SDL_BlitSurface(pionOKSurface[jeu->numJoueur-1],NULL,ecran,&position);                            //-1 car de 0 a 4(max) => numJoueur 1 a 5
                                             pileLecture = pileLecture->suivant;
                                         }
                                     }
                                     else{//cas coup impossible
-                                        position.x = ((cooSouris.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(pionSurface[jeu->numJoueur-1]->w/2);      //origine case + centrage du pion
-                                        position.y = ((cooSouris.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(pionSurface[jeu->numJoueur-1]->h/2);
+                                        position.x = ((cooSouris.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(pionXSurface[jeu->numJoueur-1]->w/2);      //origine case + centrage du pion
+                                        position.y = ((cooSouris.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(pionXSurface[jeu->numJoueur-1]->h/2);
                                         SDL_BlitSurface(pionXSurface[jeu->numJoueur-1],NULL,ecran,&position);                            //-1 car de 0 a 4(max) => numJoueur 1 a 5
                                     }
 
@@ -341,6 +341,7 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
 {
     bool finDePartie=false;
     informationBombe infoBombe;
+    Coordonnees cooTraitre;
 
     while((!finDePartie) && jeu->estIA[jeu->numJoueur-1]){          //on sort qui si c'est la fin ou que le joueur est un humain
         if(existeCoupSurGrille(jeu)){                               //on regarde si elle peut jouer
@@ -354,7 +355,8 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
                 SDL_UpdateWindowSurface(fenetre);
                 SDL_Delay(600);
 
-            if(traitrise(jeu)){ //on regarde si il y a un traitre
+            if(traitrise(jeu,&cooTraitre)){ //on regarde si il y a un traitre
+                animationTraitre(ecran,pionSurface,fenetre,cooTraitre,jeu,fondCaseJeu);
                 refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
                 SDL_UpdateWindowSurface(fenetre);
                 SDL_Delay(600);
@@ -514,4 +516,21 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_S
     SDL_Delay(500);
 
     SDL_FreeSurface(rayon);
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void animationTraitre(SDL_Surface* ecran,SDL_Surface** pionSurface,SDL_Window* fenetre,Coordonnees cooTraitre,systemJeu* jeu ,SDL_Surface* fondCaseJeu)
+{
+    int i;
+    SDL_Rect position;
+    for (i=0; i<10*jeu->nbJoueur ; i++){
+        position.x = ((cooTraitre.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(pionSurface[jeu->numJoueur-1]->w/2);      //origine case + centrage du pion
+        position.y = ((cooTraitre.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(pionSurface[jeu->numJoueur-1]->h/2);
+        SDL_BlitSurface(pionSurface[i%jeu->nbJoueur],NULL,ecran,&position);                            //  de 0 a 4(max) => numJoueur 1 a 5
+        SDL_UpdateWindowSurface(fenetre);
+        SDL_Delay(100);
+    }
+
+    // on refresh a la fin car on doit garder le plateau dans son ancien etat jusqu'a la fin de l'animation
 }

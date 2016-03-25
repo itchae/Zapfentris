@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "SDL_ecriture.h"
+#include "fenetreJeu.h" //pour l'animation des traitre apres une carte event
 
 void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre){
     int i;
@@ -93,7 +94,7 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,boutonValider,carteVide,carteEvent1,carteEvent2);
     SDL_UpdateWindowSurface(fenetre);
 
-Coordonnees cooSouris;
+Coordonnees cooSouris,cooTraitre;
 E_event carteChoisi=carteVide;
     //boucle evenmentiel
     SDL_Event event;
@@ -117,6 +118,17 @@ E_event carteChoisi=carteVide;
                     if(cooSouris.cooX < jeu->grilleJeu.taille && carteChoisi!=carteVide){   //si on est dans la grille et que la carte est choisi
                         choixEvent(jeu,cooSouris.cooX,cooSouris.cooY,carteChoisi);
                         *typeFenetre=fenetreJeu;
+                        //on fait les refresh et animation avant de partir dans le jeu
+                        refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,boutonValider,carteChoisi,carteEvent1,carteEvent2);
+                        SDL_UpdateWindowSurface(fenetre);
+                        SDL_Delay(600);
+
+                        if(traitrise(jeu,&cooTraitre)){ //on regarde si il y a un traitre
+                            animationTraitre(ecran,pionSurface,fenetre,cooTraitre,jeu,fondCaseJeu);
+                            refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,boutonValider,carteChoisi,carteEvent1,carteEvent2);
+                            SDL_UpdateWindowSurface(fenetre);
+                            SDL_Delay(600);
+                        }
                     }
                     else{                                                                   //si on est pas dans la grille
                         if(event.button.x>=720 && event.button.y>=100 && event.button.x<720+carteEvent1->w &&event.button.y<100+carteEvent1->h){//carte event 1
@@ -138,6 +150,17 @@ E_event carteChoisi=carteVide;
                                     switch(carteChoisi){//ca marche d'avec les carte qui n'ont pas besoin de ciblage
                                         case 2: choixEvent(jeu,0,0,carteChoisi);
                                                 *typeFenetre=fenetreJeu;
+                                                //on fait les refresh et animation avant de partir dans le jeu
+                                                refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,boutonValider,carteChoisi,carteEvent1,carteEvent2);
+                                                SDL_UpdateWindowSurface(fenetre);
+                                                SDL_Delay(600);
+
+                                                if(traitrise(jeu,&cooTraitre)){ //on regarde si il y a un traitre
+                                                    animationTraitre(ecran,pionSurface,fenetre,cooTraitre,jeu,fondCaseJeu);
+                                                    refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,boutonValider,carteChoisi,carteEvent1,carteEvent2);
+                                                    SDL_UpdateWindowSurface(fenetre);
+                                                    SDL_Delay(600);
+                                                }
                                             break;
                                         default:break;
                                     }
@@ -145,6 +168,7 @@ E_event carteChoisi=carteVide;
                                 else{
                                     if(event.button.x>=720 && event.button.y>=20 && event.button.x<720+boutonAnnuler->w &&event.button.y<20+boutonAnnuler->h){//bouton Annuler
                                         *typeFenetre=fenetreJeu;
+                                        //pas de refresh car on a rien fait
                                     }
                                 }
                             }

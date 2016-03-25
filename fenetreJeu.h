@@ -28,4 +28,7 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_S
                          SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
                          SDL_Surface* texteBombe,SDL_Window* fenetre,informationBombe infoBombe );
 
+
+void animationTraitre(SDL_Surface* ecran,SDL_Surface** pionSurface,SDL_Window* fenetre,Coordonnees cooTraitre,systemJeu* jeu ,SDL_Surface* fondCaseJeu);
+
 #endif // FENETREJEU_H_INCLUDED

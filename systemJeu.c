@@ -390,7 +390,7 @@ void decrementationNbPion(systemJeu* jeu,int x,int y,bool destruction){
 //-------------------------------------------------------------------------------------------------------
 
 
-bool traitrise(systemJeu* jeu){
+bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre){
     listPosition retour = NULL;
     int seuilTrahison = (jeu->grilleJeu.taille*jeu->grilleJeu.taille)/2;        //
     bool posteLibre = true;
@@ -407,6 +407,8 @@ bool traitrise(systemJeu* jeu){
             if(envieTrahison && posteLibre && jeu->grilleJeu.tabCase[x][y].contenu==contenuPion && jeu->grilleJeu.tabCase[x][y].numJoueur!=jeu->numJoueur){
                 //pas de % 0 car il y a un ++ avant et viePion >=0
                 posteLibre = false;
+                cooTraitre->cooX=x;
+                cooTraitre->cooY=y;
                 jeu->grilleJeu.tabCase[x][y].contenu = contenuVide;     //pour que coupPosiible fonctionne
                 retour = coupPossible(jeu,x,y);
                 jeu->grilleJeu.tabCase[x][y].contenu = contenuPion;     //pour que decrementation fonctionne
@@ -423,13 +425,11 @@ bool traitrise(systemJeu* jeu){
         }
     }
 
-    if(retour==NULL){
-        retour = cree_listPosition();                   //pas de traitre on renvoi une liste vide
-    }
-    else{
+    if(retour!=NULL){
         //on modifie les jetons qui suivent le traitre
         jeu->tabNbPionJoueur[jeu->numJoueur]+=retour->nbElement;//on augment son score de nbElement dans la liste
         PileCoordonnes pileMemo = retour->pile;
+
         while(pileMemo!=NULL){                          //on modifie tout les jeton a modifier
             memo=pileMemo->position;
             decrementationNbPion(jeu,memo.cooX,memo.cooY,false);  //on enleve les pt des jeton perdu
@@ -439,8 +439,9 @@ bool traitrise(systemJeu* jeu){
             pileMemo = pileMemo->suivant;                 //on passe a la coordonne suivante
 
         }
+        free_ListPosition(&retour);
     }
-    free_ListPosition(&retour);
+
     return !posteLibre;
 }
 //-------------------------------------------------------------------------------------------------------

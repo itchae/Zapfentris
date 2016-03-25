@@ -72,7 +72,7 @@ void passerJoueurSuivant(systemJeu* jeu);                                   //pe
 void decrementationNbPion(systemJeu* jeu,int x,int y,bool destruction);     //decremente le score du joueur qui perd son pion
 
 //Bonus
-bool traitrise(systemJeu* jeu);                                 //augment vie pion et renvoi les coo du traitre et de ses compagnon
+bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre);                        //augment vie pion et renvoi les coo du traitre et si il y en a un
 informationBombe actionIA_jeu(systemJeu* jeu);                              // joue a la place du joueur
 
 
