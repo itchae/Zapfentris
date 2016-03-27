@@ -106,6 +106,25 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
         printf("PROBLEME!! erreur lors de la creation de texteBombe");
     }
     SDL_FillRect(texteBombe,NULL,SDL_MapRGB(texteBombe->format,0,255,255));         //color la surface
+//creation des textes de victoire
+    //texte "victoire du"
+    SDL_Surface* texteVictoire_Victoire = SDL_CreateRGBSurface(0,500,80,32,0,0,0,0);
+    if(texteVictoire_Victoire==NULL){
+        printf("PROBLEME!! erreur lors de la creation de texteVictoire_Victoire");
+    }
+    SDL_FillRect(texteVictoire_Victoire,NULL,SDL_MapRGB(texteVictoire_Victoire->format,0,0,0));         //color la surface
+    //texte "joueur"
+    SDL_Surface* texteVictoire_joueur = SDL_LoadBMP("Images/configTitre.bmp");
+    if(texteVictoire_joueur==NULL){
+        printf("PROBLEME!! erreur lors de la creation de texteVictoire_joueur");
+    }
+
+    //pixel des chiffres
+    SDL_Surface* texteVictoire_pixel = SDL_CreateRGBSurface(0,7,7,32,0,0,0,0);
+    if(texteVictoire_pixel==NULL){
+        printf("PROBLEME!! erreur lors de la creation de texteVictoire_pixel");
+    }
+    SDL_FillRect(texteVictoire_pixel,NULL,SDL_MapRGB(texteVictoire_pixel->format,0,0,0));         //color la surface
 
 //creation des chiffres
 
@@ -115,11 +134,31 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
     refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
     SDL_UpdateWindowSurface(fenetre);
     boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre);   //on fait jouer les ia jusqu'au joueur                                                  //on fait jouer les ia
+
+    SDL_Rect position;
+
     if(verifFinPartie(jeu)){                                            //on regarde si quelqu'un peut jouer (on passe les tour de ceux qui peuvent ppas)
-        printf("Fin de partie\n Le joueur %d est vainqueur\n",quiGagne(jeu));
+            position.x=50;
+            position.y=250;
+            SDL_BlitSurface(texteVictoire_Victoire,NULL,ecran,&position);
+
+            position.x=0;
+            position.y+=texteVictoire_Victoire->h;
+            SDL_BlitSurface(texteVictoire_joueur,NULL,ecran,&position);
+            position.x=500;
+         switch(quiGagne(jeu)){
+            case 1:ecrireCarac_1(position,ecran,texteVictoire_pixel); break;
+            case 2:ecrireCarac_2(position,ecran,texteVictoire_pixel); break;
+            case 3:ecrireCarac_3(position,ecran,texteVictoire_pixel); break;
+            case 4:ecrireCarac_4(position,ecran,texteVictoire_pixel); break;
+            case 5:ecrireCarac_5(position,ecran,texteVictoire_pixel); break;
+            default: break;
+        }
+        SDL_UpdateWindowSurface(fenetre);
+        SDL_Delay(8000);
     }
 Coordonnees cooSouris,cooLecture,cooTraitre;
-SDL_Rect position;
+
 listPosition stockCoup = cree_listPosition();
 PileCoordonnes pileLecture;
 informationBombe InfoBombe;
@@ -161,11 +200,28 @@ informationBombe InfoBombe;
                         boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre);                                                     //on fait jouer les ia
 
                         if(verifFinPartie(jeu)){                                            //on regarde si quelqu'un peut jouer (on passe les tour de ceux qui peuvent ppas)
-                            printf("Fin de partie\n Le joueur %d est vainqueur\n",quiGagne(jeu));
+                             position.x=50;
+                             position.y=250;
+                             SDL_BlitSurface(texteVictoire_Victoire,NULL,ecran,&position);
+
+                             position.x=0;
+                             position.y+=texteVictoire_Victoire->h;
+                             SDL_BlitSurface(texteVictoire_joueur,NULL,ecran,&position);
+                             position.x=500;
+                             switch(quiGagne(jeu)){
+                                case 1:ecrireCarac_1(position,ecran,texteVictoire_pixel); break;
+                                case 2:ecrireCarac_2(position,ecran,texteVictoire_pixel); break;
+                                case 3:ecrireCarac_3(position,ecran,texteVictoire_pixel); break;
+                                case 4:ecrireCarac_4(position,ecran,texteVictoire_pixel); break;
+                                case 5:ecrireCarac_5(position,ecran,texteVictoire_pixel); break;
+                                default: break;
+                             }
+                             SDL_UpdateWindowSurface(fenetre);
+                             SDL_Delay(8000);
                         }
                     }
                     else{                                                                   //si on est pas dans la grille
-                        if(event.button.x>=720 && event.button.y>=120 && event.button.x<720+boutonMagasin->w &&event.button.y<120+boutonMagasin->h){
+                        if(event.button.x>=720 && event.button.y>=120 && event.button.x<720+boutonMagasin->w &&event.button.y<120+boutonMagasin->h){//bouton du magasin
                             printf("On va au Magasin\n");
                             *typeFenetre=fenetreCarteEvenement;
                         }
@@ -243,6 +299,9 @@ informationBombe InfoBombe;
     SDL_FreeSurface(texteMinerai);
     SDL_FreeSurface(boutonMagasin);
     SDL_FreeSurface(texteBombe);
+    SDL_FreeSurface(texteVictoire_joueur);
+    SDL_FreeSurface(texteVictoire_pixel);
+    SDL_FreeSurface(texteVictoire_Victoire);
 
 }
 
@@ -339,7 +398,7 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
                          SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
                          SDL_Surface* texteBombe ,SDL_Window* fenetre)
 {
-    bool finDePartie=false;
+    bool finDePartie=verifFinPartie(jeu);                           //on trouve le prochain joueur qui peut jouer
     informationBombe infoBombe;
     Coordonnees cooTraitre;
 
@@ -347,7 +406,7 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
         if(existeCoupSurGrille(jeu)){                               //on regarde si elle peut jouer
 
 
-
+            //mets a jour l'affichage et attend un peu
             infoBombe = actionIA_jeu(jeu);                                      //elle joue son coup
             animationBombe(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,infoBombe);
 
@@ -524,7 +583,7 @@ void animationTraitre(SDL_Surface* ecran,SDL_Surface** pionSurface,SDL_Window* f
 {
     int i;
     SDL_Rect position;
-    for (i=0; i<10*jeu->nbJoueur ; i++){
+    for (i=0; i<(7-jeu->nbJoueur)*jeu->nbJoueur ; i++){
         position.x = ((cooTraitre.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(pionSurface[jeu->numJoueur-1]->w/2);      //origine case + centrage du pion
         position.y = ((cooTraitre.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(pionSurface[jeu->numJoueur-1]->h/2);
         SDL_BlitSurface(pionSurface[i%jeu->nbJoueur],NULL,ecran,&position);                            //  de 0 a 4(max) => numJoueur 1 a 5

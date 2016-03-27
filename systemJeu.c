@@ -403,7 +403,7 @@ int  quiGagne(systemJeu* jeu){
 
 bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre){
     listPosition retour = NULL;
-    int seuilTrahison = (jeu->grilleJeu.taille*jeu->grilleJeu.taille)/2;        //
+    int seuilTrahison = ((jeu->grilleJeu.taille*jeu->grilleJeu.taille)/2)+jeu->tabNbPionJoueur[0]-jeu->tabNbPionJoueur[jeu->numJoueur];        //plus l'empire est gros plus il a de chance de recruter
     bool posteLibre = true;
     bool envieTrahison = false;
     Coordonnees memo;
