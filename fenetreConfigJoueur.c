@@ -50,7 +50,7 @@ void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu*
     if(pixel==NULL){
         printf("PROBLEME!! erreur lors de la creation du pixel des chiffres");
     }
-    SDL_FillRect(boutonValider, NULL, SDL_MapRGB(boutonValider->format,0,0,0));
+    SDL_FillRect(pixel, NULL, SDL_MapRGB(pixel->format,0,0,0));
 
 
     SDL_Event event;
@@ -116,6 +116,18 @@ void refreshFenetreConfig (SDL_Surface* ecran,E_typeJoueur typeJoueur,systemJeu*
         case 3:ecrireCarac_3(position,ecran,pixel); break;
         case 4:ecrireCarac_4(position,ecran,pixel); break;
         case 5:ecrireCarac_5(position,ecran,pixel); break;
+        default: break;
+    }
+
+    //coloration en rouge des boutons
+    SDL_FillRect(boutonHumain ,NULL,SDL_MapRGB(boutonHumain ->format,255,0,0));
+    SDL_FillRect(boutonIA ,NULL,SDL_MapRGB(boutonIA ->format,255,0,0));
+
+    switch(typeJoueur){                                                                                     //on colore en vert le bon
+        case joueurTypeHumain: SDL_FillRect(boutonHumain ,NULL,SDL_MapRGB(boutonHumain ->format,0,255,0));
+                                break;
+        case joueurTypeIA: SDL_FillRect(boutonIA ,NULL,SDL_MapRGB(boutonIA ->format,0,255,0));
+                                break;
         default: break;
     }
 
