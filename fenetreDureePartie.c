@@ -16,12 +16,18 @@ void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* 
     }
     SDL_FillRect(titre,NULL,SDL_MapRGB(titre->format,0,0,0));                       //color la surface
 
+
 //creation du boutonDureeCourte
     SDL_Surface* boutonDureeCourte = SDL_CreateRGBSurface(0,200,250,32,0,0,0,0);
     if(boutonDureeCourte ==NULL){
         printf("PROBLEME!! erreur lors de la creation du bouton Duree Courte");
     }
     SDL_FillRect(boutonDureeCourte ,NULL,SDL_MapRGB(boutonDureeCourte ->format,255,0,0));                       //color la surface
+
+    SDL_Surface* boutonDureeCourteDessus = SDL_LoadBMP("Images/boutonSoft.bmp");
+    if(boutonDureeCourteDessus==NULL){
+        printf("PROBLEME!! erreur lors de la creation du bouton duree courte dessus");
+    }
 
 //creation du boutonDureeMoyenne
     SDL_Surface* boutonDureeMoyenne = SDL_CreateRGBSurface(0,200,250,32,0,0,0,0);
@@ -30,6 +36,11 @@ void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* 
     }
     SDL_FillRect(boutonDureeMoyenne ,NULL,SDL_MapRGB(boutonDureeMoyenne ->format,0,0,255));                       //color la surface
 
+    SDL_Surface* boutonDureeMoyenneDessus = SDL_LoadBMP("Images/boutonNormal.bmp");
+    if(boutonDureeMoyenneDessus==NULL){
+        printf("PROBLEME!! erreur lors de la creation du bouton duree moyenne dessus");
+    }
+
 //creation du boutonDureeLongue
     SDL_Surface* boutonDureeLongue = SDL_CreateRGBSurface(0,200,250,32,0,0,0,0);
     if(boutonDureeLongue  ==NULL){
@@ -37,6 +48,10 @@ void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* 
     }
     SDL_FillRect(boutonDureeLongue  ,NULL,SDL_MapRGB(boutonDureeLongue ->format,255,255,0));                       //color la surface
 
+    SDL_Surface* boutonDureeLongueDessus = SDL_LoadBMP("Images/boutonHard.bmp");
+    if(boutonDureeLongueDessus==NULL){
+        printf("PROBLEME!! erreur lors de la creation du bouton duree longue dessus");
+    }
 
 //---------------------------------------------------------------------------------
 //---------------------------- POSITIONNEMENT IMAGE -------------------------------
@@ -53,14 +68,17 @@ void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* 
     position.x=100;
     position.y=200;
     SDL_BlitSurface(boutonDureeCourte,NULL,ecran,&position);
+    SDL_BlitSurface(boutonDureeCourteDessus,NULL,ecran,&position);
 
     position.x=400;
     position.y=200;
     SDL_BlitSurface(boutonDureeMoyenne,NULL,ecran,&position);
+    SDL_BlitSurface(boutonDureeMoyenneDessus,NULL,ecran,&position);
 
     position.x=700;
     position.y=200;
     SDL_BlitSurface(boutonDureeLongue,NULL,ecran,&position);
+    SDL_BlitSurface(boutonDureeLongueDessus,NULL,ecran,&position);
 
 
 //---------------------------------------------------------------------------------
