@@ -5,6 +5,9 @@
 
 void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre){
 
+//---------------------------------------------------------------------------------
+//---------------------------- CREATION IMAGE -------------------------------------
+//---------------------------------------------------------------------------------
 
 //creation du titre
     SDL_Surface* titre = SDL_CreateRGBSurface(0,800,100,32,0,0,0,0);
@@ -34,9 +37,15 @@ void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* 
     }
     SDL_FillRect(boutonDureeLongue  ,NULL,SDL_MapRGB(boutonDureeLongue ->format,255,255,0));                       //color la surface
 
+
+//---------------------------------------------------------------------------------
+//---------------------------- POSITIONNEMENT IMAGE -------------------------------
+//---------------------------------------------------------------------------------
+
 //creation de l'ecran
     SDL_Rect position;
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));                           //color la surface
+
     position.x=100;
     position.y=50;
     SDL_BlitSurface(titre,NULL,ecran,&position);
@@ -52,6 +61,11 @@ void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* 
     position.x=700;
     position.y=200;
     SDL_BlitSurface(boutonDureeLongue,NULL,ecran,&position);
+
+
+//---------------------------------------------------------------------------------
+//---------------------------- BOUCLE EVENEMENT -----------------------------------
+//---------------------------------------------------------------------------------
 
     SDL_Event event;                                                                    //permetra de stock le dernier event effectuer
     SDL_UpdateWindowSurface(fenetre);
@@ -90,6 +104,9 @@ void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* 
         }
     }
 
+//---------------------------------------------------------------------------------
+//---------------------------- LIBERATION MEMOIRE ---------------------------------
+//---------------------------------------------------------------------------------
     SDL_FreeSurface(titre);
     SDL_FreeSurface(boutonDureeCourte);
     SDL_FreeSurface(boutonDureeMoyenne);
