@@ -12,7 +12,7 @@ void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* 
 //creation du titre
     SDL_Surface* titre = SDL_CreateRGBSurface(0,800,100,32,0,0,0,0);
     if(titre==NULL){
-        printf("PROBLEME!! erreur lors de la creation du titre");
+        printf("PROBLEME!! erreur lors de la creation du titre\n");
     }
     SDL_FillRect(titre,NULL,SDL_MapRGB(titre->format,0,0,0));                       //color la surface
 
@@ -20,37 +20,37 @@ void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* 
 //creation du boutonDureeCourte
     SDL_Surface* boutonDureeCourte = SDL_CreateRGBSurface(0,200,250,32,0,0,0,0);
     if(boutonDureeCourte ==NULL){
-        printf("PROBLEME!! erreur lors de la creation du bouton Duree Courte");
+        printf("PROBLEME!! erreur lors de la creation du bouton Duree Courte\n");
     }
-    SDL_FillRect(boutonDureeCourte ,NULL,SDL_MapRGB(boutonDureeCourte ->format,255,0,0));                       //color la surface
+    SDL_FillRect(boutonDureeCourte ,NULL,SDL_MapRGB(boutonDureeCourte ->format,150,150,255));                       //color la surface
 
     SDL_Surface* boutonDureeCourteDessus = SDL_LoadBMP("Images/boutonSoft.bmp");
     if(boutonDureeCourteDessus==NULL){
-        printf("PROBLEME!! erreur lors de la creation du bouton duree courte dessus");
+        printf("PROBLEME!! erreur lors de la creation du bouton duree courte dessus\n");
     }
 
 //creation du boutonDureeMoyenne
     SDL_Surface* boutonDureeMoyenne = SDL_CreateRGBSurface(0,200,250,32,0,0,0,0);
     if(boutonDureeMoyenne ==NULL){
-        printf("PROBLEME!! erreur lors de la creation du boutonDureeMoyenne");
+        printf("PROBLEME!! erreur lors de la creation du boutonDureeMoyenne\n");
     }
-    SDL_FillRect(boutonDureeMoyenne ,NULL,SDL_MapRGB(boutonDureeMoyenne ->format,0,0,255));                       //color la surface
+    SDL_FillRect(boutonDureeMoyenne ,NULL,SDL_MapRGB(boutonDureeMoyenne ->format,150,150,255));      //color la surface
 
     SDL_Surface* boutonDureeMoyenneDessus = SDL_LoadBMP("Images/boutonNormal.bmp");
     if(boutonDureeMoyenneDessus==NULL){
-        printf("PROBLEME!! erreur lors de la creation du bouton duree moyenne dessus");
+        printf("PROBLEME!! erreur lors de la creation du bouton duree moyenne dessus\n");
     }
 
 //creation du boutonDureeLongue
     SDL_Surface* boutonDureeLongue = SDL_CreateRGBSurface(0,200,250,32,0,0,0,0);
     if(boutonDureeLongue  ==NULL){
-        printf("PROBLEME!! erreur lors de la creation du boutonDureeLongue ");
+        printf("PROBLEME!! erreur lors de la creation du boutonDureeLongue \n");
     }
-    SDL_FillRect(boutonDureeLongue  ,NULL,SDL_MapRGB(boutonDureeLongue ->format,255,255,0));                       //color la surface
+    SDL_FillRect(boutonDureeLongue  ,NULL,SDL_MapRGB(boutonDureeLongue ->format,150,150,255));                       //color la surface
 
     SDL_Surface* boutonDureeLongueDessus = SDL_LoadBMP("Images/boutonHard.bmp");
     if(boutonDureeLongueDessus==NULL){
-        printf("PROBLEME!! erreur lors de la creation du bouton duree longue dessus");
+        printf("PROBLEME!! erreur lors de la creation du bouton duree longue dessus\n");
     }
 
 //---------------------------------------------------------------------------------

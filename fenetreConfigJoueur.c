@@ -11,49 +11,49 @@ void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu*
     // Titre
     SDL_Surface* titre = SDL_LoadBMP("Images/configTitre.bmp"); //Uint32 flags, width, height, depth, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask
     if(titre==NULL){
-        printf("PROBLEME!! erreur lors de la creation du titre");
+        printf("PROBLEME!! erreur lors de la creation du titre\n");
     }
 
 
     //Bouton Humain
     SDL_Surface* boutonHumain = SDL_CreateRGBSurface(0,200,150,32,0,0,0,0);
     if(boutonHumain == NULL){
-        printf("PROBLEME : erreur lors de la creation du bouton Humain");
+        printf("PROBLEME : erreur lors de la creation du bouton Humain\n");
     }
-    SDL_FillRect(boutonHumain ,NULL,SDL_MapRGB(boutonHumain ->format,255,0,0));                       //color la surface
+    SDL_FillRect(boutonHumain ,NULL,SDL_MapRGB(boutonHumain ->format,150,150,255));                 //color la surface
 
     SDL_Surface* boutonHumainDessus = SDL_LoadBMP("Images/choixBoutonHumain.bmp");
     if(boutonHumainDessus==NULL){
-        printf("PROBLEME!! erreur lors de la creation du bouton Humain de dessus");
+        printf("PROBLEME!! erreur lors de la creation du bouton Humain de dessus\n");
     }
 
     //Bouton IA
     SDL_Surface* boutonIA = SDL_CreateRGBSurface(0,200,150,32,0,0,0,0);
     if(boutonIA == NULL){
-        printf("PROBLEME : erreur lors de la creation du bouton IA");
+        printf("PROBLEME : erreur lors de la creation du bouton IA\n");
     }
-    SDL_FillRect(boutonIA ,NULL,SDL_MapRGB(boutonIA ->format,0,0,255));
+    SDL_FillRect(boutonIA ,NULL,SDL_MapRGB(boutonIA ->format,150,150,255));
 
     SDL_Surface* boutonIADessus = SDL_LoadBMP("Images/choixIA.bmp");
     if(boutonIADessus==NULL){
-        printf("PROBLEME!! erreur lors de la creation du bouton IA de dessus");
+        printf("PROBLEME!! erreur lors de la creation du bouton IA de dessus\n");
     }
     //Bouton Valider
     SDL_Surface* boutonValider = SDL_CreateRGBSurface(0,390,90,32,0,0,0,0);
     if(boutonValider == NULL){
-        printf("PROBLEME : Erreur lors de la creation du bonton valider");
+        printf("PROBLEME : Erreur lors de la creation du bonton valider\n");
     }
     SDL_FillRect(boutonValider, NULL, SDL_MapRGB(boutonValider->format,215,215,215));
 
     SDL_Surface* boutonValiderDessus = SDL_LoadBMP("Images/boutonValider.bmp");
     if(boutonValiderDessus==NULL){
-        printf("PROBLEME!! erreur lors de la creation du bouton valider de dessus");
+        printf("PROBLEME!! erreur lors de la creation du bouton valider de dessus\n");
     }
 
     // pixel des chiffres
     SDL_Surface* pixel = SDL_CreateRGBSurface(0,7,7,32,0,0,0,0);
     if(pixel==NULL){
-        printf("PROBLEME!! erreur lors de la creation du pixel des chiffres");
+        printf("PROBLEME!! erreur lors de la creation du pixel des chiffres\n");
     }
     SDL_FillRect(pixel, NULL, SDL_MapRGB(pixel->format,0,0,0));
 
@@ -126,13 +126,13 @@ void refreshFenetreConfig (SDL_Surface* ecran,E_typeJoueur typeJoueur,systemJeu*
     }
 
     //coloration en rouge des boutons
-    SDL_FillRect(boutonHumain ,NULL,SDL_MapRGB(boutonHumain ->format,255,0,0));
-    SDL_FillRect(boutonIA ,NULL,SDL_MapRGB(boutonIA ->format,255,0,0));
+    SDL_FillRect(boutonHumain ,NULL,SDL_MapRGB(boutonHumain ->format,150,150,255));
+    SDL_FillRect(boutonIA ,NULL,SDL_MapRGB(boutonIA ->format,150,150,255));
 
     switch(typeJoueur){                                                                                     //on colore en vert le bon
-        case joueurTypeHumain: SDL_FillRect(boutonHumain ,NULL,SDL_MapRGB(boutonHumain ->format,0,255,0));
+        case joueurTypeHumain: SDL_FillRect(boutonHumain ,NULL,SDL_MapRGB(boutonHumain ->format,100,100,255));
                                 break;
-        case joueurTypeIA: SDL_FillRect(boutonIA ,NULL,SDL_MapRGB(boutonIA ->format,0,255,0));
+        case joueurTypeIA: SDL_FillRect(boutonIA ,NULL,SDL_MapRGB(boutonIA ->format,100,100,255));
                                 break;
         default: break;
     }

@@ -12,7 +12,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
 //creation fond de la zone de score
     SDL_Surface* fondMenuScore = SDL_CreateRGBSurface(0,300,600,32,0,0,0,0);
     if(fondMenuScore==NULL){
-        printf("PROBLEME!! erreur lors de la creation de fondMenuScore");
+        printf("PROBLEME!! erreur lors de la creation de fondMenuScore\n");
     }
     SDL_FillRect(fondMenuScore,NULL,SDL_MapRGB(fondMenuScore->format,200,200,255));         //color la surface
 
@@ -20,7 +20,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
 
     SDL_Surface* fondGrilleJeu = SDL_CreateRGBSurface(0,((680/jeu->grilleJeu.taille)*jeu->grilleJeu.taille)+1,((580/jeu->grilleJeu.taille)*jeu->grilleJeu.taille)+1,32,0,0,0,0);//pour la ligne de pixel noir en haut et a droite
     if(fondGrilleJeu==NULL){
-        printf("PROBLEME!! erreur lors de la creation de fondGrilleJeu");
+        printf("PROBLEME!! erreur lors de la creation de fondGrilleJeu\n");
     }
     SDL_FillRect(fondGrilleJeu,NULL,SDL_MapRGB(fondGrilleJeu->format,0,0,0));
 
@@ -28,7 +28,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
 
     SDL_Surface* fondCaseJeu = SDL_CreateRGBSurface(0,(680/jeu->grilleJeu.taille)-1,(580/jeu->grilleJeu.taille)-1,32,0,0,0,0);//pour la ligne de pixel noir etntre les case
     if(fondCaseJeu==NULL){
-        printf("PROBLEME!! erreur lors de la creation de fondCaseJeu");
+        printf("PROBLEME!! erreur lors de la creation de fondCaseJeu\n");
     }
     SDL_FillRect(fondCaseJeu,NULL,SDL_MapRGB(fondCaseJeu->format,255,255,255));
 
@@ -38,7 +38,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
     SDL_Surface** pionSurface = (SDL_Surface**)malloc(jeu->nbJoueur*sizeof(SDL_Surface*));
 
     if(pionSurface==NULL){
-        printf("PROBLEME!! erreur lors de la creation de pionSurface");
+        printf("PROBLEME!! erreur lors de la creation de pionSurface\n");
     }
     else{
 
@@ -52,7 +52,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
     SDL_Surface** pionOKSurface = (SDL_Surface**)malloc(jeu->nbJoueur*sizeof(SDL_Surface*));
 
     if(pionOKSurface==NULL){
-        printf("PROBLEME!! erreur lors de la creation de pionOKSurface");
+        printf("PROBLEME!! erreur lors de la creation de pionOKSurface\n");
     }
     else{
 
@@ -66,7 +66,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
     SDL_Surface** pionXSurface = (SDL_Surface**)malloc(jeu->nbJoueur*sizeof(SDL_Surface*));
 
     if(pionXSurface==NULL){
-        printf("PROBLEME!! erreur lors de la creation de pionXSurface");
+        printf("PROBLEME!! erreur lors de la creation de pionXSurface\n");
     }
     else{
 
@@ -80,48 +80,47 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
 
     SDL_Surface* caseBloc = SDL_LoadBMP("Images/bloc.bmp");
     if(caseBloc==NULL){
-        printf("PROBLEME!! erreur lors de la creation de caseBloc");
+        printf("PROBLEME!! erreur lors de la creation de caseBloc\n");
     }
 
 //creation texte minerai/mana
 
-    SDL_Surface* texteMinerai = SDL_CreateRGBSurface(0,260,40,32,0,0,0,0);
+    SDL_Surface* texteMinerai = SDL_LoadBMP("Images/imageMinerai.bmp");
     if(texteMinerai==NULL){
-        printf("PROBLEME!! erreur lors de la creation de texteMinerai");
+        printf("PROBLEME!! erreur lors de la creation de texteMinerai\n");
     }
-    SDL_FillRect(texteMinerai,NULL,SDL_MapRGB(texteMinerai->format,0,255,0));         //color la surface
 
 //creation bouton du Magasin
 
     SDL_Surface* boutonMagasin = SDL_LoadBMP("Images/boutonMagasin.bmp");
     if(boutonMagasin==NULL){
-        printf("PROBLEME!! erreur lors de la creation de boutonMagasin");
+        printf("PROBLEME!! erreur lors de la creation de boutonMagasin\n");
     }
 
 //creation texte bombe
 
-    SDL_Surface* texteBombe = SDL_CreateRGBSurface(0,260,40,32,0,0,0,0);
+    SDL_Surface* texteBombe = SDL_LoadBMP("Images/imageBombe.bmp");
     if(texteBombe==NULL){
-        printf("PROBLEME!! erreur lors de la creation de texteBombe");
+        printf("PROBLEME!! erreur lors de la creation de texteBombe\n");
     }
-    SDL_FillRect(texteBombe,NULL,SDL_MapRGB(texteBombe->format,0,255,255));         //color la surface
+
 //creation des textes de victoire
     //texte "victoire du"
     SDL_Surface* texteVictoire_Victoire = SDL_CreateRGBSurface(0,500,80,32,0,0,0,0);
     if(texteVictoire_Victoire==NULL){
-        printf("PROBLEME!! erreur lors de la creation de texteVictoire_Victoire");
+        printf("PROBLEME!! erreur lors de la creation de texteVictoire_Victoire\n");
     }
     SDL_FillRect(texteVictoire_Victoire,NULL,SDL_MapRGB(texteVictoire_Victoire->format,0,0,0));         //color la surface
     //texte "joueur"
     SDL_Surface* texteVictoire_joueur = SDL_LoadBMP("Images/configTitre.bmp");
     if(texteVictoire_joueur==NULL){
-        printf("PROBLEME!! erreur lors de la creation de texteVictoire_joueur");
+        printf("PROBLEME!! erreur lors de la creation de texteVictoire_joueur\n");
     }
 
     //pixel des chiffres
     SDL_Surface* texteVictoire_pixel = SDL_CreateRGBSurface(0,7,7,32,0,0,0,0);
     if(texteVictoire_pixel==NULL){
-        printf("PROBLEME!! erreur lors de la creation de texteVictoire_pixel");
+        printf("PROBLEME!! erreur lors de la creation de texteVictoire_pixel\n");
     }
     SDL_FillRect(texteVictoire_pixel,NULL,SDL_MapRGB(texteVictoire_pixel->format,0,0,0));         //color la surface
 
@@ -353,13 +352,13 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
     //collage du texte Minerai
 
     position.x=720;
-    position.y=100;
+    position.y=110;
     SDL_BlitSurface(texteMinerai,NULL,ecran,&position);//colle la surface sur l'ecran
 
     //nb de minerai
 
-    position.x=720+(texteMinerai->w/2);
-    position.y=100;
+    position.x=720+(texteMinerai->w+20);
+    position.y=125;
     ecritureNombre(chiffres,&position,jeu->tabPointEvent[jeu->numJoueur-1],ecran);             //ecrit le nb de minerai
 
     //collage du bouton Magasin
@@ -370,14 +369,14 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
 
     //collage texteBombe
 
-    position.x=720;
-    position.y=180;
+    position.x=725;
+    position.y=190;
     SDL_BlitSurface(texteBombe,NULL,ecran,&position);//colle la surface sur l'ecran
 
     //nb bombe
 
-    position.x=720+(texteBombe->w/2);
-    position.y=240;
+    position.x=720+(texteBombe->w+20);
+    position.y=210;
     ecritureNombre(chiffres,&position,jeu->nbBombe,ecran);
 
     //collage du score

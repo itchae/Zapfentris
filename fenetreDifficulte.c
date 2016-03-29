@@ -9,30 +9,43 @@ void  func_fenetreDifficulte(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* j
 //creation du titre
     SDL_Surface* titre = SDL_CreateRGBSurface(0,800,100,32,0,0,0,0);
     if(titre==NULL){
-        printf("PROBLEME!! erreur lors de la creation du titre");
+        printf("PROBLEME!! erreur lors de la creation du titre\n");
     }
     SDL_FillRect(titre,NULL,SDL_MapRGB(titre->format,0,0,0));                       //color la surface
 
 //creation du boutonDifficulteFaible
     SDL_Surface* boutonDifficulteFaible = SDL_CreateRGBSurface(0,200,250,32,0,0,0,0);
     if(boutonDifficulteFaible ==NULL){
-        printf("PROBLEME!! erreur lors de la creation du bouton Difficulte Faible");
+        printf("PROBLEME!! erreur lors de la creation du bouton Difficulte Faible\n");
     }
-    SDL_FillRect(boutonDifficulteFaible ,NULL,SDL_MapRGB(boutonDifficulteFaible ->format,255,0,255));                       //color la surface
+    SDL_FillRect(boutonDifficulteFaible ,NULL,SDL_MapRGB(boutonDifficulteFaible ->format,150,255,150));                       //color la surface
 
+    SDL_Surface* boutonDifficulteFaibleDessus = SDL_LoadBMP("Images/boutonSoft.bmp");
+    if(boutonDifficulteFaibleDessus==NULL){
+        printf("PROBLEME!! erreur lors de la creation du bouton difficulte faible dessus\n");
+    }
 //creation du boutonDifficulteMoyenne
     SDL_Surface* boutonDifficulteMoyenne = SDL_CreateRGBSurface(0,200,250,32,0,0,0,0);
     if(boutonDifficulteMoyenne ==NULL){
-        printf("PROBLEME!! erreur lors de la creation du boutonDifficulteMoyenne");
+        printf("PROBLEME!! erreur lors de la creation du boutonDifficulteMoyenne\n");
     }
-    SDL_FillRect(boutonDifficulteMoyenne ,NULL,SDL_MapRGB(boutonDifficulteMoyenne ->format,0,255,0));                       //color la surface
+    SDL_FillRect(boutonDifficulteMoyenne ,NULL,SDL_MapRGB(boutonDifficulteMoyenne ->format,150,255,150));                       //color la surface
 
+    SDL_Surface* boutonDifficulteMoyenneDessus = SDL_LoadBMP("Images/boutonNormal.bmp");
+    if(boutonDifficulteMoyenneDessus==NULL){
+        printf("PROBLEME!! erreur lors de la creation du bouton difficulte moyenne dessus\n");
+    }
 //creation du boutonDifficulteForte
     SDL_Surface* boutonDifficulteForte = SDL_CreateRGBSurface(0,200,250,32,0,0,0,0);
     if(boutonDifficulteForte  ==NULL){
-        printf("PROBLEME!! erreur lors de la creation du boutonDifficulteForte ");
+        printf("PROBLEME!! erreur lors de la creation du boutonDifficulteForte \n");
     }
-    SDL_FillRect(boutonDifficulteForte  ,NULL,SDL_MapRGB(boutonDifficulteForte ->format,0,255,255));                       //color la surface
+    SDL_FillRect(boutonDifficulteForte  ,NULL,SDL_MapRGB(boutonDifficulteForte ->format,150,255,150));                       //color la surface
+
+    SDL_Surface* boutonDifficulteForteDessus = SDL_LoadBMP("Images/boutonHard.bmp");
+    if(boutonDifficulteForteDessus==NULL){
+        printf("PROBLEME!! erreur lors de la creation du bouton difficulte forte dessus\n");
+    }
 
 //creation de l'ecran
     SDL_Rect position;
@@ -44,14 +57,17 @@ void  func_fenetreDifficulte(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* j
     position.x=100;
     position.y=200;
     SDL_BlitSurface(boutonDifficulteFaible,NULL,ecran,&position);
+    SDL_BlitSurface(boutonDifficulteFaibleDessus,NULL,ecran,&position);
 
     position.x=400;
     position.y=200;
     SDL_BlitSurface(boutonDifficulteMoyenne,NULL,ecran,&position);
+    SDL_BlitSurface(boutonDifficulteMoyenneDessus,NULL,ecran,&position);
 
     position.x=700;
     position.y=200;
     SDL_BlitSurface(boutonDifficulteForte,NULL,ecran,&position);
+    SDL_BlitSurface(boutonDifficulteForteDessus,NULL,ecran,&position);
 
     SDL_Event event;                                                                    //permetra de stock le dernier event effectuer
     SDL_UpdateWindowSurface(fenetre);
