@@ -93,11 +93,10 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
 
 //creation bouton du Magasin
 
-    SDL_Surface* boutonMagasin = SDL_CreateRGBSurface(0,260,40,32,0,0,0,0);
+    SDL_Surface* boutonMagasin = SDL_LoadBMP("Images/boutonMagasin.bmp");
     if(boutonMagasin==NULL){
         printf("PROBLEME!! erreur lors de la creation de boutonMagasin");
     }
-    SDL_FillRect(boutonMagasin,NULL,SDL_MapRGB(boutonMagasin->format,0,0,255));         //color la surface
 
 //creation texte bombe
 
@@ -221,7 +220,7 @@ informationBombe InfoBombe;
                         }
                     }
                     else{                                                                   //si on est pas dans la grille
-                        if(event.button.x>=720 && event.button.y>=120 && event.button.x<720+boutonMagasin->w &&event.button.y<120+boutonMagasin->h){//bouton du magasin
+                        if(event.button.x>=715 && event.button.y>=20 && event.button.x<715+boutonMagasin->w &&event.button.y<20+boutonMagasin->h){//bouton du magasin
                             printf("On va au Magasin\n");
                             *typeFenetre=fenetreCarteEvenement;
                         }
@@ -354,19 +353,19 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
     //collage du texte Minerai
 
     position.x=720;
-    position.y=20;
+    position.y=100;
     SDL_BlitSurface(texteMinerai,NULL,ecran,&position);//colle la surface sur l'ecran
 
     //nb de minerai
 
     position.x=720+(texteMinerai->w/2);
-    position.y=80;
+    position.y=100;
     ecritureNombre(chiffres,&position,jeu->tabPointEvent[jeu->numJoueur-1],ecran);             //ecrit le nb de minerai
 
     //collage du bouton Magasin
 
-    position.x=720;
-    position.y=120;
+    position.x=715;
+    position.y=20;
     SDL_BlitSurface(boutonMagasin,NULL,ecran,&position);//colle la surface sur l'ecran
 
     //collage texteBombe

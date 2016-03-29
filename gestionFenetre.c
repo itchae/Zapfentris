@@ -19,6 +19,14 @@ void mainInterface(){
 
     SDL_Window* fenetre;                                                                                                //pointeur sur la fenetre
     fenetre = SDL_CreateWindow("Zapfentris",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,600,SDL_WINDOW_SHOWN);  //cree la fenetre
+
+    /* Liste des noms
+
+        -Zapfentris
+        -Zapfun
+    */
+
+
     if(fenetre== 0)                                                                                                     //verification que la fenetre a ete cree
     {
         printf("PROBLEME!! Erreur lors de la creation de la fenetre  \n" );                                             //gestion de l'erreur
