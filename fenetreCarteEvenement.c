@@ -145,7 +145,7 @@ E_event carteChoisi=carteVide;
 
                         }
                         else {
-                            if(event.button.x>=720 && event.button.y>=150 && event.button.x<720+carteEvent2->w &&event.button.y<150+carteEvent2->h){//carte event 2
+                            if(event.button.x>=810 && event.button.y>=100 && event.button.x<810+carteEvent2->w &&event.button.y<100+carteEvent2->h){//carte event 2
                                 if(jeu->tabPointEvent[jeu->numJoueur-1]>=10){
                                     printf("On choisit la carte 2\n");
                                     carteChoisi=carte2;
