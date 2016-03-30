@@ -350,13 +350,13 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
 
     //collage du texte Minerai
 
-    position.x=720;
+    position.x=760;
     position.y=110;
     SDL_BlitSurface(texteMinerai,NULL,ecran,&position);//colle la surface sur l'ecran
 
     //nb de minerai
 
-    position.x=720+(texteMinerai->w+20);
+    position.x=760+(texteMinerai->w+20);
     position.y=125;
     ecritureNombre(chiffres,&position,jeu->tabPointEvent[jeu->numJoueur-1],ecran);             //ecrit le nb de minerai
 
@@ -368,13 +368,13 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
 
     //collage texteBombe
 
-    position.x=725;
+    position.x=760;
     position.y=190;
     SDL_BlitSurface(texteBombe,NULL,ecran,&position);//colle la surface sur l'ecran
 
     //nb bombe
 
-    position.x=720+(texteBombe->w+20);
+    position.x=760+(texteBombe->w+20);
     position.y=210;
     ecritureNombre(chiffres,&position,jeu->nbBombe,ecran);
 

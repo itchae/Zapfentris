@@ -54,13 +54,13 @@ void func_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_f
                 break;
             case SDL_MOUSEBUTTONDOWN:                                                   //quand un bouton de la souris est appuyer
                                                                                         //event.button.button pour savoir lequel est appuyer
-                       if(event.button.x >=200 && event.button.x<=(200+boutonJouer->w) && event.button.y>=150 && event.button.y <= (150+boutonJouer->h) ){
+                       if(event.button.x >=210 && event.button.x<=(210+boutonJouer->w) && event.button.y>=260 && event.button.y <= (260+boutonJouer->h) ){
                             printf("Jouer\n");
                             *typeFenetre=fenetreSelecNbJoueur;
                        }
-                       else{if(event.button.x >=200 && event.button.x<=(200+boutonRegle->w) && event.button.y>=300 && event.button.y <= (300+boutonRegle->h) ){
+                       else{if(event.button.x >=210 && event.button.x<=(210+boutonRegle->w) && event.button.y>=390 && event.button.y <= (390+boutonRegle->h) ){
                                 printf("Regles du jeu\n");
-                                *typeFenetre=fenetreSelecNbJoueur;
+                                //*typeFenetre=fenetreRegles;
                             }
                        }
                 break;
