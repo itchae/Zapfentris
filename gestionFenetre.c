@@ -20,6 +20,11 @@ void mainInterface(){
     SDL_Window* fenetre;                                                                                                //pointeur sur la fenetre
     fenetre = SDL_CreateWindow("Zapfentris",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,600,SDL_WINDOW_SHOWN);  //cree la fenetre
 
+    SDL_Surface* fenetre_icon = SDL_LoadBMP("Images/Pion1.bmp");
+    if(fenetre_icon==NULL){
+        printf("PROBLEME , L'icone n'a pas ete genere \n");
+    }
+    SDL_SetWindowIcon(fenetre,fenetre_icon);
     /* Liste des noms
 
         -Zapfentris
@@ -68,6 +73,7 @@ void mainInterface(){
 
 
    SDL_DestroyWindow(fenetre);//on detruit la fenetre
+   SDL_FreeSurface(fenetre_icon);
    free_SystemJeu(&jeu);
 
 }
