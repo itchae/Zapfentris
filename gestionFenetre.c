@@ -14,7 +14,7 @@
 
 void mainInterface(){
 
-    E_fenetre typeFenetre=/*fenetreTitre*/fenetreSelecNbJoueur;
+    E_fenetre typeFenetre=fenetreTitre;
     systemJeu* jeu =init_SystemJeu_Minimal();                                                                           //reste a alloue la grille, score et ia
 
     SDL_Window* fenetre;                                                                                                //pointeur sur la fenetre
@@ -52,8 +52,8 @@ void mainInterface(){
         switch(typeFenetre){
         //case type : func_fenetreType(fenetre,ecran,jeu,&typeFenetre); break;
 
-        /*case fenetreTitre: func_fenetreTitre(fenetre,ecran,jeu,&typeFenetre);
-                        break;*/
+        case fenetreTitre: func_fenetreTitre(fenetre,ecran,jeu,&typeFenetre);
+                        break;
         case fenetreSelecNbJoueur: func_fenetreSelectNbJoueur(fenetre,ecran,jeu,&typeFenetre);
                         break;
         case fenetreConfigJoueur: func_fenetreConfigJoueur(fenetre,ecran,jeu,&typeFenetre);
