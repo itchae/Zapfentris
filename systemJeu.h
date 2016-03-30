@@ -65,7 +65,7 @@ bool formationGrandCarre(systemJeu* jeu,int espaceEntreCarre);                  
 
 //Fonctionnement du jeu
 listPosition coupPossible(systemJeu* jeu,int x,int y);                      //renvoi la list des jeton retourner si un pion est poser en x y
-informationBombe placeJeton(systemJeu* jeu,int x,int y,listPosition jetonAModifier);    //permet de placer un jeton sur la grille et change les pion a modifier ou fait exploser la bombe
+informationBombe placeJeton(systemJeu* jeu,int x,int y,listPosition jetonAModifier,bool passerTour);    //permet de placer un jeton sur la grille et change les pion a modifier ou fait exploser la bombe
 bool existeCoupSurGrille(systemJeu* jeu);                                   //existe un coup sur la grille pour le joueur actuel
 bool verifFinPartie(systemJeu* jeu);                                        //verif si la ppartie est bloque si joueur incapable de jouer on passe au suivant
 void passerJoueurSuivant(systemJeu* jeu);                                   //permet de passer au joueur suivant

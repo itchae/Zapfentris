@@ -290,7 +290,7 @@ listPosition coupPossible(systemJeu* jeu, int x, int y){ //c'est le bordel la de
 
 //-------------------------------------------------------------------------------------------
 
-informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAModifier){
+informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAModifier,bool passerTour){
     informationBombe retour;
     retour.direction=-1;
     retour.typeBombe=bombeVide;
@@ -326,7 +326,10 @@ informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAMod
         }
     }
     //on passe au joueur suivant
-    passerJoueurSuivant(jeu);
+    if(passerTour){
+        passerJoueurSuivant(jeu);
+    }
+
 
     return retour;
 }
@@ -501,7 +504,7 @@ informationBombe actionIA_jeu(systemJeu* jeu){
     }
 
     printf("Joueur %d joue en %d %d avec %d pion retourner\n",jeu->numJoueur,endroitJouer.cooX,endroitJouer.cooY,memoPion->nbElement-1);
-    return placeJeton(jeu,endroitJouer.cooX,endroitJouer.cooY,memoPion);                   //IA joue son coup
+    return placeJeton(jeu,endroitJouer.cooX,endroitJouer.cooY,memoPion,true);                   //IA joue son coup
 }
 
 

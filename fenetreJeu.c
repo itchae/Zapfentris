@@ -181,7 +181,7 @@ informationBombe InfoBombe;
             case SDL_MOUSEBUTTONDOWN:                                                       //quand un bouton de la souris est apuiyer
                                                                                             //event.button.button pour savoir lequel est appuyer
                     if(cooSouris.cooX < jeu->grilleJeu.taille && stockCoup->nbElement>0){   //si on est dans la grille et que le coup est possible
-                        InfoBombe = placeJeton(jeu,cooSouris.cooX,cooSouris.cooY,stockCoup);//on place son jeton et retourne les jeton
+                        InfoBombe = placeJeton(jeu,cooSouris.cooX,cooSouris.cooY,stockCoup,true);//on place son jeton et retourne les jeton
                         viderList(stockCoup);                                                   //on vide la liste, pour eviter que les joueurs rejoue avec le coup de l'autre joueur (ce qui provoquait des bugs)
                         animationBombe(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,InfoBombe);
 
