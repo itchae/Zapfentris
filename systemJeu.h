@@ -8,7 +8,7 @@
 
 typedef enum { contenuVide=0, contenuPion, contenuBloc } E_contenu;
 
-typedef enum { bombeVide=0, bombeExplo, bombeLaser, bombeBloc} E_bombe;
+typedef enum { bombeVide=0, bombeExplo, bombeLaser, bombeBloc,bombeFleche} E_bombe;
 
 typedef enum {carteVide=0, carte1, carte2, carte3} E_event;
 
@@ -46,6 +46,8 @@ typedef struct{
     int direction;              //0 => -  1=> \ 2=> | 3=>/
     int cooX;
     int cooY;
+    listPosition cooCaseTouche;
+
 }informationBombe;
 
 
@@ -75,6 +77,8 @@ int  quiGagne(systemJeu* jeu);                                              //re
 //Bonus
 bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre);                        //augment vie pion et renvoi les coo du traitre et si il y en a un
 informationBombe actionIA_jeu(systemJeu* jeu);                              // joue a la place du joueur
+listPosition getListCoupOptimiser(systemJeu* jeu);                         //renvoi la liste du meilleur coup
+Coordonnees getCooCoupOptimiser(systemJeu* jeu);                            //renvoi les coo du meilleur coup
 
 
 //Les bombes
@@ -86,7 +90,8 @@ void bombeLaserHorizontal(systemJeu* jeu, int x , int y );      // direction hor
 void bombeLaserDiagonalDroite(systemJeu* jeu, int x , int y );  // direction de bas à gauche à haut droite de bombe laser
 void bombeLaserDiagonalGauche(systemJeu* jeu, int x , int y );  // direction de haut à gauche à bas droite de bombe laser
 void func_bombeBloc(systemJeu* jeu, int x, int y);              // fonction bombe bloc
-int declancherBombe(systemJeu* jeu, int x, int y);             //lance la fonction de bombe associe a celle qui explose//renvoi une direction
+listPosition func_bombeFleche(systemJeu* jeu, int x, int y);       //fonction bombeFleche
+void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info);             //lance la fonction de bombe associe a celle qui explose//renvoi une direction
 
 //Les cartes
 void choixEvent (systemJeu* jeu, int x, int y, E_event numCarte);

@@ -159,6 +159,7 @@ Coordonnees cooSouris,cooLecture,cooTraitre;
 listPosition stockCoup = cree_listPosition();
 PileCoordonnes pileLecture;
 informationBombe InfoBombe;
+InfoBombe.cooCaseTouche=NULL;
     //boucle evenmentiel
     SDL_Event event;
                                                                                             //permetra de stock le dernier event effectuer
@@ -183,6 +184,10 @@ informationBombe InfoBombe;
                         InfoBombe = placeJeton(jeu,cooSouris.cooX,cooSouris.cooY,stockCoup,true);//on place son jeton et retourne les jeton
                         viderList(stockCoup);                                                   //on vide la liste, pour eviter que les joueurs rejoue avec le coup de l'autre joueur (ce qui provoquait des bugs)
                         animationBombe(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,InfoBombe);
+
+                        if(InfoBombe.cooCaseTouche != NULL){
+                            free_ListPosition(&InfoBombe.cooCaseTouche);
+                        }
 
                         refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
                         SDL_UpdateWindowSurface(fenetre);
@@ -338,9 +343,12 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
                                  SDL_BlitSurface(pionSurface[jeu->grilleJeu.tabCase[j][i].numJoueur-1],NULL,ecran,&position);//colle la surface sur l'ecran
                                  break;
                 case contenuBloc:
+                                 SDL_FillRect(fondCaseJeu,NULL,SDL_MapRGB(fondCaseJeu->format,0,0,0));
+                                 SDL_BlitSurface(fondCaseJeu,NULL,ecran,&position);//colle la surface sur l'ecran
                                  position.x = ((j*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(caseBloc->w/2);      //origine case + centrage du pion
                                  position.y = ((i*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(caseBloc->h/2);
                                  SDL_BlitSurface(caseBloc,NULL,ecran,&position);//colle la surface sur l'ecran
+                                 SDL_FillRect(fondCaseJeu,NULL,SDL_MapRGB(fondCaseJeu->format,255,255,255));
 
                                 break;
                 default: break;
@@ -397,6 +405,7 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
 {
     bool finDePartie=verifFinPartie(jeu);                           //on trouve le prochain joueur qui peut jouer
     informationBombe infoBombe;
+    infoBombe.cooCaseTouche=NULL;
     Coordonnees cooTraitre;
 
     while((!finDePartie) && jeu->estIA[jeu->numJoueur-1]){          //on sort qui si c'est la fin ou que le joueur est un humain
@@ -406,6 +415,10 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
             //mets a jour l'affichage et attend un peu
             infoBombe = actionIA_jeu(jeu);                                      //elle joue son coup
             animationBombe(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,infoBombe);
+
+            if(infoBombe.cooCaseTouche != NULL){
+                free_ListPosition(&infoBombe.cooCaseTouche);
+            }
 
             refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
                 SDL_UpdateWindowSurface(fenetre);
@@ -438,7 +451,9 @@ void animationBombe(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fon
                          break;
         case bombeLaser : animationBombe_BombeLaser(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe, fenetre ,infoBombe);
                          break;
-        case bombeBloc  : break;
+        case bombeFleche  :animationBombe_BombeFleche(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe, fenetre ,infoBombe);
+
+             break;
         default:break;
     }
 }
@@ -575,7 +590,38 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_S
 }
 
 //-------------------------------------------------------------------------------------------------
+void animationBombe_BombeFleche(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
+                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
+                         SDL_Surface* texteBombe,SDL_Window* fenetre,informationBombe infoBombe )
+{
 
+
+
+    SDL_Surface* fleche = SDL_CreateRGBSurface(0,30,30,32,0,0,0,0);
+    if(fleche==NULL){
+        printf("PROBLEME!! erreur lors de la creation de fleche");
+    }
+    SDL_FillRect(fleche,NULL,SDL_MapRGB(fleche->format,255,0,0));         //color la surface
+
+    SDL_Rect position ;
+    PileCoordonnes courant = infoBombe.cooCaseTouche->pile;
+
+    while(courant!= NULL){
+        position.x = ((courant->position.cooX*(fondCaseJeu->w+1))+10);      //origine case + centrage du pion
+        position.y = ((courant->position.cooY*(fondCaseJeu->h+1))+10);
+
+        SDL_BlitSurface(fleche,NULL,ecran,&position);//colle la surface sur l'ecran
+        courant= courant->suivant;
+    }
+
+    SDL_UpdateWindowSurface(fenetre);
+    SDL_Delay(600);
+
+    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
+    SDL_UpdateWindowSurface(fenetre);
+
+}
+//-------------------------------------------------------------------------------------------------
 void animationTraitre(SDL_Surface* ecran,SDL_Surface** pionSurface,SDL_Window* fenetre,Coordonnees cooTraitre,systemJeu* jeu ,SDL_Surface* fondCaseJeu)
 {
     int i;

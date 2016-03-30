@@ -294,6 +294,7 @@ informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAMod
     informationBombe retour;
     retour.direction=-1;
     retour.typeBombe=bombeVide;
+    retour.cooCaseTouche=NULL;
     retour.cooX=x;
     retour.cooY=y;
     //determine la protection contre l'activation des bombe
@@ -308,7 +309,7 @@ informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAMod
     if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide && jeu->tabNbPionJoueur[0]>seuilProtectbombe){ //si bombe elle explose
        viderList(jetonAModifier);                                               //interface ne devra plus metre a jour ceux la mais ceux toucher par la bombe
        retour.typeBombe = jeu->grilleJeu.tabCase[x][y].bombe;
-       retour.direction = declancherBombe(jeu,x,y);
+        declancherBombe(jeu,x,y,&retour);
     }
     else{                                                                   //sinon on place le jeton
         Coordonnees memo;
@@ -460,7 +461,20 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre){
 }
 //-------------------------------------------------------------------------------------------------------
 informationBombe actionIA_jeu(systemJeu* jeu){
-    Coordonnees endroitJouer;
+
+
+    listPosition memoPion   = getListCoupOptimiser(jeu);
+    Coordonnees endroitJouer = lirePremierElement(memoPion);
+    printf("Joueur %d joue en %d %d avec %d pion retourner\n",jeu->numJoueur,endroitJouer.cooX,endroitJouer.cooY,memoPion->nbElement-1);
+    informationBombe retour =placeJeton(jeu,endroitJouer.cooX,endroitJouer.cooY,memoPion,true);                   //IA joue son coup
+    free_ListPosition(&memoPion);
+                                                                                    //on libere la liste
+    return retour;
+}
+
+//-------------------------------------------------------------------------------------------------------
+
+listPosition getListCoupOptimiser(systemJeu* jeu){
     listPosition memoPion   = cree_listPosition();
     listPosition stock      = NULL;
     int memoPriorite        = -1;//-1 faible 0 normal 1 forte
@@ -489,8 +503,6 @@ informationBombe actionIA_jeu(systemJeu* jeu){
                     free_ListPosition(&memoPion);                                               //libere l'ancienne
                     memoPion          = stock;                                                  //recup la nouvelle
                     memoPriorite      = priorite;
-                    endroitJouer.cooX = x;
-                    endroitJouer.cooY = y;
                 }
                 else{
                     free_ListPosition(&stock);
@@ -503,11 +515,17 @@ informationBombe actionIA_jeu(systemJeu* jeu){
         }
     }
 
-    printf("Joueur %d joue en %d %d avec %d pion retourner\n",jeu->numJoueur,endroitJouer.cooX,endroitJouer.cooY,memoPion->nbElement-1);
-    return placeJeton(jeu,endroitJouer.cooX,endroitJouer.cooY,memoPion,true);                   //IA joue son coup
+    return memoPion;
 }
+//-----------------------------------------------------------------------------------------------------
+Coordonnees getCooCoupOptimiser(systemJeu* jeu){
 
+    listPosition stock = getListCoupOptimiser(jeu);
+    Coordonnees retour = lirePremierElement(stock);
+    free_ListPosition(&stock);
+    return retour;
 
+}
 //-------------------------------------------------------------------------------------------------------
 //---------------------------- GESTION DES BOMBES -------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
@@ -523,7 +541,7 @@ bool placerBombeDebut(systemJeu* jeu){
             y = rand()%jeu->grilleJeu.taille;
 
             if (jeu->grilleJeu.tabCase[x][y].bombe==bombeVide){     //si il n'y a pas de bombe dans la case
-                jeu->grilleJeu.tabCase[x][y].bombe = (rand()%3)+1;    //remplacer 1 par un random compris entre 1 et le nombre de bombe
+                jeu->grilleJeu.tabCase[x][y].bombe = (rand()%4)+1;    //remplacer 1 par un random compris entre 1 et le nombre de bombe
                 nbBombe--;
             }
         }
@@ -666,8 +684,26 @@ void func_bombeBloc(systemJeu* jeu, int x, int y){
 
 
 //-------------------------------------------------------------------------------------------
+listPosition func_bombeFleche(systemJeu* jeu, int x, int y){
+    listPosition retour = cree_listPosition();
+    Coordonnees endroitTouche;
+    int i;
 
-int declancherBombe(systemJeu* jeu, int x, int y){
+    jeu->grilleJeu.tabCase[x][y].bombe = bombeVide;
+
+    for(i=0 ; i<2*(jeu->grilleJeu.taille/4) ; i++){             //on peut avoir plusieur fleche au meme endroit
+        endroitTouche.cooX = rand()%jeu->grilleJeu.taille;
+        endroitTouche.cooY = rand()%jeu->grilleJeu.taille;
+        ajouterElement(retour,endroitTouche);
+
+        decrementationNbPion(jeu,endroitTouche.cooX,endroitTouche.cooY,true);
+        jeu->grilleJeu.tabCase[endroitTouche.cooX][endroitTouche.cooY].contenu = contenuVide;
+
+    }
+    return retour;
+}
+//-------------------------------------------------------------------------------------------
+void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info){
     int direction=-1;
     switch (jeu->grilleJeu.tabCase[x][y].bombe){
         case bombeExplo : func_bombeExplo(jeu,x,y);
@@ -679,12 +715,15 @@ int declancherBombe(systemJeu* jeu, int x, int y){
         case bombeBloc : func_bombeBloc(jeu,x,y);
                          printf("Bombe bloc en %d %d\n",x,y);
                           break;
+        case bombeFleche : info->cooCaseTouche = func_bombeFleche(jeu,x,y);
+                             printf("Bombe Fleche en %d %d\n",x,y);
+                          break;
         default : printf("WARNING : Type de bombe non reconnue");
                   jeu->nbBombe++;                                               //incrementation car decrementation obligatoire apres
                   break;
     }
     jeu->nbBombe--;                                                             //enleve la bombe qui a explos
-    return direction;
+    info->direction=direction;
 }
 
 //-------------------------------------------------------------------------------------------------------
