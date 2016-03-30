@@ -700,14 +700,16 @@ void choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
 
                       func_bombeBloc(jeu, x, y);                                //vide la case de sa bombe et du jeton quel contenait et la bloque
                       jeu->tabPointEvent[jeu->numJoueur-1]-=1;                  //on enleve le prix de l'evenement
+                       passerJoueurSuivant(jeu);
                 break;
         case carte2 : event_swapJoueur(jeu);
                       jeu->tabPointEvent[jeu->numJoueur-1]-=10;                 //on enleve le prix de l'evenement
+                       passerJoueurSuivant(jeu);
                 break;
         default : printf("WARNING : Carte evenement non reconnue\n");
                 break;
     }
-    passerJoueurSuivant(jeu);
+
 }
 
 
