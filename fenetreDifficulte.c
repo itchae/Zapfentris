@@ -7,11 +7,10 @@ void  func_fenetreDifficulte(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* j
 
 
 //creation du titre
-    SDL_Surface* titre = SDL_CreateRGBSurface(0,800,100,32,0,0,0,0);
+    SDL_Surface* titre = SDL_LoadBMP("Images/difficultePartieTitre.bmp");
     if(titre==NULL){
         printf("PROBLEME!! erreur lors de la creation du titre\n");
     }
-    SDL_FillRect(titre,NULL,SDL_MapRGB(titre->format,0,0,0));                       //color la surface
 
 //creation du boutonDifficulteFaible
     SDL_Surface* boutonDifficulteFaible = SDL_CreateRGBSurface(0,200,250,32,0,0,0,0);

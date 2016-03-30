@@ -106,11 +106,10 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
 
 //creation des textes de victoire
     //texte "victoire du"
-    SDL_Surface* texteVictoire_Victoire = SDL_CreateRGBSurface(0,500,80,32,0,0,0,0);
+    SDL_Surface* texteVictoire_Victoire = SDL_LoadBMP("Images/Victoire.bmp");
     if(texteVictoire_Victoire==NULL){
         printf("PROBLEME!! erreur lors de la creation de texteVictoire_Victoire\n");
     }
-    SDL_FillRect(texteVictoire_Victoire,NULL,SDL_MapRGB(texteVictoire_Victoire->format,0,0,0));         //color la surface
     //texte "joueur"
     SDL_Surface* texteVictoire_joueur = SDL_LoadBMP("Images/configTitre.bmp");
     if(texteVictoire_joueur==NULL){
