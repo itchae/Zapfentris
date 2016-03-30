@@ -1,0 +1,4 @@
+IDI_ICON1               ICON    DISCARDABLE     "Images/icone.ico"
+
+//pour mettre une image sur l'executable du programe => IDI_ICON1               ICON    DISCARDABLE     "chemin du .ico"
+
