@@ -7,5 +7,9 @@
 
 void func_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre);
 
+void refresh_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,SDL_Surface* titre,
+                          SDL_Surface* boutonJouer,SDL_Surface* boutonRegle,SDL_Surface* fleche,
+                          int menuSelectParFleche);
+
 
 #endif // FENETRETITRE_H_INCLUDED

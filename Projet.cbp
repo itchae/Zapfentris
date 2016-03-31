@@ -64,6 +64,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="fenetreSelectNbJoueur.h" />
+		<Unit filename="fenetreTitre.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fenetreTitre.h" />
 		<Unit filename="gestionFenetre.c">
 			<Option compilerVar="CC" />
 		</Unit>
