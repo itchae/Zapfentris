@@ -152,7 +152,8 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
             default: break;
         }
         SDL_UpdateWindowSurface(fenetre);
-        SDL_Delay(8000);
+        SDL_Delay(5000);
+        *typeFenetre=fenetreTitre;
     }
 Coordonnees cooSouris,cooLecture,cooTraitre;
 
@@ -183,7 +184,7 @@ InfoBombe.cooCaseTouche=NULL;
                     if(cooSouris.cooX < jeu->grilleJeu.taille && stockCoup->nbElement>0){   //si on est dans la grille et que le coup est possible
                         InfoBombe = placeJeton(jeu,cooSouris.cooX,cooSouris.cooY,stockCoup,true);//on place son jeton et retourne les jeton
                         viderList(stockCoup);                                                   //on vide la liste, pour eviter que les joueurs rejoue avec le coup de l'autre joueur (ce qui provoquait des bugs)
-                        animationBombe(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,InfoBombe);
+                        animationBombe(ecran,fondCaseJeu,jeu,fenetre,InfoBombe);
 
                         if(InfoBombe.cooCaseTouche != NULL){
                             free_ListPosition(&InfoBombe.cooCaseTouche);
@@ -219,7 +220,8 @@ InfoBombe.cooCaseTouche=NULL;
                                 default: break;
                              }
                              SDL_UpdateWindowSurface(fenetre);
-                             SDL_Delay(8000);
+                             SDL_Delay(5000);
+                             *typeFenetre=fenetreTitre;
                         }
                     }
                     else{                                                                   //si on est pas dans la grille
@@ -414,7 +416,7 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
 
             //mets a jour l'affichage et attend un peu
             infoBombe = actionIA_jeu(jeu);                                      //elle joue son coup
-            animationBombe(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,infoBombe);
+            animationBombe(ecran,fondCaseJeu,jeu,fenetre,infoBombe);
 
             if(infoBombe.cooCaseTouche != NULL){
                 free_ListPosition(&infoBombe.cooCaseTouche);
@@ -442,27 +444,24 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
 
 
 //-------------------------------------------------------------------------------------------------------
-void animationBombe(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
-                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
-                         SDL_Surface* texteBombe,SDL_Window* fenetre ,informationBombe infoBombe)
+void animationBombe(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,systemJeu* jeu,SDL_Window* fenetre,informationBombe infoBombe)
 {
     switch(infoBombe.typeBombe){
-        case bombeExplo : animationBombe_BombeExplo(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe, fenetre ,infoBombe);
+        case bombeExplo : animationBombe_BombeExplo(ecran,fondCaseJeu,jeu, fenetre ,infoBombe);
                          break;
-        case bombeLaser : animationBombe_BombeLaser(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe, fenetre ,infoBombe);
+        case bombeLaser : animationBombe_BombeLaser(ecran,fondCaseJeu,jeu, fenetre ,infoBombe);
                          break;
-        case bombeFleche  :animationBombe_BombeFleche(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe, fenetre ,infoBombe);
-
-             break;
+        case bombeFleche  :animationBombe_BombeFleche(ecran,fondCaseJeu,jeu, fenetre ,infoBombe);
+                         break;
+        case bombeSplash  :animationBombe_BombeSplash(ecran,fondCaseJeu,jeu, fenetre ,infoBombe);
+                         break;
         default:break;
     }
 }
 
 //---------------------------------------------------------------------------------------------------
 
-void animationBombe_BombeExplo(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
-                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
-                         SDL_Surface* texteBombe,SDL_Window* fenetre,informationBombe infoBombe )
+void animationBombe_BombeExplo(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,systemJeu* jeu,SDL_Window* fenetre,informationBombe infoBombe)
 {
 
 //creation petit Rayon
@@ -491,30 +490,28 @@ void animationBombe_BombeExplo(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_S
     position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonP->w/2);      //origine case + centrage du pion
     position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonP->h/2);
 
-    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
+   // refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
     SDL_BlitSurface(rayonP,NULL,ecran,&position);//colle la surface sur l'ecran
     SDL_UpdateWindowSurface(fenetre);
     SDL_Delay(250);
 
     position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonM->w/2);      //origine case + centrage du pion
     position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonM->h/2);
-    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
+  //  refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
     SDL_BlitSurface(rayonM,NULL,ecran,&position);//colle la surface sur l'ecran
     SDL_UpdateWindowSurface(fenetre);
     SDL_Delay(250);
 
     position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonG->w/2);      //origine case + centrage du pion
     position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonG->h/2);
-    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
+  //  refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
     SDL_BlitSurface(rayonG,NULL,ecran,&position);//colle la surface sur l'ecran
     SDL_UpdateWindowSurface(fenetre);
     SDL_Delay(250);
 
 }
 //---------------------------------------------------------------------------------
-void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
-                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
-                         SDL_Surface* texteBombe,SDL_Window* fenetre,informationBombe infoBombe )
+void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,systemJeu* jeu,SDL_Window* fenetre,informationBombe infoBombe)
 {
 //creation du rayon
     SDL_Surface* rayon = SDL_CreateRGBSurface(0,fondCaseJeu->w/2,fondCaseJeu->h/2,32,0,0,0,0);
@@ -581,7 +578,7 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_S
 
 
     //animation
-    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
+    //refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
     tracerLigne(pos1,pos2,ecran,rayon);
     SDL_UpdateWindowSurface(fenetre);
     SDL_Delay(500);
@@ -590,9 +587,7 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_S
 }
 
 //-------------------------------------------------------------------------------------------------
-void animationBombe_BombeFleche(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
-                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
-                         SDL_Surface* texteBombe,SDL_Window* fenetre,informationBombe infoBombe )
+void animationBombe_BombeFleche(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,systemJeu* jeu,SDL_Window* fenetre,informationBombe infoBombe )
 {
 
 
@@ -617,11 +612,54 @@ void animationBombe_BombeFleche(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_
     SDL_UpdateWindowSurface(fenetre);
     SDL_Delay(600);
 
-    refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
-    SDL_UpdateWindowSurface(fenetre);
 
 }
 //-------------------------------------------------------------------------------------------------
+void animationBombe_BombeSplash(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,systemJeu* jeu,SDL_Window* fenetre,informationBombe infoBombe)
+{
+    //creation petit Rayon
+
+    SDL_Surface* rayonP = SDL_CreateRGBSurface(0,fondCaseJeu->w,fondCaseJeu->h,32,0,0,0,0);
+    if(rayonP==NULL){
+        printf("PROBLEME!! erreur lors de la creation de rayonP");
+    }
+    SDL_FillRect(rayonP,NULL,SDL_MapRGB(rayonP->format,0,255,0));         //color la surface
+//creation moyen Rayon
+
+    SDL_Surface* rayonM = SDL_CreateRGBSurface(0,2*fondCaseJeu->w,2*fondCaseJeu->h,32,0,0,0,0);
+    if(rayonM==NULL){
+        printf("PROBLEME!! erreur lors de la creation de rayonM");
+    }
+    SDL_FillRect(rayonM,NULL,SDL_MapRGB(rayonM->format,0,255,0));         //color la surface
+//creation grand Rayon
+
+    SDL_Surface* rayonG = SDL_CreateRGBSurface(0,3*fondCaseJeu->w,3*fondCaseJeu->h,32,0,0,0,0);
+    if(rayonG==NULL){
+        printf("PROBLEME!! erreur lors de la creation de rayonG");
+    }
+    SDL_FillRect(rayonG,NULL,SDL_MapRGB(rayonG->format,0,255,0));         //color la surface
+
+    SDL_Rect position;
+    position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonP->w/2);      //origine case + centrage du pion
+    position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonP->h/2);
+
+    SDL_BlitSurface(rayonP,NULL,ecran,&position);//colle la surface sur l'ecran
+    SDL_UpdateWindowSurface(fenetre);
+    SDL_Delay(250);
+
+    position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonM->w/2);      //origine case + centrage du pion
+    position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonM->h/2);
+    SDL_BlitSurface(rayonM,NULL,ecran,&position);//colle la surface sur l'ecran
+    SDL_UpdateWindowSurface(fenetre);
+    SDL_Delay(250);
+
+    position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonG->w/2);      //origine case + centrage du pion
+    position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonG->h/2);
+    SDL_BlitSurface(rayonG,NULL,ecran,&position);//colle la surface sur l'ecran
+    SDL_UpdateWindowSurface(fenetre);
+    SDL_Delay(250);
+}
+//-------------------------------------------------------------------------------------------------------
 void animationTraitre(SDL_Surface* ecran,SDL_Surface** pionSurface,SDL_Window* fenetre,Coordonnees cooTraitre,systemJeu* jeu ,SDL_Surface* fondCaseJeu)
 {
     int i;

@@ -8,7 +8,7 @@
 
 typedef enum { contenuVide=0, contenuPion, contenuBloc } E_contenu;
 
-typedef enum { bombeVide=0, bombeExplo, bombeLaser, bombeBloc,bombeFleche} E_bombe;
+typedef enum { bombeVide=0, bombeExplo, bombeLaser, bombeBloc,bombeFleche,bombeSplash} E_bombe;
 
 typedef enum {carteVide=0, carte1, carte2, carte3} E_event;
 
@@ -91,6 +91,7 @@ void bombeLaserDiagonalDroite(systemJeu* jeu, int x , int y );  // direction de 
 void bombeLaserDiagonalGauche(systemJeu* jeu, int x , int y );  // direction de haut à gauche à bas droite de bombe laser
 void func_bombeBloc(systemJeu* jeu, int x, int y);              // fonction bombe bloc
 listPosition func_bombeFleche(systemJeu* jeu, int x, int y);       //fonction bombeFleche
+void func_bombeSplash(systemJeu* jeu, int x, int y);            //fonction de la bombe splash
 void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info);             //lance la fonction de bombe associe a celle qui explose//renvoi une direction
 
 //Les cartes

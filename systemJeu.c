@@ -541,7 +541,7 @@ bool placerBombeDebut(systemJeu* jeu){
             y = rand()%jeu->grilleJeu.taille;
 
             if (jeu->grilleJeu.tabCase[x][y].bombe==bombeVide){     //si il n'y a pas de bombe dans la case
-                jeu->grilleJeu.tabCase[x][y].bombe = (rand()%4)+1;    //remplacer 1 par un random compris entre 1 et le nombre de bombe
+                jeu->grilleJeu.tabCase[x][y].bombe = (rand()%5)+1;    //remplacer 1 par un random compris entre 1 et le nombre de bombe
                 nbBombe--;
             }
         }
@@ -702,6 +702,25 @@ listPosition func_bombeFleche(systemJeu* jeu, int x, int y){
     }
     return retour;
 }
+
+//-------------------------------------------------------------------------------------------
+void func_bombeSplash(systemJeu* jeu, int x, int y){
+
+    jeu->grilleJeu.tabCase[x][y].bombe = bombeVide;
+    int i,j;
+
+    for (j=y-1 ; j<=y+1 ; j++){
+        for(i=x-1 ; i<=x+1 ; i++){
+            if (i>=0 && i<jeu->grilleJeu.taille && j>=0 && j<jeu->grilleJeu.taille ){
+                if(jeu->grilleJeu.tabCase[i][j].contenu == contenuPion){                //on regarde si il y a  un jeton
+                    decrementationNbPion(jeu,i,j,true);
+                    jeu->grilleJeu.tabCase[i][j].numJoueur = jeu->numJoueur;            //on colorie les jeton existant
+                }
+            }
+        }
+    }
+//question : on consisdere que le jeton poser a exploser et a ete rependu sur les autres ou il a survecu?
+}
 //-------------------------------------------------------------------------------------------
 void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info){
     int direction=-1;
@@ -716,8 +735,12 @@ void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info){
                          printf("Bombe bloc en %d %d\n",x,y);
                           break;
         case bombeFleche : info->cooCaseTouche = func_bombeFleche(jeu,x,y);
-                             printf("Bombe Fleche en %d %d\n",x,y);
+                           printf("Bombe Fleche en %d %d\n",x,y);
                           break;
+
+        case bombeSplash: func_bombeSplash(jeu,x,y);
+                           printf("Bombe Splash en %d %d\n",x,y);
+                           break;
         default : printf("WARNING : Type de bombe non reconnue");
                   jeu->nbBombe++;                                               //incrementation car decrementation obligatoire apres
                   break;
