@@ -95,7 +95,7 @@ void func_bombeSplash(systemJeu* jeu, int x, int y);            //fonction de la
 void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info);             //lance la fonction de bombe associe a celle qui explose//renvoi une direction
 
 //Les cartes
-void choixEvent (systemJeu* jeu, int x, int y, E_event numCarte);
+bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte);
 void event_swapJoueur(systemJeu* jeu);
 
 #endif // SYSTEMJEU_H_INCLUDED

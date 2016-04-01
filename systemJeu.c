@@ -719,7 +719,7 @@ void func_bombeSplash(systemJeu* jeu, int x, int y){
             }
         }
     }
-//question : on consisdere que le jeton poser a exploser et a ete rependu sur les autres ou il a survecu?
+     //le sang du pion colore les autres
 }
 //-------------------------------------------------------------------------------------------
 void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info){
@@ -753,7 +753,9 @@ void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info){
 //---------------------------- CARTE EVENEMENT ----------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
 
-void choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
+bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
+    bool activer=false;
+    listPosition coup=NULL;
     switch (numCarte){
         case carte1 : if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide){        //si la case contient une bombe
                             jeu->nbBombe--;                                     //on decremente le nb de bombe
@@ -763,15 +765,26 @@ void choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
                       func_bombeBloc(jeu, x, y);                                //vide la case de sa bombe et du jeton quel contenait et la bloque
                       jeu->tabPointEvent[jeu->numJoueur-1]-=1;                  //on enleve le prix de l'evenement
                        passerJoueurSuivant(jeu);
+                       activer=true;
                 break;
         case carte2 : event_swapJoueur(jeu);
                       jeu->tabPointEvent[jeu->numJoueur-1]-=10;                 //on enleve le prix de l'evenement
                        passerJoueurSuivant(jeu);
+                       activer=true;
+                break;
+        case carte3 : coup = coupPossible(jeu,x,y);
+                        if(coup->nbElement >0){
+                            placeJeton(jeu,x,y,coup,false);
+                            activer=true;
+                            jeu->tabPointEvent[jeu->numJoueur-1]-=10;                 //on enleve le prix de l'evenement
+                        }
+                        free_ListPosition(&coup);
+
                 break;
         default : printf("WARNING : Carte evenement non reconnue\n");
                 break;
     }
-
+    return activer;
 }
 
 
