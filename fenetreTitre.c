@@ -94,12 +94,12 @@ void refresh_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,
     SDL_BlitSurface(boutonRegle,NULL,ecran,&position);
 
     if(menuSelectParFleche ==0){
-          position.x=200-fleche->w;
+          position.x=290-fleche->w;
           position.y=260+(boutonJouer->h/2)-(fleche->h/2);
          SDL_BlitSurface(fleche,NULL,ecran,&position);
     }
     else{
-        position.x=200-fleche->w;
+        position.x=290-fleche->w;
         position.y=390+(boutonRegle->h/2)-(fleche->h/2);
         SDL_BlitSurface(fleche,NULL,ecran,&position);
     }

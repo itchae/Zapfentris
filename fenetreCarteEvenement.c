@@ -55,13 +55,18 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     if(caseBloc==NULL){
         printf("PROBLEME!! erreur lors de la creation de caseBloc\n");
     }
-//creation du texte des minerai
+//creation du bouton annuler
 
-    SDL_Surface* boutonAnnuler = SDL_CreateRGBSurface(0,260,40,32,0,0,0,0);
+    SDL_Surface* boutonAnnuler = SDL_CreateRGBSurface(0,255,55,32,0,0,0,0);
     if(boutonAnnuler==NULL){
         printf("PROBLEME !! Impossible de cree la surface boutonAnnuler\n");
     }
     SDL_FillRect(boutonAnnuler,NULL,SDL_MapRGB(boutonAnnuler->format,255,255,255));
+
+    SDL_Surface* boutonAnnulerDessus = SDL_LoadBMP("Images/boutonAnnulerMagasin.bmp");
+    if(boutonAnnulerDessus==NULL){
+        printf("PROBLEME : Impossible de creer la surface bouton annuler dessus\n");
+    }
 
 //creation du bouton valider
 
@@ -102,7 +107,7 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     SDL_Surface** chiffres= creationSurfaceChiffre();
 
 //creation du visuel
-    refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,boutonValider,boutonValiderDessus,carteVide,carteEvent1,carteEvent2,carteEvent3);
+    refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteVide,carteEvent1,carteEvent2,carteEvent3);
     SDL_UpdateWindowSurface(fenetre);
 
 Coordonnees cooSouris,cooTraitre;
@@ -115,7 +120,7 @@ E_event carteChoisi=carteVide;
         SDL_WaitEvent(&event);                                                              //attend le prochain event
 
         //refresh du fond ici car on va ecrire sur la fenetre apres
-        refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3);
+        refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler, boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3);
 
         switch(event.type){                                                                 //regarde le type de l'event
             case SDL_QUIT: *typeFenetre = fenetreQuitter;                                   //event de je veux ferme la fenetre
@@ -130,13 +135,13 @@ E_event carteChoisi=carteVide;
                         choixEvent(jeu,cooSouris.cooX,cooSouris.cooY,carteChoisi);
                         *typeFenetre=fenetreJeu;
                         //on fait les refresh et animation avant de partir dans le jeu
-                        refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3);
+                        refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler, boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3);
                         SDL_UpdateWindowSurface(fenetre);
                         SDL_Delay(600);
 
                         if(traitrise(jeu,&cooTraitre)){ //on regarde si il y a un traitre
                             animationTraitre(ecran,pionSurface,fenetre,cooTraitre,jeu,fondCaseJeu);
-                            refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3);
+                            refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler, boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3);
                             SDL_UpdateWindowSurface(fenetre);
                             SDL_Delay(600);
                         }
@@ -162,13 +167,13 @@ E_event carteChoisi=carteVide;
                                         case 2: choixEvent(jeu,0,0,carteChoisi);
                                                 *typeFenetre=fenetreJeu;
                                                 //on fait les refresh et animation avant de partir dans le jeu
-                                                refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3);
+                                                refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler, boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3);
                                                 SDL_UpdateWindowSurface(fenetre);
                                                 SDL_Delay(600);
 
                                                 if(traitrise(jeu,&cooTraitre)){ //on regarde si il y a un traitre
                                                     animationTraitre(ecran,pionSurface,fenetre,cooTraitre,jeu,fondCaseJeu);
-                                                    refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3);
+                                                    refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler, boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3);
                                                     SDL_UpdateWindowSurface(fenetre);
                                                     SDL_Delay(600);
                                                 }
@@ -214,6 +219,7 @@ E_event carteChoisi=carteVide;
     SDL_FreeSurface(carteEvent2);
     SDL_FreeSurface(caseBloc);
     SDL_FreeSurface(boutonValiderDessus);
+    SDL_FreeSurface(boutonAnnulerDessus);
 
     if(pionSurface!=NULL){
         for(i=0 ; i<jeu->nbJoueur ; i++){
@@ -230,8 +236,9 @@ E_event carteChoisi=carteVide;
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMagasin,systemJeu* jeu,
-                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface** chiffres,SDL_Surface* boutonAnnuler,SDL_Surface* boutonValider,
-                         SDL_Surface* boutonValiderDessus, E_event carteChoisi,SDL_Surface* carteEvent1,SDL_Surface* carteEvent2,SDL_Surface* carteEvent3){
+                         SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface** chiffres,SDL_Surface* boutonAnnuler, SDL_Surface* boutonAnnulerDessus,
+                         SDL_Surface* boutonValider,SDL_Surface* boutonValiderDessus, E_event carteChoisi,SDL_Surface* carteEvent1,
+                         SDL_Surface* carteEvent2,SDL_Surface* carteEvent3){
 
     SDL_Rect position;//permet de def une position sur l'ecran
 
@@ -278,6 +285,7 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
     position.x=720;
     position.y=20;
     SDL_BlitSurface(boutonAnnuler,NULL,ecran,&position);//colle la surface sur l'ecran
+    SDL_BlitSurface(boutonAnnulerDessus,NULL,ecran, &position);
 
     //nb de minerai
 
