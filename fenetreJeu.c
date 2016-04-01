@@ -345,12 +345,10 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
                                  SDL_BlitSurface(pionSurface[jeu->grilleJeu.tabCase[j][i].numJoueur-1],NULL,ecran,&position);//colle la surface sur l'ecran
                                  break;
                 case contenuBloc:
-                                 SDL_FillRect(fondCaseJeu,NULL,SDL_MapRGB(fondCaseJeu->format,0,0,0));
                                  SDL_BlitSurface(fondCaseJeu,NULL,ecran,&position);//colle la surface sur l'ecran
                                  position.x = ((j*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(caseBloc->w/2);      //origine case + centrage du pion
                                  position.y = ((i*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(caseBloc->h/2);
                                  SDL_BlitSurface(caseBloc,NULL,ecran,&position);//colle la surface sur l'ecran
-                                 SDL_FillRect(fondCaseJeu,NULL,SDL_MapRGB(fondCaseJeu->format,255,255,255));
 
                                 break;
                 default: break;
