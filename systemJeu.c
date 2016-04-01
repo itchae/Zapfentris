@@ -428,7 +428,7 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre){
                 retour = coupPossible(jeu,x,y);
                 jeu->grilleJeu.tabCase[x][y].contenu = contenuPion;     //pour que decrementation fonctionne
 
-                if(retour->nbElement==0){           //si le traitre n'emporte personne la liste est vide donc on le rajoute
+                if(retour->nbElement==0){                               //si le traitre n'emporte personne la liste est vide donc on le rajoute
                     memo.cooX = x;
                     memo.cooY = y;
                     ajouterElement(retour,memo);
@@ -442,16 +442,16 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre){
 
     if(retour!=NULL){
         //on modifie les jetons qui suivent le traitre
-        jeu->tabNbPionJoueur[jeu->numJoueur]+=retour->nbElement;//on augment son score de nbElement dans la liste
+        jeu->tabNbPionJoueur[jeu->numJoueur]+=retour->nbElement;        //on augment son score de nbElement dans la liste
         PileCoordonnes pileMemo = retour->pile;
 
-        while(pileMemo!=NULL){                          //on modifie tout les jeton a modifier
+        while(pileMemo!=NULL){                                          //on modifie tout les jeton a modifier
             memo=pileMemo->position;
-            decrementationNbPion(jeu,memo.cooX,memo.cooY,false);  //on enleve les pt des jeton perdu
+            decrementationNbPion(jeu,memo.cooX,memo.cooY,false);        //on enleve les pt des jeton perdu
             jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].contenu = contenuPion;
             jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].numJoueur = jeu->numJoueur;
             jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].viePion = 0;
-            pileMemo = pileMemo->suivant;                 //on passe a la coordonne suivante
+            pileMemo = pileMemo->suivant;                               //on passe a la coordonne suivante
 
         }
         free_ListPosition(&retour);
@@ -477,7 +477,7 @@ informationBombe actionIA_jeu(systemJeu* jeu){
 listPosition getListCoupOptimiser(systemJeu* jeu){
     listPosition memoPion   = cree_listPosition();
     listPosition stock      = NULL;
-    int memoPriorite        = -1;//-1 faible 0 normal 1 forte
+    int memoPriorite        = -1;                       //-1 faible 0 normal 1 forte
     int priorite            = 0;
 
     int x,y;
@@ -486,14 +486,14 @@ listPosition getListCoupOptimiser(systemJeu* jeu){
             stock = coupPossible(jeu,x,y);
 
             //def priorite
-            if(x==0 || x==jeu->grilleJeu.taille-1 || y==0 || y==jeu->grilleJeu.taille-1){//si je suis sur un bord
-                   priorite = 1;                                                           //priorite forte
+            if(x==0 || x==jeu->grilleJeu.taille-1 || y==0 || y==jeu->grilleJeu.taille-1){       //si je suis sur un bord
+                   priorite = 1;                                                                //priorite forte
             }
-            else{if(x==1 || x==jeu->grilleJeu.taille-2 || y==1 || y==jeu->grilleJeu.taille-2){//si je suis sur une case a une case du bord
-                    priorite = -1;                                                               //priorite faible
+            else{if(x==1 || x==jeu->grilleJeu.taille-2 || y==1 || y==jeu->grilleJeu.taille-2){  //si je suis sur une case a une case du bord
+                    priorite = -1;                                                              //priorite faible
                 }
                 else{
-                    priorite = 0;                                                             //priorite normal
+                    priorite = 0;                                                               //priorite normal
                 }
             }
             //si + de pion retourner ou priorite plus forte et que c'est un coup
