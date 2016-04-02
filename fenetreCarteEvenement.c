@@ -150,7 +150,7 @@ E_event carteChoisi=carteVide;
                     else{                                                                   //si on est pas dans la grille
                         if(event.button.x>=720 && event.button.y>=100 && event.button.x<720+carteEvent1->w &&event.button.y<100+carteEvent1->h){//carte event 1
                             if(jeu->tabPointEvent[jeu->numJoueur-1]>=1){
-                               printf("On choisit la carte 1\n");
+                               printf("On choisit la carte BlocCase\n");
                                carteChoisi=carte1;
                             }
 
@@ -158,12 +158,12 @@ E_event carteChoisi=carteVide;
                         else {
                             if(event.button.x>=810 && event.button.y>=100 && event.button.x<810+carteEvent2->w &&event.button.y<100+carteEvent2->h){//carte event 2
                                 if(jeu->tabPointEvent[jeu->numJoueur-1]>=10){
-                                    printf("On choisit la carte 2\n");
+                                    printf("On choisit la carte SwapJoueur\n");
                                     carteChoisi=carte2;
                                 }
                             }
                             else{
-                                if(event.button.x>=720 && event.button.y>=550 && event.button.x<720+boutonValider->w &&event.button.y<550+boutonValider->h){//bouton valider
+                                if(event.button.x>=720 && event.button.y>=500 && event.button.x<720+boutonValider->w &&event.button.y<500+boutonValider->h){//bouton valider
                                     switch(carteChoisi){//ca marche d'avec les carte qui n'ont pas besoin de ciblage
                                         case 2: choixEvent(jeu,0,0,carteChoisi);
                                                 *typeFenetre=fenetreJeu;
@@ -189,7 +189,7 @@ E_event carteChoisi=carteVide;
                                     }
                                     else{if(event.button.x>=900 && event.button.y>=100 && event.button.x<900+carteEvent2->w &&event.button.y<100+carteEvent2->h){//carte event 3
                                             if(jeu->tabPointEvent[jeu->numJoueur-1]>=10){
-                                                printf("On choisit la carte 3\n");
+                                                printf("On choisit la carte Jouer 2x\n");
                                                 carteChoisi=carte3;
                                             }
                                         }

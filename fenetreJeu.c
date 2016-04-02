@@ -130,7 +130,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
 //creation du visuel
     refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
     SDL_UpdateWindowSurface(fenetre);
-    boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre);   //on fait jouer les ia jusqu'au joueur                                                  //on fait jouer les ia
+    boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,typeFenetre);   //on fait jouer les ia jusqu'au joueur                                                  //on fait jouer les ia
 
     SDL_Rect position;
 
@@ -200,7 +200,7 @@ InfoBombe.cooCaseTouche=NULL;
                             SDL_UpdateWindowSurface(fenetre);
                             SDL_Delay(600);
                         }
-                        boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre);                                                     //on fait jouer les ia
+                        boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,typeFenetre);                                                     //on fait jouer les ia
 
                         if(verifFinPartie(jeu)){                                            //on regarde si quelqu'un peut jouer (on passe les tour de ceux qui peuvent ppas)
                              position.x=50;
@@ -401,14 +401,18 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
 //-------------------------------------------------------------------------------------------------
 void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMenuScore,systemJeu* jeu,
                          SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
-                         SDL_Surface* texteBombe ,SDL_Window* fenetre)
+                         SDL_Surface* texteBombe ,SDL_Window* fenetre,E_fenetre* typeFenetre)
 {
     bool finDePartie=verifFinPartie(jeu);                           //on trouve le prochain joueur qui peut jouer
     informationBombe infoBombe;
     infoBombe.cooCaseTouche=NULL;
     Coordonnees cooTraitre;
+    SDL_Event event;
+    event.type = SDL_MOUSEMOTION;
 
-    while((!finDePartie) && jeu->estIA[jeu->numJoueur-1]){          //on sort qui si c'est la fin ou que le joueur est un humain
+    while((!finDePartie) && jeu->estIA[jeu->numJoueur-1] && event.type != SDL_QUIT){          //on sort qui si c'est la fin ou que le joueur est un humain ou qu'on ferme la fenetre
+
+            SDL_PollEvent(&event);                                  //on regarde les event => evite a la fenetre de freeze
         if(existeCoupSurGrille(jeu)){                               //on regarde si elle peut jouer
 
 
@@ -424,7 +428,7 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
                 SDL_UpdateWindowSurface(fenetre);
                 SDL_Delay(600);
 
-            if(traitrise(jeu,&cooTraitre)){ //on regarde si il y a un traitre
+            if(traitrise(jeu,&cooTraitre)){                         //on regarde si il y a un traitre
                 animationTraitre(ecran,pionSurface,fenetre,cooTraitre,jeu,fondCaseJeu);
                 refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
                 SDL_UpdateWindowSurface(fenetre);
@@ -437,7 +441,11 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
     }
     //ici on est sur d'avoir un joueur humain ou que se soit la fin du jeu
     refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
-    SDL_UpdateWindowSurface(fenetre);//on doit avoir refresh si le joueur suivant est un huamin
+    SDL_UpdateWindowSurface(fenetre);                               //on doit avoir refresh si le joueur suivant est un huamin
+
+    if(event.type == SDL_QUIT){                                     //si on veut fermer la fenetre
+        *typeFenetre = fenetreQuitter;                              //on la ferme
+    }
 }
 
 
