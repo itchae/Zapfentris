@@ -67,12 +67,15 @@ bool formationGrandCarre(systemJeu* jeu,int espaceEntreCarre);                  
 
 //Fonctionnement du jeu
 listPosition coupPossible(systemJeu* jeu,int x,int y);                      //renvoi la list des jeton retourner si un pion est poser en x y
+void decalageSelonDirection(systemJeu* jeu , int direction , Coordonnees* memo);    //modifie la coordonne selon la direction choisi
+listPosition coupPossibleSelonDirection(systemJeu* jeu , int direction , Coordonnees memo); //renvoi la liste des jeton retouner dans la direction choisi en jouant sur les coordonnees
 informationBombe placeJeton(systemJeu* jeu,int x,int y,listPosition jetonAModifier,bool passerTour);    //permet de placer un jeton sur la grille et change les pion a modifier ou fait exploser la bombe
 bool existeCoupSurGrille(systemJeu* jeu);                                   //existe un coup sur la grille pour le joueur actuel
 bool verifFinPartie(systemJeu* jeu);                                        //verif si la ppartie est bloque si joueur incapable de jouer on passe au suivant
 void passerJoueurSuivant(systemJeu* jeu);                                   //permet de passer au joueur suivant
 void decrementationNbPion(systemJeu* jeu,int x,int y,bool destruction);     //decremente le score du joueur qui perd son pion
 int  quiGagne(systemJeu* jeu);                                              //renvoi le num du joueur qui a gagne
+void prendreJeton(systemJeu* jeu , listPosition pionAPrendre);              //permet de rempli les cases designer par un jeton de numJoueur
 
 //Bonus
 bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre);                        //augment vie pion et renvoi les coo du traitre et si il y en a un

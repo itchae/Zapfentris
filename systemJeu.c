@@ -82,27 +82,30 @@ void init_SystemJeu_setNbJoueur(systemJeu* jeu,int nbJoueur){
 }
 //-------------------------------------------------------------------------------------------
 
-void free_SystemJeu(systemJeu** jeu){       //on prend un pointeur de pointeur pour pouvoir modifier le pointeur
+void free_SystemJeu(systemJeu** jeu){                   //on prend un pointeur de pointeur pour pouvoir modifier le pointeur
     int i;
     if((*jeu)->grilleJeu.tabCase!=NULL){
+
         for(i=0 ; i<(*jeu)->grilleJeu.taille ; i++){
-            free((*jeu)->grilleJeu.tabCase[i]); //on libere les tab de caseJeu
+            free((*jeu)->grilleJeu.tabCase[i]);         //on libere les tab de caseJeu
             (*jeu)->grilleJeu.tabCase[i] = NULL;
         }
-        free((*jeu)->grilleJeu.tabCase);        //on libere le tab de pointeur
+
+        free((*jeu)->grilleJeu.tabCase);                //on libere le tab de pointeur
         (*jeu)->grilleJeu.tabCase = NULL;
+
     }
 
-    free((*jeu)->tabNbPionJoueur);              //on libere le tab
+    free((*jeu)->tabNbPionJoueur);                      //on libere le tab
     (*jeu)->tabNbPionJoueur = NULL;
 
-    free((*jeu)->estIA);                        //on libere le tab
+    free((*jeu)->estIA);                                //on libere le tab
     (*jeu)->estIA = NULL;
 
     free((*jeu)->tabPointEvent);                        //on libere le tab
     (*jeu)->tabPointEvent = NULL;
 
-    free(*jeu);                             //on libere le jeu
+    free(*jeu);                                         //on libere le jeu
     *jeu = NULL;
 }
 
@@ -189,7 +192,7 @@ bool formationGrandCarre(systemJeu* jeu, int espaceEntreCarre){
         Coordonnees decalage;
         decalage.cooX = 0;
         decalage.cooY = 0;
-        //on compte le nb de petit carre dont on a besoin
+
         for(J1=1;J1<=jeu->nbJoueur;J1++){
             for(J2=J1+1;J2<=jeu->nbJoueur;J2++){
                 placerPetitCarre(jeu,origine.cooX+(decalage.cooX*(2+espaceEntreCarre)),origine.cooY+(decalage.cooY*(2+espaceEntreCarre)),J1,J2);
@@ -221,73 +224,79 @@ listPosition coupPossible(systemJeu* jeu, int x, int y){ //c'est le bordel la de
             memo.cooY = y;
 
             //creation d'une list tampon
-            listPosition combo = cree_listPosition();
+            listPosition combo = NULL;
 
             int direction;
             for(direction=0 ; direction<8 ; direction++){
-                do{
-                    switch(direction){          //permet de modifie memo selon la direction
-                        case 0: memo.cooX--;    // vers la gauche
-                            break;
-                        case 1: memo.cooX--;    // vers la gauche haut
-                                memo.cooY--;
-                            break;
-                        case 2: memo.cooY--;    // vers le haut
-                            break;
-                        case 3: memo.cooX++;    // vers la droite haut
-                                memo.cooY--;
-                            break;
-                        case 4: memo.cooX++;    // vers la droite
-                            break;
-                        case 5: memo.cooX++;    // vers la droite bas
-                                memo.cooY++;
-                            break;
-                        case 6: memo.cooY++;    // vers le bas
-                            break;
-                        case 7: memo.cooX--;    // vers la gauche bas
-                                memo.cooY++;
-                            break;
-                        default:printf("PROBLEME!! direction incorrect");
-                            break;
-                    }
-
-                    //verif que memo appartient a la grille
-                    if((memo.cooX>=0) && (memo.cooX<jeu->grilleJeu.taille) && (memo.cooY>=0) && (memo.cooY<jeu->grilleJeu.taille)){
-
-                        if(jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].contenu==contenuPion){          //si la case contient un pion
-
-                            if(jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].numJoueur==jeu->numJoueur){ //si c'est mon jeton
-                                viderElementDeuxiemeListDansPremiere(retour,combo);                     //je peux prendre les jeton sur mon chemin
-                            }
-                            else{
-                                ajouterElement(combo,memo);                                             //je me souvient que je suis passer desus
-                            }
-                        }
-                        else{
-                            viderList(combo);   //je n'ai pas trouver un jeton a moi =>je peux pas prendre les pion sur ce chemin
-                        }
-                    }
-                    else{
-                        viderList(combo);       //je n'ai pas trouver un jeton a moi =>je peux pas prendre les pion sur ce chemin
-                    }
-                }while(combo->nbElement!=0);    //tant que le combo n'est pas vide
-
-                //on se remet a l'endroit du jeton mis pour repartir dans une autre direction
-                memo.cooX = x;
-                memo.cooY = y;
-            }   //fin du for direction
-
-            if(retour->nbElement!=0){           //si le coup est possible
-                ajouterElement(retour,memo);    //je rajoute la coordonné du jeton a placer
+               combo = coupPossibleSelonDirection(jeu,direction,memo);      //on regarde dans la direction si il y a un coup possible
+               viderElementDeuxiemeListDansPremiere(retour,combo);          //on ajoute ceci a la liste de retour
+               free_ListPosition(&combo);                                   //on libere la memoire de combo
             }
 
-            free_ListPosition(&combo);          //on libere la memoire de combo
-        }       //fin du if case vise
+            if(retour->nbElement!=0){                                       //si le coup est possible
+                ajouterElement(retour,memo);                                //je rajoute la coordonné du jeton a placer en x y
+            }
+
+        }                                                                   //fin du if case vise
 
     return retour;
 }
+//------------------------------------------------------------------------------------------------
+void decalageSelonDirection(systemJeu* jeu , int direction , Coordonnees* memo){
 
+    switch(direction){          //permet de modifie memo selon la direction
+          case 0: memo->cooX--;    // vers la gauche
+                 break;
+          case 1: memo->cooX--;    // vers la gauche haut
+                  memo->cooY--;
+                break;
+          case 2: memo->cooY--;    // vers le haut
+                break;
+          case 3: memo->cooX++;    // vers la droite haut
+                  memo->cooY--;
+                break;
+          case 4: memo->cooX++;    // vers la droite
+                break;
+          case 5: memo->cooX++;    // vers la droite bas
+                  memo->cooY++;
+                break;
+          case 6: memo->cooY++;    // vers le bas
+                break;
+          case 7: memo->cooX--;    // vers la gauche bas
+                  memo->cooY++;
+                 break;
+          default:printf("PROBLEME!! direction incorrect");
+                 break;
+      }
 
+}
+//-------------------------------------------------------------------------------------------
+listPosition coupPossibleSelonDirection(systemJeu* jeu , int direction , Coordonnees memo){
+
+listPosition combo = cree_listPosition();
+    do{
+        decalageSelonDirection(jeu,direction,&memo);
+
+        //verif que memo appartient a la grille
+        if((memo.cooX>=0) && (memo.cooX<jeu->grilleJeu.taille) && (memo.cooY>=0) && (memo.cooY<jeu->grilleJeu.taille)){
+
+           if(jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].contenu==contenuPion){                                  //si la case contient un pion
+
+              if(jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].numJoueur!=jeu->numJoueur){                          //si ce n'est pas mon pion
+                  ajouterElement(combo,memo);                                                                      //je me souvient que je suis passer desus
+                   }
+            }
+            else{                                                                                                  //cas d'une case ne contenant pas un pion
+                 viderList(combo);                                                                                 //je n'ai pas trouver un jeton a moi =>je peux pas prendre les pion sur ce chemin
+            }
+        }
+        else{                                                                                                      //cas ou on est sorti de la grille
+             viderList(combo);                                                                                     //je n'ai pas trouver un jeton a moi =>je peux pas prendre les pion sur ce chemin
+          }
+       }while(combo->nbElement!=0 && jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].numJoueur!=jeu->numJoueur);      //tant que le combo n'est pas vide et que ce n'est un de mes pions
+
+ return combo;
+}
 //-------------------------------------------------------------------------------------------
 
 informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAModifier,bool passerTour){
@@ -297,35 +306,28 @@ informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAMod
     retour.cooCaseTouche=NULL;
     retour.cooX=x;
     retour.cooY=y;
-    //determine la protection contre l'activation des bombe
+
+
     int seuilProtectbombe=0;
     int i;
     for(i=2 ; i<=jeu->nbJoueur ;i++){
         seuilProtectbombe+=(i-1);
     }
-    seuilProtectbombe= 2*(seuilProtectbombe*4 + jeu->nbJoueur*(4-jeu->nbJoueur));
+    seuilProtectbombe= 2*(seuilProtectbombe*4 + jeu->nbJoueur*(4-jeu->nbJoueur));                   //determine la protection contre l'activation des bombe
     // les pion du debut plus 4-nbJoueur tour de protection
 
+
+
     if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide && jeu->tabNbPionJoueur[0]>seuilProtectbombe){ //si bombe elle explose
-       viderList(jetonAModifier);                                               //interface ne devra plus metre a jour ceux la mais ceux toucher par la bombe
+       viderList(jetonAModifier);                                                                   //interface ne devra plus metre a jour ceux la mais ceux toucher par la bombe
        retour.typeBombe = jeu->grilleJeu.tabCase[x][y].bombe;
         declancherBombe(jeu,x,y,&retour);
     }
-    else{                                                                   //sinon on place le jeton
-        Coordonnees memo;
-        PileCoordonnes pileMemo = jetonAModifier->pile;
-        jeu->tabNbPionJoueur[jeu->numJoueur]+=jetonAModifier->nbElement;    //on augment son score de nbElement dans la liste
-        jeu->tabNbPionJoueur[0]++;                                          //on ajoute un jeton au score total
-        while(pileMemo!=NULL){                                              //on modifie tout les jeton a modifier
-            memo=pileMemo->position;
-            decrementationNbPion(jeu,memo.cooX,memo.cooY,false);            //on enleve les pt des jeton perdu
-            jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].contenu = contenuPion;
-            jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].numJoueur = jeu->numJoueur;
-            jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].viePion = 0;
-            pileMemo=pileMemo->suivant;                                     //on passe a la coordonne suivante
-
-        }
+    else{                                                                                           //sinon on place le jeton
+        jeu->tabNbPionJoueur[0]++;                                                                  //on ajoute un jeton au score total
+        prendreJeton(jeu,jetonAModifier);
     }
+
     //on passe au joueur suivant
     if(passerTour){
         passerJoueurSuivant(jeu);
@@ -401,6 +403,23 @@ int  quiGagne(systemJeu* jeu){
     return vainqueur;
 }
 //-------------------------------------------------------------------------------------------------------
+void prendreJeton(systemJeu* jeu , listPosition pionAPrendre){
+
+        jeu->tabNbPionJoueur[jeu->numJoueur]+=pionAPrendre->nbElement;                            //on augment son score du nbElement dans la liste
+        PileCoordonnes pileMemo = pionAPrendre->pile;
+        Coordonnees memo;
+
+        while(pileMemo!=NULL){                                                              //on modifie tout les jeton a modifier
+            memo=pileMemo->position;
+            decrementationNbPion(jeu,memo.cooX,memo.cooY,false);                            //on enleve les pt des jeton perdu
+            jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].contenu = contenuPion;
+            jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].numJoueur = jeu->numJoueur;
+            jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].viePion = 0;
+            pileMemo = pileMemo->suivant;                                                   //on passe a la coordonne suivante
+
+        }
+}
+//-------------------------------------------------------------------------------------------------------
 //---------------------------- BONUS --------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
 
@@ -412,6 +431,7 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre){
     bool envieTrahison = false;
     Coordonnees memo;
     int x, y;
+
     for(x=0 ; x<jeu->grilleJeu.taille ; x++){
         for(y=0 ; y<jeu->grilleJeu.taille ; y++){
             jeu->grilleJeu.tabCase[x][y].viePion++;                                         //on augment sa vie
@@ -421,6 +441,7 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre){
 
             if(envieTrahison && posteLibre && jeu->grilleJeu.tabCase[x][y].contenu==contenuPion && jeu->grilleJeu.tabCase[x][y].numJoueur!=jeu->numJoueur){
                 //pas de % 0 car il y a un ++ avant et viePion >=0
+
                 posteLibre = false;
                 cooTraitre->cooX=x;
                 cooTraitre->cooY=y;
@@ -434,26 +455,13 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre){
                     ajouterElement(retour,memo);
                 }
                 printf("Traitre en %d %d avec %d ami\n",x,y,retour->nbElement-1);
-
             }
-
         }
     }
 
     if(retour!=NULL){
-        //on modifie les jetons qui suivent le traitre
-        jeu->tabNbPionJoueur[jeu->numJoueur]+=retour->nbElement;        //on augment son score de nbElement dans la liste
-        PileCoordonnes pileMemo = retour->pile;
 
-        while(pileMemo!=NULL){                                          //on modifie tout les jeton a modifier
-            memo=pileMemo->position;
-            decrementationNbPion(jeu,memo.cooX,memo.cooY,false);        //on enleve les pt des jeton perdu
-            jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].contenu = contenuPion;
-            jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].numJoueur = jeu->numJoueur;
-            jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].viePion = 0;
-            pileMemo = pileMemo->suivant;                               //on passe a la coordonne suivante
-
-        }
+        prendreJeton(jeu,retour);                                         //on modifie les jetons qui suivent le traitre
         free_ListPosition(&retour);
     }
 
@@ -485,7 +493,7 @@ listPosition getListCoupOptimiser(systemJeu* jeu){
         for(x=0 ; x<jeu->grilleJeu.taille ; x++){
             stock = coupPossible(jeu,x,y);
 
-            //def priorite
+//def priorite
             if(x==0 || x==jeu->grilleJeu.taille-1 || y==0 || y==jeu->grilleJeu.taille-1){       //si je suis sur un bord
                    priorite = 1;                                                                //priorite forte
             }
@@ -496,10 +504,10 @@ listPosition getListCoupOptimiser(systemJeu* jeu){
                     priorite = 0;                                                               //priorite normal
                 }
             }
-            //si + de pion retourner ou priorite plus forte et que c'est un coup
 
+//on regarde par rapport au precedent coup choisi
             if(stock->nbElement >0){
-                if(priorite > memoPriorite || (priorite==memoPriorite && stock->nbElement > memoPion->nbElement)){
+                if(priorite > memoPriorite || (priorite==memoPriorite && stock->nbElement > memoPion->nbElement)){//si + de pion retourner ou priorite plus forte et que c'est un coup
                     free_ListPosition(&memoPion);                                               //libere l'ancienne
                     memoPion          = stock;                                                  //recup la nouvelle
                     memoPriorite      = priorite;
