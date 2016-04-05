@@ -127,4 +127,7 @@ void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* 
     SDL_FreeSurface(boutonDureeCourte);
     SDL_FreeSurface(boutonDureeMoyenne);
     SDL_FreeSurface(boutonDureeLongue);
+    SDL_FreeSurface(boutonDureeCourteDessus);
+    SDL_FreeSurface(boutonDureeMoyenneDessus);
+    SDL_FreeSurface(boutonDureeLongueDessus);
 }

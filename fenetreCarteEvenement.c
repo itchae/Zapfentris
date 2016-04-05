@@ -226,6 +226,7 @@ E_event carteChoisi=carteVide;
     SDL_FreeSurface(boutonValider);
     SDL_FreeSurface(carteEvent1);
     SDL_FreeSurface(carteEvent2);
+    SDL_FreeSurface(carteEvent3);
     SDL_FreeSurface(caseBloc);
     SDL_FreeSurface(boutonValiderDessus);
     SDL_FreeSurface(boutonAnnulerDessus);

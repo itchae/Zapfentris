@@ -109,4 +109,8 @@ void  func_fenetreDifficulte(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* j
     SDL_FreeSurface(boutonDifficulteFaible);
     SDL_FreeSurface(boutonDifficulteMoyenne);
     SDL_FreeSurface(boutonDifficulteForte);
+    SDL_FreeSurface(boutonDifficulteFaibleDessus);
+    SDL_FreeSurface(boutonDifficulteMoyenneDessus);
+    SDL_FreeSurface(boutonDifficulteForteDessus);
+
 }

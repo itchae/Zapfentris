@@ -154,6 +154,12 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
         SDL_UpdateWindowSurface(fenetre);
         SDL_Delay(5000);
         *typeFenetre=fenetreTitre;
+
+        //a enlever
+        for(i=1; i <= jeu->nbJoueur ; i++){
+            printf("Minerai J%d : %d\n",i,jeu->tabPointEvent[i-1]);
+        }
+        // fin du a enlever
     }
 Coordonnees cooSouris,cooLecture,cooTraitre;
 
@@ -306,6 +312,7 @@ InfoBombe.cooCaseTouche=NULL;
     SDL_FreeSurface(texteVictoire_joueur);
     SDL_FreeSurface(texteVictoire_pixel);
     SDL_FreeSurface(texteVictoire_Victoire);
+    SDL_FreeSurface(caseBloc);
 
 }
 
@@ -515,6 +522,10 @@ void animationBombe_BombeExplo(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syste
     SDL_UpdateWindowSurface(fenetre);
     SDL_Delay(250);
 
+//free des surface
+    SDL_FreeSurface(rayonP);
+    SDL_FreeSurface(rayonM);
+    SDL_FreeSurface(rayonG);
 }
 //---------------------------------------------------------------------------------
 void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,systemJeu* jeu,SDL_Window* fenetre,informationBombe infoBombe)
@@ -618,7 +629,8 @@ void animationBombe_BombeFleche(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syst
     SDL_UpdateWindowSurface(fenetre);
     SDL_Delay(600);
 
-
+//free des surface
+    SDL_FreeSurface(fleche);
 }
 //-------------------------------------------------------------------------------------------------
 void animationBombe_BombeSplash(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,systemJeu* jeu,SDL_Window* fenetre,informationBombe infoBombe)
@@ -664,6 +676,11 @@ void animationBombe_BombeSplash(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syst
     SDL_BlitSurface(rayonG,NULL,ecran,&position);//colle la surface sur l'ecran
     SDL_UpdateWindowSurface(fenetre);
     SDL_Delay(250);
+
+    //free des surface
+    SDL_FreeSurface(rayonP);
+    SDL_FreeSurface(rayonM);
+    SDL_FreeSurface(rayonG);
 }
 //-------------------------------------------------------------------------------------------------------
 void animationTraitre(SDL_Surface* ecran,SDL_Surface** pionSurface,SDL_Window* fenetre,Coordonnees cooTraitre,systemJeu* jeu ,SDL_Surface* fondCaseJeu)
