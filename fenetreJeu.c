@@ -156,9 +156,12 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
         *typeFenetre=fenetreTitre;
 
         //a enlever
+        int moyenne=0;
         for(i=1; i <= jeu->nbJoueur ; i++){
             printf("Minerai J%d : %d\n",i,jeu->tabPointEvent[i-1]);
+            moyenne+=jeu->tabPointEvent[i-1];
         }
+        printf("Moyenne : %f",(float)moyenne/jeu->nbJoueur);
         // fin du a enlever
     }
 Coordonnees cooSouris,cooLecture,cooTraitre;
@@ -479,25 +482,24 @@ void animationBombe_BombeExplo(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syste
 
 //creation petit Rayon
 
-    SDL_Surface* rayonP = SDL_CreateRGBSurface(0,fondCaseJeu->w,fondCaseJeu->h,32,0,0,0,0);
+    SDL_Surface* rayonP = SDL_LoadBMP("Images/BombeExploP.bmp");
     if(rayonP==NULL){
         printf("PROBLEME!! erreur lors de la creation de rayonP");
     }
-    SDL_FillRect(rayonP,NULL,SDL_MapRGB(rayonP->format,255,0,0));         //color la surface
+
 //creation moyen Rayon
 
-    SDL_Surface* rayonM = SDL_CreateRGBSurface(0,2*fondCaseJeu->w,2*fondCaseJeu->h,32,0,0,0,0);
+    SDL_Surface* rayonM = SDL_LoadBMP("Images/BombeExploM.bmp");
     if(rayonM==NULL){
         printf("PROBLEME!! erreur lors de la creation de rayonM");
     }
-    SDL_FillRect(rayonM,NULL,SDL_MapRGB(rayonM->format,255,0,0));         //color la surface
+
 //creation grand Rayon
 
-    SDL_Surface* rayonG = SDL_CreateRGBSurface(0,3*fondCaseJeu->w,3*fondCaseJeu->h,32,0,0,0,0);
+    SDL_Surface* rayonG = SDL_LoadBMP("Images/BombeExploG.bmp");
     if(rayonG==NULL){
         printf("PROBLEME!! erreur lors de la creation de rayonG");
     }
-    SDL_FillRect(rayonG,NULL,SDL_MapRGB(rayonG->format,255,0,0));         //color la surface
 
     SDL_Rect position;
     position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonP->w/2);      //origine case + centrage du pion
@@ -637,25 +639,24 @@ void animationBombe_BombeSplash(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syst
 {
     //creation petit Rayon
 
-    SDL_Surface* rayonP = SDL_CreateRGBSurface(0,fondCaseJeu->w,fondCaseJeu->h,32,0,0,0,0);
+    SDL_Surface* rayonP = SDL_LoadBMP("Images/BombePeintureP.bmp");
     if(rayonP==NULL){
         printf("PROBLEME!! erreur lors de la creation de rayonP");
     }
-    SDL_FillRect(rayonP,NULL,SDL_MapRGB(rayonP->format,0,255,0));         //color la surface
+
 //creation moyen Rayon
 
-    SDL_Surface* rayonM = SDL_CreateRGBSurface(0,2*fondCaseJeu->w,2*fondCaseJeu->h,32,0,0,0,0);
+    SDL_Surface* rayonM = SDL_LoadBMP("Images/BombePeintureM.bmp");
     if(rayonM==NULL){
         printf("PROBLEME!! erreur lors de la creation de rayonM");
     }
-    SDL_FillRect(rayonM,NULL,SDL_MapRGB(rayonM->format,0,255,0));         //color la surface
+
 //creation grand Rayon
 
-    SDL_Surface* rayonG = SDL_CreateRGBSurface(0,3*fondCaseJeu->w,3*fondCaseJeu->h,32,0,0,0,0);
+    SDL_Surface* rayonG = SDL_LoadBMP("Images/BombePeintureG.bmp");
     if(rayonG==NULL){
         printf("PROBLEME!! erreur lors de la creation de rayonG");
     }
-    SDL_FillRect(rayonG,NULL,SDL_MapRGB(rayonG->format,0,255,0));         //color la surface
 
     SDL_Rect position;
     position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonP->w/2);      //origine case + centrage du pion

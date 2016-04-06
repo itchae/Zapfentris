@@ -383,10 +383,10 @@ void passerJoueurSuivant(systemJeu* jeu){
 //--------------------------------------------------------------------------------------------
 void decrementationNbPion(systemJeu* jeu,int x,int y,bool destruction){
     if(jeu->grilleJeu.tabCase[x][y].contenu==contenuPion ){
-        jeu->tabNbPionJoueur[jeu->grilleJeu.tabCase[x][y].numJoueur]--;
-        jeu->tabPointEvent[jeu->grilleJeu.tabCase[x][y].numJoueur-1]++;
+        jeu->tabNbPionJoueur[jeu->grilleJeu.tabCase[x][y].numJoueur]--;     //on enlve un pion de son score
+        jeu->tabPointEvent[jeu->grilleJeu.tabCase[x][y].numJoueur-1]++;     //on lui offre un minerai
         if(destruction){
-            jeu->tabNbPionJoueur[0]--;
+            jeu->tabNbPionJoueur[0]--;                                      //le pion est detruit donc on l'enleve du total
         }
     }
 }
@@ -720,9 +720,10 @@ void func_bombeSplash(systemJeu* jeu, int x, int y){
     for (j=y-1 ; j<=y+1 ; j++){
         for(i=x-1 ; i<=x+1 ; i++){
             if (i>=0 && i<jeu->grilleJeu.taille && j>=0 && j<jeu->grilleJeu.taille ){
-                if(jeu->grilleJeu.tabCase[i][j].contenu == contenuPion){                //on regarde si il y a  un jeton
-                    decrementationNbPion(jeu,i,j,true);
+                if(jeu->grilleJeu.tabCase[i][j].contenu == contenuPion && jeu->grilleJeu.tabCase[i][j].numJoueur != jeu->numJoueur){                //on regarde si il y a  un jeton qui n'est pas le mien
+                    decrementationNbPion(jeu,i,j,false);                                //on enleve les point au joueur qui perd les pion
                     jeu->grilleJeu.tabCase[i][j].numJoueur = jeu->numJoueur;            //on colorie les jeton existant
+                    jeu->tabNbPionJoueur[jeu->numJoueur-1]++;                           //on monte mon score de 1
                 }
             }
         }
