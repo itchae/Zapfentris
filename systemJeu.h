@@ -101,4 +101,11 @@ void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info);      
 bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte);
 void event_swapJoueur(systemJeu* jeu);
 
+//Prix des cartes
+int getPrixCarte(systemJeu* jeu,E_event numCarte);                             //permet de savoir le prix d'une carte
+int getPrixCarte_Carte1(systemJeu* jeu);                                           //renvoi le prix de la carte 1
+int getPrixCarte_Carte2(systemJeu* jeu);                                           //renvoi le prix de la carte 2
+int getPrixCarte_Carte3(systemJeu* jeu);                                           //renvoi le prix de la carte 3
+
+
 #endif // SYSTEMJEU_H_INCLUDED

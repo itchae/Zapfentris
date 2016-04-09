@@ -40,8 +40,8 @@ void free_tabSurfaceChiffre(SDL_Surface*** chiffres){
 void ecritureNombre(SDL_Surface** chiffres,SDL_Rect* position,int nombre,SDL_Surface* ecran){
 int caractere=nombre%10;
 
-    if(nombre>=0){
-       if(nombre/10!=0){
+    if(nombre>=0){                                              //si le chiffre est positif
+       if(nombre/10!=0){                                        //si il reste quelque chose a ecrire
             ecritureNombre(chiffres,position,nombre/10,ecran);
        }
 
@@ -55,23 +55,23 @@ int caractere=nombre%10;
 //----------------------------------------------------------------------------------------------------
 void tracerLigne(SDL_Rect position1,SDL_Rect position2,SDL_Surface* ecran,SDL_Surface* pixel){
 
-    if(position1.x > position2.x){  //
-        SDL_Rect stock =position1;
+    if(position1.x > position2.x){  //on verifie que la position1 en x soit avant la position 2
+        SDL_Rect stock =position1;  //sinon inverse les 2
         position1=position2;
         position2=stock;
     }
 
     if(position2.x-position1.x==0){//cas droite verticale
-        while(position1.y!=position2.y){
+        while(position1.y!=position2.y){    //tant qu'on a pas les 2 meme point
 
             SDL_BlitSurface(pixel,NULL,ecran,&position1);//colle l'img sur l'ecran
 
 
-            if(position1.y<position2.y){
-                position1.y++;
+            if(position1.y<position2.y){    //si pos1 est au dessus
+                position1.y++;              //on le descend
             }
             else{
-                position1.y--;
+                position1.y--;              //sinon on le monte
             }
 
 
@@ -79,33 +79,34 @@ void tracerLigne(SDL_Rect position1,SDL_Rect position2,SDL_Surface* ecran,SDL_Su
     }
     else{
          if(position2.y-position1.y==0){//cas des  droites horizontal
-            while(position1.x!=position2.x){
+            while(position1.x!=position2.x){    //tant qu'on a pas les 2 meme point
 
             SDL_BlitSurface(pixel,NULL,ecran,&position1);//colle l'img sur l'ecran
-            position1.x++;
+            position1.x++;                               //on avance pos1 vers la droite
 
             }
          }
          else{//cas des  droites en diagonnale
-            double gainY=(double)(position2.y-position1.y)/(position2.x-position1.x);
+            double gainY=(double)(position2.y-position1.y)/(position2.x-position1.x);   //calcul le coo directeur => +1 en x donne +gainY en y
             double memo=0;
-            while(position1.x!=position2.x){
+            while(position1.x!=position2.x){    //tant qu'on a pas les 2 meme point
 
                 SDL_BlitSurface(pixel,NULL,ecran,&position1);//colle l'img sur l'ecran
-                position1.x++;
+                position1.x++;                                  //on avance de 1 en x
                 memo= memo + gainY;
-                if(gainY>0){
-                    while(memo>=1){
-                        position1.y++;
+
+                if(gainY>0){                                    //si la droite descend
+                    while(memo>=1){                             //tant qu'on a pas descendu d'un coeficent entier (  environ gainY)
+                        position1.y++;                          //on descend pos1
                         SDL_BlitSurface(pixel,NULL,ecran,&position1);//colle l'img sur l'ecran
-                        memo-=1;
+                        memo-=1;                                //on descend de 1 le nb de pas en y qui reste a faire
                     }
                 }
-                else{
-                    while(memo<=-1){
-                        position1.y--;
+                else{                                           //si la droite monte
+                    while(memo<=-1){                            //tant qu'on est pas monte d'un coeficent entier (  environ gainY)
+                        position1.y--;                          //on monte pos1
                         SDL_BlitSurface(pixel,NULL,ecran,&position1);//colle l'img sur l'ecran
-                        memo+=1;
+                        memo+=1;                                //on descend de 1 le nb de pas en y qui reste a faire
                     }
                 }
             }
@@ -119,14 +120,15 @@ void tracerCercle(SDL_Rect centre,double rayon,SDL_Surface* ecran,int angleMin,i
     SDL_Rect position,posSuivant;
 
 
-    posSuivant.x=(rayon*cos(((double)angleMin/180)*3.14))+centre.x;
-    posSuivant.y=(-rayon*sin(((double)angleMin/180)*3.14))+centre.y;
+    posSuivant.x=(rayon*cos(((double)angleMin/180)*3.14))+centre.x;     //calcul le pt de depart en x
+    posSuivant.y=(-rayon*sin(((double)angleMin/180)*3.14))+centre.y;    //calcul le pt de depart en y
+
     for(angle=angleMin+1 ; angle<=angleMax ;angle++){
-        position.x=posSuivant.x;
+        position.x=posSuivant.x;                                        //l'ancienne position devient le pt de depart
         position.y=posSuivant.y;
-        posSuivant.x=(rayon*cos(((double)angle/180)*3.14))+centre.x;
+        posSuivant.x=(rayon*cos(((double)angle/180)*3.14))+centre.x;    //calcul de second point de depart
         posSuivant.y=(-rayon*sin(((double)angle/180)*3.14))+centre.y;
-        tracerLigne(position,posSuivant,ecran,pixel);
+        tracerLigne(position,posSuivant,ecran,pixel);                   //on trace une droite entre les deux
     }
 }
 

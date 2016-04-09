@@ -171,20 +171,20 @@ bool placerPetitCarre(systemJeu* jeu, int origineX, int origineY, int numJ1, int
 bool formationGrandCarre(systemJeu* jeu, int espaceEntreCarre){
 
     bool retour = false;
-   // int taillePetitCarre= 2+espaceEntreCarre;
     int nbPetitCarre = 0;
     int J1, J2;
     //on compte le nb de petit carre qu'on a besoin
     for(J1=2;J1<jeu->nbJoueur+1;J1++){
         nbPetitCarre = nbPetitCarre+(J1-1);
     }
+
     int nbPetitCarreParLigne = (int)(1+sqrt( nbPetitCarre));
     int nbLigne = (nbPetitCarre/nbPetitCarreParLigne)+1;
-    if ((nbPetitCarre%nbPetitCarreParLigne)==0){
-        nbLigne--;
+    if ((nbPetitCarre%nbPetitCarreParLigne)==0){        //cas ou on fini en fin de ligne
+        nbLigne--;                                      //on a pas besoin de la prochaine ligne
     }
     int tailleGrandCarre = ((nbPetitCarreParLigne-1)*espaceEntreCarre)+nbPetitCarreParLigne*2;
-    //on regarde si la grille peut accepter le carre avec un espace de espaceEntreCarre avec le bord haut et le gauche
+    //on regarde si la grille peut accepter le carre avec un espace de espaceEntreCarre avec le bord haut gauche , et avec le bord bas droite
     if(jeu->grilleJeu.taille>=tailleGrandCarre+2*espaceEntreCarre){
         Coordonnees origine;
         origine.cooX = (jeu->grilleJeu.taille/2)-(tailleGrandCarre/2);    //on centre le grand carre dans la grille
@@ -192,7 +192,7 @@ bool formationGrandCarre(systemJeu* jeu, int espaceEntreCarre){
         Coordonnees decalage;
         decalage.cooX = 0;
         decalage.cooY = 0;
-
+//placelent des jetons
         for(J1=1;J1<=jeu->nbJoueur;J1++){
             for(J2=J1+1;J2<=jeu->nbJoueur;J2++){
                 placerPetitCarre(jeu,origine.cooX+(decalage.cooX*(2+espaceEntreCarre)),origine.cooY+(decalage.cooY*(2+espaceEntreCarre)),J1,J2);
@@ -300,7 +300,7 @@ listPosition combo = cree_listPosition();
 //-------------------------------------------------------------------------------------------
 
 informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAModifier,bool passerTour){
-    informationBombe retour;
+    informationBombe retour;    //struture de communication avec l'interface
     retour.direction=-1;
     retour.typeBombe=bombeVide;
     retour.cooCaseTouche=NULL;
@@ -319,7 +319,7 @@ informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAMod
 
 
     if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide && jeu->tabNbPionJoueur[0]>seuilProtectbombe){ //si bombe elle explose
-       viderList(jetonAModifier);                                                                   //interface ne devra plus metre a jour ceux la mais ceux toucher par la bombe
+       viderList(jetonAModifier);                                                                   //le coup n'existe plus
        retour.typeBombe = jeu->grilleJeu.tabCase[x][y].bombe;
         declancherBombe(jeu,x,y,&retour);
     }
@@ -348,7 +348,7 @@ bool existeCoupSurGrille(systemJeu* jeu){
             coup = coupPossible(jeu,x,y);
             if(coup->nbElement!=0){
                 existeCoup = true;
-                //on sort
+                //on sort car on a trouve un coup
                 x = jeu->grilleJeu.taille;
                 y = jeu->grilleJeu.taille;
             }
@@ -392,7 +392,7 @@ void decrementationNbPion(systemJeu* jeu,int x,int y,bool destruction){
 }
 
 //-------------------------------------------------------------------------------------------------------
-int  quiGagne(systemJeu* jeu){
+int  quiGagne(systemJeu* jeu){                          //cas des egalites non gerer <= mais c'est rare
     int vainqueur=1;
     int i;
     for (i=2 ; i<= jeu->nbJoueur ; i++){
@@ -436,18 +436,18 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre){
         for(y=0 ; y<jeu->grilleJeu.taille ; y++){
             jeu->grilleJeu.tabCase[x][y].viePion++;                                         //on augment sa vie
 
-            //si il y a un pion mais pas encore de traitre et qu'il a envie de changer de camp et qu'il appartient pas deja a ce camp
             envieTrahison = rand()%(2*jeu->grilleJeu.tabCase[x][y].viePion)>seuilTrahison;
 
+//si il y a un pion mais pas encore de traitre et qu'il a envie de changer de camp et qu'il appartient pas deja a ce camp
             if(envieTrahison && posteLibre && jeu->grilleJeu.tabCase[x][y].contenu==contenuPion && jeu->grilleJeu.tabCase[x][y].numJoueur!=jeu->numJoueur){
                 //pas de % 0 car il y a un ++ avant et viePion >=0
 
                 posteLibre = false;
                 cooTraitre->cooX=x;
                 cooTraitre->cooY=y;
-                jeu->grilleJeu.tabCase[x][y].contenu = contenuVide;     //pour que coupPosiible fonctionne
+                jeu->grilleJeu.tabCase[x][y].contenu = contenuVide;     //pour que coupPosiible fonctionne on vide la case
                 retour = coupPossible(jeu,x,y);
-                jeu->grilleJeu.tabCase[x][y].contenu = contenuPion;     //pour que decrementation fonctionne
+                jeu->grilleJeu.tabCase[x][y].contenu = contenuPion;     //pour que decrementation fonctionne on remets le jeton
 
                 if(retour->nbElement==0){                               //si le traitre n'emporte personne la liste est vide donc on le rajoute
                     memo.cooX = x;
@@ -471,12 +471,12 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre){
 informationBombe actionIA_jeu(systemJeu* jeu){
 
 
-    listPosition memoPion   = getListCoupOptimiser(jeu);
-    Coordonnees endroitJouer = lirePremierElement(memoPion);
+    listPosition memoPion   = getListCoupOptimiser(jeu);        //on recupere la liste des jeton recup par le coupOptimiser
+    Coordonnees endroitJouer = lirePremierElement(memoPion);    //on recupere les coo du coup jouer (c'est les dernere mise donc c'est sur le desus de la pile)
     printf("Joueur %d joue en %d %d avec %d pion retourner\n",jeu->numJoueur,endroitJouer.cooX,endroitJouer.cooY,memoPion->nbElement-1);
     informationBombe retour =placeJeton(jeu,endroitJouer.cooX,endroitJouer.cooY,memoPion,true);                   //IA joue son coup
-    free_ListPosition(&memoPion);
-                                                                                    //on libere la liste
+    free_ListPosition(&memoPion);                                   //on libere la liste
+
     return retour;
 }
 
@@ -528,8 +528,8 @@ listPosition getListCoupOptimiser(systemJeu* jeu){
 //-----------------------------------------------------------------------------------------------------
 Coordonnees getCooCoupOptimiser(systemJeu* jeu){
 
-    listPosition stock = getListCoupOptimiser(jeu);
-    Coordonnees retour = lirePremierElement(stock);
+    listPosition stock = getListCoupOptimiser(jeu); //recup la liste des jeton retourne par le meilleurs coup
+    Coordonnees retour = lirePremierElement(stock); //on recupere les coo du coup jouer (c'est les dernere mise donc c'est sur le desus de la pile)
     free_ListPosition(&stock);
     return retour;
 
@@ -542,7 +542,7 @@ bool placerBombeDebut(systemJeu* jeu){
     int nbBombe = jeu->nbBombe;
     int x, y;
     bool retour = false;
-    if (nbBombe<jeu->grilleJeu.taille*jeu->grilleJeu.taille){
+    if (nbBombe<jeu->grilleJeu.taille*jeu->grilleJeu.taille){   //si il y a plus de bombe que de case
 
         while (nbBombe>0){                                          //tant qu'il reste des bombes à placer
             x = rand()%jeu->grilleJeu.taille;
@@ -772,20 +772,20 @@ bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
                         decrementationNbPion(jeu,x,y,true);                     //on decrement le score du proprio du jeton qui pourrai ce trouver la et aussi le nb total
 
                       func_bombeBloc(jeu, x, y);                                //vide la case de sa bombe et du jeton quel contenait et la bloque
-                      jeu->tabPointEvent[jeu->numJoueur-1]-=1;                  //on enleve le prix de l'evenement
+                      jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte1);                  //on enleve le prix de l'evenement
                        passerJoueurSuivant(jeu);
                        activer=true;
                 break;
         case carte2 : event_swapJoueur(jeu);
-                      jeu->tabPointEvent[jeu->numJoueur-1]-=10;                 //on enleve le prix de l'evenement
+                      jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte2);                 //on enleve le prix de l'evenement
                        passerJoueurSuivant(jeu);
                        activer=true;
                 break;
         case carte3 : coup = coupPossible(jeu,x,y);
-                        if(coup->nbElement >0){
-                            placeJeton(jeu,x,y,coup,false);
+                        if(coup->nbElement >0){                                                     //si le coup est possible
+                            placeJeton(jeu,x,y,coup,false);                                             //on joue mais on passe pas au joueur suivant
                             activer=true;
-                            jeu->tabPointEvent[jeu->numJoueur-1]-=10;                 //on enleve le prix de l'evenement
+                            jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte3);                 //on enleve le prix de l'evenement
                         }
                         free_ListPosition(&coup);
 
@@ -801,7 +801,7 @@ void event_swapJoueur(systemJeu* jeu){
     int i,j;
     for(j=0 ; j<jeu->grilleJeu.taille ; j++){
         for(i=0 ; i<jeu->grilleJeu.taille ; i++){
-            jeu->grilleJeu.tabCase[i][j].numJoueur = (jeu->grilleJeu.tabCase[i][j].numJoueur % jeu->nbJoueur)+1;
+            jeu->grilleJeu.tabCase[i][j].numJoueur = (jeu->grilleJeu.tabCase[i][j].numJoueur % jeu->nbJoueur)+1;    //j1->j2 ,.., j5->j1
         }
     }
 
@@ -812,4 +812,124 @@ void event_swapJoueur(systemJeu* jeu){
         jeu->tabNbPionJoueur[i]=jeu->tabNbPionJoueur[i-1];                      //n prend les valeur de n-1
     }
     jeu->tabNbPionJoueur[1] = j;                                                // 1 prend la valeur du dernier joueur
+}
+
+//-------------------------------------------------------------------------------------------------------
+//---------------------------- Prix des cartes ----------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------
+int getPrixCarte(systemJeu* jeu,E_event numCarte){
+    int prix;
+    switch(numCarte){
+        case carte1:prix = getPrixCarte_Carte1(jeu);
+                break;
+        case carte2: prix = getPrixCarte_Carte2(jeu);
+                break;
+        case carte3: prix = getPrixCarte_Carte3(jeu);
+                break;
+        default: prix=-1;
+                printf("WARNING !! Ce n'est pas une carte evenement reconnu : %d\n",numCarte);
+            break;
+    }
+    return prix;
+}
+//------------------------------------------------------------------------------------------
+int getPrixCarte_Carte1(systemJeu* jeu){
+    int prix;
+    switch(jeu->grilleJeu.taille){
+        case 10:                //cas des petite grille (2,3,4 joueur)
+        case 11:
+        case 12:prix=10;
+                break;
+
+        case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
+                    prix=10;
+                }
+                else{//cas moyenne grille a 2 joueur
+                    prix=20;
+                }
+                break;
+
+        case 14:                //cas des moyenne grille (3,4,5 joueur)
+        case 15:
+        case 16:prix=20;
+                break;
+
+        case 17:                //cas des grande grille (2,3,4,5 joueur)
+        case 18:
+        case 19:
+        case 20:prix=50;
+                break;
+
+        default :  prix=0;
+                break;
+    }
+    return prix;
+}
+
+//--------------------------------------------------------------------------------------
+int getPrixCarte_Carte2(systemJeu* jeu){
+    int prix;
+    switch(jeu->grilleJeu.taille){
+        case 10:                //cas des petite grille (2,3,4 joueur)
+        case 11:
+        case 12:prix=200;
+                break;
+
+        case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
+                    prix=200;
+                }
+                else{//cas moyenne grille a 2 joueur
+                    prix=400;
+                }
+                break;
+
+        case 14:                //cas des moyenne grille (3,4,5 joueur)
+        case 15:
+        case 16:prix=400;
+                break;
+
+        case 17:                //cas des grande grille (2,3,4,5 joueur)
+        case 18:
+        case 19:
+        case 20:prix=1200;
+                break;
+
+        default :  prix=0;
+                break;
+    }
+    return prix;
+}
+
+//--------------------------------------------------------------------------------------------
+int getPrixCarte_Carte3(systemJeu* jeu){
+    int prix;
+    switch(jeu->grilleJeu.taille){
+        case 10:                //cas des petite grille (2,3,4 joueur)
+        case 11:
+        case 12:prix=100;
+                break;
+
+        case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
+                    prix=100;
+                }
+                else{//cas moyenne grille a 2 joueur
+                    prix=200;
+                }
+                break;
+
+        case 14:                //cas des moyenne grille (3,4,5 joueur)
+        case 15:
+        case 16:prix=200;
+                break;
+
+        case 17:                //cas des grande grille (2,3,4,5 joueur)
+        case 18:
+        case 19:
+        case 20:prix=500;
+                break;
+
+        default :  prix=0;
+                break;
+    }
+    return prix;
 }

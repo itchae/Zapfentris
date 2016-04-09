@@ -46,6 +46,9 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
          for(i=0 ; i<jeu->nbJoueur ; i++){
             sprintf(fichier,"Images/Pion%d.bmp",i+1);
             pionSurface[i] = SDL_LoadBMP(fichier);
+            if(pionSurface[i]==NULL){
+                printf("PROBLEME!! Erreur lors de la creation des jetons\n");
+            }
          }
     }
 
@@ -149,7 +152,7 @@ E_event carteChoisi=carteVide;
                     }
                     else{                                                                   //si on est pas dans la grille
                         if(event.button.x>=720 && event.button.y>=100 && event.button.x<720+carteEvent1->w &&event.button.y<100+carteEvent1->h){//carte event 1
-                            if(jeu->tabPointEvent[jeu->numJoueur-1]>=1){
+                            if(jeu->tabPointEvent[jeu->numJoueur-1]>=getPrixCarte(jeu,carte1)){
                                printf("On choisit la carte BlocCase\n");
                                carteChoisi=carte1;
                             }
@@ -157,7 +160,7 @@ E_event carteChoisi=carteVide;
                         }
                         else {
                             if(event.button.x>=810 && event.button.y>=100 && event.button.x<810+carteEvent2->w &&event.button.y<100+carteEvent2->h){//carte event 2
-                                if(jeu->tabPointEvent[jeu->numJoueur-1]>=10){
+                                if(jeu->tabPointEvent[jeu->numJoueur-1]>=getPrixCarte(jeu,carte2)){
                                     printf("On choisit la carte SwapJoueur\n");
                                     carteChoisi=carte2;
                                 }
@@ -188,7 +191,7 @@ E_event carteChoisi=carteVide;
                                         //pas de refresh car on a rien fait
                                     }
                                     else{if(event.button.x>=900 && event.button.y>=100 && event.button.x<900+carteEvent2->w &&event.button.y<100+carteEvent2->h){//carte event 3
-                                            if(jeu->tabPointEvent[jeu->numJoueur-1]>=10){
+                                            if(jeu->tabPointEvent[jeu->numJoueur-1]>=getPrixCarte(jeu,carte3)){
                                                 printf("On choisit la carte Jouer 2x\n");
                                                 carteChoisi=carte3;
                                             }
@@ -330,21 +333,21 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
     SDL_BlitSurface(carteEvent1,NULL,ecran,&position);//colle la surface sur l'ecran
     position.x+=5;
     position.y+=(carteEvent1->h-20);
-    ecritureNombre(chiffres,&position,1,ecran);
+    ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte1),ecran);
 
     position.x=810;
     position.y=100;
     SDL_BlitSurface(carteEvent2,NULL,ecran,&position);//colle la surface sur l'ecran
     position.x+=5;
     position.y+=(carteEvent2->h-20);
-    ecritureNombre(chiffres,&position,10,ecran);
+    ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte2),ecran);
 
     position.x=900;
     position.y=100;
     SDL_BlitSurface(carteEvent3,NULL,ecran,&position);//colle la surface sur l'ecran
     position.x+=5;
     position.y+=(carteEvent3->h-20);
-    ecritureNombre(chiffres,&position,10,ecran);
+    ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte3),ecran);
 
 }
 

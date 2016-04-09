@@ -14,11 +14,7 @@ int main(int argc,char **argv){
     }
     srand(time(NULL));//init des random
 
-
-
     mainInterface();
-
-
 
     return EXIT_SUCCESS;
 

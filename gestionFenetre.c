@@ -20,11 +20,6 @@ void mainInterface(){
     SDL_Window* fenetre;                                                                                                //pointeur sur la fenetre
     fenetre = SDL_CreateWindow("Zapfentris",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,600,SDL_WINDOW_SHOWN);  //cree la fenetre
 
-    SDL_Surface* fenetre_icon = SDL_LoadBMP("Images/Pion1.bmp");
-    if(fenetre_icon==NULL){
-        printf("PROBLEME , L'icone n'a pas ete genere \n");
-    }
-    SDL_SetWindowIcon(fenetre,fenetre_icon);
     /* Liste des noms
 
         -Zapfentris
@@ -42,11 +37,18 @@ void mainInterface(){
     ecran=SDL_GetWindowSurface(fenetre);                                                                                //recup la surface de l'ecran
 
     if(ecran==NULL){                                                                                                    //si ecran ne s'est as fait
-        printf( "PROBLEME!! Erreur lors de la creation du rendu  \n" );                                                 //gestion de l'erreur
+        printf( "PROBLEME!! Erreur lors de la creation de l'ecran  \n" );                                                 //gestion de l'erreur
         SDL_DestroyWindow(fenetre);                                                                                     //on detruit la fenetre
         SDL_Quit();                                                                                                     // On quitte la SDL
         exit(EXIT_FAILURE);
     }
+
+
+    SDL_Surface* fenetre_icon = SDL_LoadBMP("Images/Pion1.bmp");                                                        //l'icone de la fenetre
+    if(fenetre_icon==NULL){
+        printf("PROBLEME , L'icone n'a pas ete genere \n");
+    }
+    SDL_SetWindowIcon(fenetre,fenetre_icon);
 
    while(typeFenetre>=0){
         switch(typeFenetre){

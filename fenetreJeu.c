@@ -45,6 +45,9 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
          for(i=0 ; i<jeu->nbJoueur ; i++){
             sprintf(fichier,"Images/Pion%d.bmp",i+1);
             pionSurface[i] = SDL_LoadBMP(fichier);
+            if(pionSurface[i]==NULL){
+                printf("PROBLEME!! Erreur lors de la creation des jetons\n");
+            }
          }
     }
 
@@ -59,6 +62,9 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
          for(i=0 ; i<jeu->nbJoueur ; i++){
             sprintf(fichier,"Images/PionOK%d.bmp",i+1);
             pionOKSurface[i] = SDL_LoadBMP(fichier);
+            if(pionOKSurface[i]==NULL){
+                printf("PROBLEME!! Erreur lors de la creation des jetons OK\n");
+            }
          }
     }
 
@@ -73,6 +79,9 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
          for(i=0 ; i<jeu->nbJoueur ; i++){
             sprintf(fichier,"Images/PionX%d.bmp",i+1);
             pionXSurface[i] = SDL_LoadBMP(fichier);
+            if(pionXSurface[i]==NULL){
+                printf("PROBLEME!! Erreur lors de la creation des jetons X\n");
+            }
          }
     }
 
@@ -161,7 +170,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
             printf("Minerai J%d : %d\n",i,jeu->tabPointEvent[i-1]);
             moyenne+=jeu->tabPointEvent[i-1];
         }
-        printf("Moyenne : %f",(float)moyenne/jeu->nbJoueur);
+        printf("Moyenne : %f\n",(float)moyenne/jeu->nbJoueur);
         // fin du a enlever
     }
 Coordonnees cooSouris,cooLecture,cooTraitre;
@@ -484,21 +493,21 @@ void animationBombe_BombeExplo(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syste
 
     SDL_Surface* rayonP = SDL_LoadBMP("Images/BombeExploP.bmp");
     if(rayonP==NULL){
-        printf("PROBLEME!! erreur lors de la creation de rayonP");
+        printf("PROBLEME!! erreur lors de la creation de rayonP\n");
     }
 
 //creation moyen Rayon
 
     SDL_Surface* rayonM = SDL_LoadBMP("Images/BombeExploM.bmp");
     if(rayonM==NULL){
-        printf("PROBLEME!! erreur lors de la creation de rayonM");
+        printf("PROBLEME!! erreur lors de la creation de rayonM\n");
     }
 
 //creation grand Rayon
 
     SDL_Surface* rayonG = SDL_LoadBMP("Images/BombeExploG.bmp");
     if(rayonG==NULL){
-        printf("PROBLEME!! erreur lors de la creation de rayonG");
+        printf("PROBLEME!! erreur lors de la creation de rayonG\n");
     }
 
     SDL_Rect position;
@@ -535,7 +544,7 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syste
 //creation du rayon
     SDL_Surface* rayon = SDL_CreateRGBSurface(0,fondCaseJeu->w/2,fondCaseJeu->h/2,32,0,0,0,0);
     if(rayon==NULL){
-        printf("PROBLEME!! erreur lors de la creation de rayon");
+        printf("PROBLEME!! erreur lors de la creation de rayon\n");
     }
     int rouge=rand()%2;
     int vert= rand()%2;
@@ -613,7 +622,7 @@ void animationBombe_BombeFleche(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syst
 
     SDL_Surface* fleche = SDL_CreateRGBSurface(0,30,30,32,0,0,0,0);
     if(fleche==NULL){
-        printf("PROBLEME!! erreur lors de la creation de fleche");
+        printf("PROBLEME!! erreur lors de la creation de fleche\n");
     }
     SDL_FillRect(fleche,NULL,SDL_MapRGB(fleche->format,255,0,0));         //color la surface
 
@@ -641,21 +650,21 @@ void animationBombe_BombeSplash(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syst
 
     SDL_Surface* rayonP = SDL_LoadBMP("Images/BombePeintureP.bmp");
     if(rayonP==NULL){
-        printf("PROBLEME!! erreur lors de la creation de rayonP");
+        printf("PROBLEME!! erreur lors de la creation de rayonP\n");
     }
 
 //creation moyen Rayon
 
     SDL_Surface* rayonM = SDL_LoadBMP("Images/BombePeintureM.bmp");
     if(rayonM==NULL){
-        printf("PROBLEME!! erreur lors de la creation de rayonM");
+        printf("PROBLEME!! erreur lors de la creation de rayonM\n");
     }
 
 //creation grand Rayon
 
     SDL_Surface* rayonG = SDL_LoadBMP("Images/BombePeintureG.bmp");
     if(rayonG==NULL){
-        printf("PROBLEME!! erreur lors de la creation de rayonG");
+        printf("PROBLEME!! erreur lors de la creation de rayonG\n");
     }
 
     SDL_Rect position;
