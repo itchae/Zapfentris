@@ -699,7 +699,7 @@ listPosition func_bombeFleche(systemJeu* jeu, int x, int y){
 
     jeu->grilleJeu.tabCase[x][y].bombe = bombeVide;
 
-    for(i=0 ; i<2*(jeu->grilleJeu.taille/4) ; i++){             //on peut avoir plusieur fleche au meme endroit
+    for(i=0 ; i<(jeu->grilleJeu.taille/2) ; i++){             //on peut avoir plusieur fleche au meme endroit
         endroitTouche.cooX = rand()%jeu->grilleJeu.taille;
         endroitTouche.cooY = rand()%jeu->grilleJeu.taille;
         ajouterElement(retour,endroitTouche);
