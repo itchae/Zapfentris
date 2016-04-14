@@ -48,7 +48,7 @@ void func_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_f
                        }
                        else{if(event.button.x >=210 && event.button.x<=(210+boutonRegle->w) && event.button.y>=390 && event.button.y <= (390+boutonRegle->h) ){
                                 printf("Regles du jeu\n");
-                                //*typeFenetre=fenetreRegles;
+                                *typeFenetre=fenetreRegles;
                             }
                        }
                 break;

@@ -11,6 +11,7 @@
 #include "fenetreCarteEvenement.h"
 #include "fenetreTitre.h"
 #include "fenetreJeu.h"
+#include "fenetreRegles.h"
 
 void mainInterface(){
 
@@ -71,6 +72,8 @@ void mainInterface(){
         case fenetreJeu: func_fenetreJeu(fenetre,ecran,jeu,&typeFenetre);
                         break;
         case fenetreCarteEvenement: func_fenetreCarteEvenement(fenetre,ecran,jeu,&typeFenetre);
+                        break;
+        case fenetreRegles: func_fenetreRegles(fenetre,ecran,&typeFenetre);
                         break;
         default:typeFenetre=fenetreQuitter;
             break;
