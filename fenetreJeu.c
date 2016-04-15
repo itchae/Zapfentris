@@ -620,18 +620,17 @@ void animationBombe_BombeFleche(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syst
 
 
 
-    SDL_Surface* fleche = SDL_CreateRGBSurface(0,30,30,32,0,0,0,0);
+    SDL_Surface* fleche = SDL_LoadBMP("Images/flecheBombe.bmp");
     if(fleche==NULL){
         printf("PROBLEME!! erreur lors de la creation de fleche\n");
     }
-    SDL_FillRect(fleche,NULL,SDL_MapRGB(fleche->format,255,0,0));         //color la surface
 
     SDL_Rect position ;
     PileCoordonnes courant = infoBombe.cooCaseTouche->pile;
 
     while(courant!= NULL){
-        position.x = ((courant->position.cooX*(fondCaseJeu->w+1))+10);      //origine case + centrage du pion
-        position.y = ((courant->position.cooY*(fondCaseJeu->h+1))+10);
+        position.x = ((courant->position.cooX*(fondCaseJeu->w+1))+10)-(fleche->w/2)+(fondCaseJeu->w/2);      //origine case + centrage du pion
+        position.y = ((courant->position.cooY*(fondCaseJeu->h+1))+10)-(fleche->h)+(fondCaseJeu->h/2);
 
         SDL_BlitSurface(fleche,NULL,ecran,&position);//colle la surface sur l'ecran
         courant= courant->suivant;

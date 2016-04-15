@@ -53,13 +53,56 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
     if(flecheGauche==NULL){
         printf("PROBLEME!! erreur lors de la creation de le fleche Gauche\n");
     }
-
-
+// les traitres
+    SDL_Surface** traitre = (SDL_Surface**)malloc(3*sizeof(SDL_Surface*));
+    if(traitre == NULL){
+        printf("PROBLEME !! erreur lors de la creation du tab des pions\n");
+    }
+    else{
+        char chemin [50];
+        for(i=0 ; i<3 ; i++){
+            sprintf(chemin,"Images/pion%d.bmp",i+1);
+            traitre[i]=SDL_LoadBMP(chemin);
+            if(traitre[i]== NULL){
+                printf("PROBLEME!! erreur lors de la creation du pion numero %d \n",i);
+            }
+        }
+    }
+// les images de la bombe explosif
+    SDL_Surface** explosif = (SDL_Surface**)malloc(3*sizeof(SDL_Surface*));
+    if(explosif == NULL){
+        printf("PROBLEME !! erreur lors de la creation du tab des explosif\n");
+    }
+    else{
+        explosif[0]=SDL_LoadBMP("Images/BombeExploP.bmp");
+        explosif[1]=SDL_LoadBMP("Images/BombeExploM.bmp");
+        explosif[2]=SDL_LoadBMP("Images/BombeExploG.bmp");
+        for(i=0 ; i<3 ; i++){
+            if(explosif[i]== NULL){
+                printf("PROBLEME!! erreur lors de la creation de l'explosion numero %d \n",i);
+            }
+        }
+    }
+// les images de la bombe Splash
+    SDL_Surface** splash = (SDL_Surface**)malloc(3*sizeof(SDL_Surface*));
+    if(splash == NULL){
+        printf("PROBLEME !! erreur lors de la creation du tab des splash\n");
+    }
+    else{
+        splash[0]=SDL_LoadBMP("Images/BombePeintureP.bmp");
+        splash[1]=SDL_LoadBMP("Images/BombePeintureM.bmp");
+        splash[2]=SDL_LoadBMP("Images/BombePeintureG.bmp");
+        for(i=0 ; i<3 ; i++){
+            if(splash[i]== NULL){
+                printf("PROBLEME!! erreur lors de la creation de l'explosion splash numero %d \n",i);
+            }
+        }
+    }
 
     while(*typeFenetre==fenetreRegles){
-        refresh_fenetreRegles(fenetre,ecran,indicePageRegles,indiceAnimation,boutonRetour,regles,chiffres,pixel,flecheDroite,flecheGauche);
+        refresh_fenetreRegles(fenetre,ecran,indicePageRegles,indiceAnimation,boutonRetour,regles,chiffres,pixel,flecheDroite,flecheGauche,traitre,explosif,splash);
         SDL_UpdateWindowSurface(fenetre);
-        SDL_Delay(100);
+        SDL_Delay(200);
         if(SDL_PollEvent(&event) || clicMaintenu){                                                        //on regarde si il y a un event
 
             switch(event.type){                                                             //regarde le type de l'event
@@ -98,13 +141,21 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
     SDL_FreeSurface(pixel);
     SDL_FreeSurface(flecheDroite);
     SDL_FreeSurface(flecheGauche);
-
+    for(i=0 ; i<3 ; i++){
+            SDL_FreeSurface(traitre[i]);
+            SDL_FreeSurface(explosif[i]);
+            SDL_FreeSurface(splash[i]);
+    }
+    free(traitre);
+    free(explosif);
+    free(splash);
 }
 
 
 
 void refresh_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,int indicePageRegles,int indiceAnimation,SDL_Surface* boutonRetour,
-                            SDL_Surface** regles,SDL_Surface** chiffres,SDL_Surface* pixel,SDL_Surface* flecheDroite,SDL_Surface* flecheGauche)
+                            SDL_Surface** regles,SDL_Surface** chiffres,SDL_Surface* pixel,SDL_Surface* flecheDroite,SDL_Surface* flecheGauche,
+                            SDL_Surface** traitre,SDL_Surface** explosif,SDL_Surface** splash )
 {
 
     SDL_Rect position,finDroite;
@@ -136,16 +187,33 @@ void refresh_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,int indicePage
     ecritureNombre(chiffres,&position,nbPage,ecran);
 
 //fleche droite
-    if(indicePageRegles!=nbPage-1){
+    if(indicePageRegles!=nbPage-1){                         //si on est pas a la derniere page
         position.x=920;
         position.y=225;
         SDL_BlitSurface(flecheDroite,NULL,ecran,&position);
     }
 //fleche gauche
-    if(indicePageRegles!=0){
+    if(indicePageRegles!=0){                                //si on n'est pas a la premiere
         position.x=20;
         position.y=225;
         SDL_BlitSurface(flecheGauche,NULL,ecran,&position);
     }
-
+//animation traitre
+    if(indicePageRegles==0){                                //si on est a la page des traitre
+        position.x=220;
+        position.y=225;
+        SDL_BlitSurface(traitre[indiceAnimation],NULL,ecran,&position); //indice animation vaut 0,1 ou 2
+    }
+//animation bombes explosif
+    if(indicePageRegles==1){                                //si on est a la page des bombes explosif
+        position.x=220-(explosif[indiceAnimation]->w/2);
+        position.y=225-(explosif[indiceAnimation]->h/2);
+        SDL_BlitSurface(explosif[indiceAnimation],NULL,ecran,&position); //indice animation vaut 0,1 ou 2
+    }
+//animation bombes splash
+    if(indicePageRegles==2){                                //si on est a la page des bombes explosif
+        position.x=220-(splash[indiceAnimation]->w/2);
+        position.y=225-(splash[indiceAnimation]->h/2);
+        SDL_BlitSurface(splash[indiceAnimation],NULL,ecran,&position); //indice animation vaut 0,1 ou 2
+    }
 }
