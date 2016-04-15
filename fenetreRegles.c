@@ -5,7 +5,8 @@
 #include <stdbool.h>
 #include "SDL_ecriture.h"
 
-#define nbPage 20
+#define nbPage 6
+
 void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFenetre){
 
     int indicePageRegles=0;
@@ -19,6 +20,13 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
     if(boutonRetour==NULL){
         printf("PROBLEME!! erreur lors de la creation du boutonRetour\n");
     }
+//le fond des regles
+    SDL_Surface* fondRegles =SDL_CreateRGBSurface(0,810,400,32,0,0,0,0);
+    if(fondRegles==NULL){
+         printf("PROBLEME!! erreur lors de la creation du fond des Regles\n");
+    }
+    SDL_FillRect(fondRegles,NULL,SDL_MapRGB(fondRegles->format,200,200,255));         //color la surface
+
 //Les regles
     SDL_Surface** regles =(SDL_Surface**) malloc(nbPage*sizeof(SDL_Surface*));
     if(regles==NULL){
@@ -28,11 +36,10 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
         char chemin [50];
         for(i=0 ; i<nbPage ; i++){
             sprintf(chemin,"Images/regles%d.bmp",i);
-            regles[i]=SDL_CreateRGBSurface(0,800,400,32,0,0,0,0);
+            regles[i]=SDL_LoadBMP(chemin);
             if(regles[i]== NULL){
                 printf("PROBLEME!! erreur lors de la creation de la page %d des regles\n",i);
             }
-            SDL_FillRect(regles[i],NULL,SDL_MapRGB(regles[i]->format,10*i,0,0));
         }
     }
 //les chiffres
@@ -98,9 +105,25 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
             }
         }
     }
+// case bloquer
+    SDL_Surface* caseBloque=SDL_LoadBMP("Images/bloc.bmp");
+    if(caseBloque==NULL){
+        printf("PROBLEME!! erreur lors de la creation du bloc\n");
+    }
+//fleche de la bombe fleche
+    SDL_Surface* flecheBombe=SDL_LoadBMP("Images/flecheBombe.bmp");
+    if(flecheBombe==NULL){
+        printf("PROBLEME!! erreur lors de la creation de la flecheBombe\n");
+    }
+//le minerai
+    SDL_Surface* minerai=SDL_LoadBMP("Images/imageMinerai.bmp");
+    if(minerai==NULL){
+        printf("PROBLEME!! erreur lors de la creation du minerai\n");
+    }
+
 
     while(*typeFenetre==fenetreRegles){
-        refresh_fenetreRegles(fenetre,ecran,indicePageRegles,indiceAnimation,boutonRetour,regles,chiffres,pixel,flecheDroite,flecheGauche,traitre,explosif,splash);
+        refresh_fenetreRegles(fenetre,ecran,indicePageRegles,indiceAnimation,boutonRetour,regles,chiffres,pixel,flecheDroite,flecheGauche,traitre,explosif,splash,fondRegles,caseBloque,flecheBombe,minerai);
         SDL_UpdateWindowSurface(fenetre);
         SDL_Delay(200);
         if(SDL_PollEvent(&event) || clicMaintenu){                                                        //on regarde si il y a un event
@@ -133,6 +156,7 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
 
 
     SDL_FreeSurface(boutonRetour);
+    SDL_FreeSurface(fondRegles);
     for(i=0 ; i<nbPage ; i++){
             SDL_FreeSurface(regles[i]);
     }
@@ -149,17 +173,25 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
     free(traitre);
     free(explosif);
     free(splash);
+    SDL_FreeSurface(caseBloque);
+    SDL_FreeSurface(flecheBombe);
+    SDL_FreeSurface(minerai);
 }
 
 
 
 void refresh_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,int indicePageRegles,int indiceAnimation,SDL_Surface* boutonRetour,
                             SDL_Surface** regles,SDL_Surface** chiffres,SDL_Surface* pixel,SDL_Surface* flecheDroite,SDL_Surface* flecheGauche,
-                            SDL_Surface** traitre,SDL_Surface** explosif,SDL_Surface** splash )
+                            SDL_Surface** traitre,SDL_Surface** explosif,SDL_Surface** splash ,SDL_Surface* fondRegles,SDL_Surface* caseBloque,
+                            SDL_Surface* flecheBombe,SDL_Surface* minerai)
 {
 
     SDL_Rect position,finDroite;
-    SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));
+    int i,j;
+    int rouge=rand()%2;
+    int vert= rand()%2;
+
+    SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));         //on efface l'ecran
 
  //Bouton Retour
     position.x=380;
@@ -167,12 +199,14 @@ void refresh_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,int indicePage
     SDL_BlitSurface(boutonRetour,NULL,ecran,&position);
 
 //Page de la regles
-    position.x=100;
+    position.x=95;
     position.y=50;
+    SDL_BlitSurface(fondRegles,NULL,ecran,&position);
+    position.x=100;
     SDL_BlitSurface(regles[indicePageRegles],NULL,ecran,&position);
 
 //compteur de page
-    position.x=945;
+    position.x=955;
     position.y=580;
     ecritureNombre(chiffres,&position,indicePageRegles+1,ecran);
 
@@ -198,22 +232,70 @@ void refresh_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,int indicePage
         position.y=225;
         SDL_BlitSurface(flecheGauche,NULL,ecran,&position);
     }
-//animation traitre
-    if(indicePageRegles==0){                                //si on est a la page des traitre
-        position.x=220;
-        position.y=225;
-        SDL_BlitSurface(traitre[indiceAnimation],NULL,ecran,&position); //indice animation vaut 0,1 ou 2
+//animation
+    switch(indicePageRegles){
+        case 0:
+                for(i=380 ; i<=510 ; i+=30){
+                    position.x=i;
+                    for(j=280 ; j <=400; j+=60){                                        //pion qui prend
+                        position.y=j;
+                        if(i==440 && j==340){                                           //on enleve le pion du milieu 2 image sur 3
+                            if(indiceAnimation==2){
+                            SDL_BlitSurface(traitre[1],NULL,ecran,&position);
+                            }
+                        }
+                        else{
+                            SDL_BlitSurface(traitre[1],NULL,ecran,&position);
+                        }
+                    }
+                    for(j=310 ; j <=370 ; j+=30){                                               //pion qui sont pris
+                        position.y=j;
+                        if((i==410 || i==440 || i==470) && (!(i==440 && j==340)) ){             //sur les 3 lignes internes mais pas le centre
+                            SDL_BlitSurface(traitre[indiceAnimation/2],NULL,ecran,&position);
+                        }
+                    }
+                }
+
+            break;
+        case 1://animation bombes explosif
+                position.x=820-(explosif[indiceAnimation]->w/2);
+                position.y=200-(explosif[indiceAnimation]->h/2);
+                SDL_BlitSurface(explosif[indiceAnimation],NULL,ecran,&position); //indice animation vaut 0,1 ou 2
+                //case bloque
+                position.x=820;
+                position.y=300;
+                SDL_BlitSurface(caseBloque,NULL,ecran,&position);
+                //laser
+                position.x=750;
+                position.y=400;
+                finDroite.x=position.x+100;
+                finDroite.y=position.y;
+                SDL_FillRect(pixel,NULL,SDL_MapRGB(pixel->format,rouge*255,vert*255,((vert+2*rouge+1)%2)*255));         //color la surface
+                tracerLigne(position,finDroite,ecran,pixel);
+                SDL_FillRect(pixel,NULL,SDL_MapRGB(pixel->format,0,0,0));
+            break;
+        case 2://animation bombes splash
+                position.x=780-(splash[indiceAnimation]->w/2);
+                position.y=350-(splash[indiceAnimation]->h/2);
+                SDL_BlitSurface(splash[indiceAnimation],NULL,ecran,&position); //indice animation vaut 0,1 ou 2
+                //bombe fleche
+                position.x=780;
+                position.y=150;
+                SDL_BlitSurface(flecheBombe,NULL,ecran,&position);
+            break;
+        case 3: position.x=470;//animation traitre
+                position.y=350;
+                SDL_BlitSurface(traitre[indiceAnimation],NULL,ecran,&position); //indice animation vaut 0,1 ou 2
+            break;
+        case 4:  //minerai
+                position.x=800;
+                position.y=110;
+                SDL_BlitSurface(minerai,NULL,ecran,&position);
+            break;
+        default:
+            break;
     }
-//animation bombes explosif
-    if(indicePageRegles==1){                                //si on est a la page des bombes explosif
-        position.x=220-(explosif[indiceAnimation]->w/2);
-        position.y=225-(explosif[indiceAnimation]->h/2);
-        SDL_BlitSurface(explosif[indiceAnimation],NULL,ecran,&position); //indice animation vaut 0,1 ou 2
-    }
-//animation bombes splash
-    if(indicePageRegles==2){                                //si on est a la page des bombes explosif
-        position.x=220-(splash[indiceAnimation]->w/2);
-        position.y=225-(splash[indiceAnimation]->h/2);
-        SDL_BlitSurface(splash[indiceAnimation],NULL,ecran,&position); //indice animation vaut 0,1 ou 2
-    }
+
+
+
 }
