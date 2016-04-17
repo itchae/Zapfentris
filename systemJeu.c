@@ -723,7 +723,7 @@ void func_bombeSplash(systemJeu* jeu, int x, int y){
                 if(jeu->grilleJeu.tabCase[i][j].contenu == contenuPion && jeu->grilleJeu.tabCase[i][j].numJoueur != jeu->numJoueur){                //on regarde si il y a  un jeton qui n'est pas le mien
                     decrementationNbPion(jeu,i,j,false);                                //on enleve les point au joueur qui perd les pion
                     jeu->grilleJeu.tabCase[i][j].numJoueur = jeu->numJoueur;            //on colorie les jeton existant
-                    jeu->tabNbPionJoueur[jeu->numJoueur-1]++;                           //on monte mon score de 1
+                    jeu->tabNbPionJoueur[jeu->numJoueur]++;                           //on monte mon score de 1
                 }
             }
         }
