@@ -11,6 +11,6 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
 void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGrilleJeu,SDL_Surface* fondMagasin,systemJeu* jeu,
                          SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface** chiffres,SDL_Surface* boutonAnnuler, SDL_Surface* boutonAnnulerDessus,
                          SDL_Surface* boutonValider,SDL_Surface* boutonValiderDessus, E_event carteChoisi,SDL_Surface* carteEvent1,
-                         SDL_Surface* carteEvent2,SDL_Surface* carteEvent3);
+                         SDL_Surface* carteEvent2,SDL_Surface* carteEvent3,SDL_Surface* carteEvent4);
 
 #endif // FENETRECARTEEVENEMENT_H_INCLUDED

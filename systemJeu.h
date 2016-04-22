@@ -10,7 +10,7 @@ typedef enum { contenuVide=0, contenuPion, contenuBloc } E_contenu;
 
 typedef enum { bombeVide=0, bombeExplo, bombeLaser, bombeBloc,bombeFleche,bombeSplash} E_bombe;
 
-typedef enum {carteVide=0, carte1, carte2, carte3} E_event;
+typedef enum {carteVide=0, carte1, carte2, carte3, carte4} E_event;
 
 typedef struct {
 
@@ -106,6 +106,7 @@ int getPrixCarte(systemJeu* jeu,E_event numCarte);                             /
 int getPrixCarte_Carte1(systemJeu* jeu);                                           //renvoi le prix de la carte 1
 int getPrixCarte_Carte2(systemJeu* jeu);                                           //renvoi le prix de la carte 2
 int getPrixCarte_Carte3(systemJeu* jeu);                                           //renvoi le prix de la carte 3
+int getPrixCarte_Carte4(systemJeu* jeu);
 
 
 #endif // SYSTEMJEU_H_INCLUDED

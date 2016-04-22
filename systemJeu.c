@@ -790,6 +790,14 @@ bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
                         free_ListPosition(&coup);
 
                 break;
+        case carte4 :   if (jeu->grilleJeu.tabCase[x][y].contenu==contenuPion){
+                            activer=true;
+                            decrementationNbPion(jeu,x,y,true);
+                            jeu->grilleJeu.tabCase[x][y].contenu=contenuVide;
+                            jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte4);
+                            passerJoueurSuivant(jeu);
+                        };
+                break;
         default : printf("WARNING : Carte evenement non reconnue\n");
                 break;
     }
@@ -825,6 +833,8 @@ int getPrixCarte(systemJeu* jeu,E_event numCarte){
         case carte2: prix = getPrixCarte_Carte2(jeu);
                 break;
         case carte3: prix = getPrixCarte_Carte3(jeu);
+                break;
+        case carte4: prix = getPrixCarte_Carte4(jeu);
                 break;
         default: prix=-1;
                 printf("WARNING !! Ce n'est pas une carte evenement reconnu : %d\n",numCarte);
@@ -926,6 +936,39 @@ int getPrixCarte_Carte3(systemJeu* jeu){
         case 18:
         case 19:
         case 20:prix=500;
+                break;
+
+        default :  prix=0;
+                break;
+    }
+    return prix;
+}
+
+int getPrixCarte_Carte4(systemJeu* jeu){
+    int prix;
+    switch(jeu->grilleJeu.taille){
+        case 10:                //cas des petite grille (2,3,4 joueur)
+        case 11:
+        case 12:prix=1;
+                break;
+
+        case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
+                    prix=1;
+                }
+                else{//cas moyenne grille a 2 joueur
+                    prix=1;
+                }
+                break;
+
+        case 14:                //cas des moyenne grille (3,4,5 joueur)
+        case 15:
+        case 16:prix=1;
+                break;
+
+        case 17:                //cas des grande grille (2,3,4,5 joueur)
+        case 18:
+        case 19:
+        case 20:prix=1;
                 break;
 
         default :  prix=0;
