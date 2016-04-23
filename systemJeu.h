@@ -10,7 +10,8 @@ typedef enum { contenuVide=0, contenuPion, contenuBloc } E_contenu;
 
 typedef enum { bombeVide=0, bombeExplo, bombeLaser, bombeBloc,bombeFleche,bombeSplash} E_bombe;
 
-typedef enum {carteVide=0, carte1, carte2, carte3, carte4} E_event;
+typedef enum {carteVide=0, carte1_Bloc, carte2_SwapFaction, carte3_Jouer2x, carte4_EliminationPion,
+            carte5_AntiTraitre,carte6_Peinture,carte7_AideMoi,carte8_Ouups} E_event;
 
 typedef struct {
 
@@ -98,8 +99,9 @@ void func_bombeSplash(systemJeu* jeu, int x, int y);            //fonction de la
 void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info);             //lance la fonction de bombe associe a celle qui explose//renvoi une direction
 
 //Les cartes
-bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte);
-void event_swapJoueur(systemJeu* jeu);
+bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte);               //permet de definir l'effect de la carte choisi
+void event_swapJoueur(systemJeu* jeu);                                          //echange les pion entre les joueur
+void event_AntiTraitre(systemJeu* jeu);                                         //reinitialise l'age des pion du jour
 
 //Prix des cartes
 int getPrixCarte(systemJeu* jeu,E_event numCarte);                             //permet de savoir le prix d'une carte
@@ -107,6 +109,8 @@ int getPrixCarte_Carte1(systemJeu* jeu);                                        
 int getPrixCarte_Carte2(systemJeu* jeu);                                           //renvoi le prix de la carte 2
 int getPrixCarte_Carte3(systemJeu* jeu);                                           //renvoi le prix de la carte 3
 int getPrixCarte_Carte4(systemJeu* jeu);
+int getPrixCarte_Carte5(systemJeu* jeu);
+int getPrixCarte_Carte6(systemJeu* jeu);
 
 
 #endif // SYSTEMJEU_H_INCLUDED
