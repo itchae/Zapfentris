@@ -111,6 +111,6 @@ int getPrixCarte_Carte3(systemJeu* jeu);                                        
 int getPrixCarte_Carte4(systemJeu* jeu);
 int getPrixCarte_Carte5(systemJeu* jeu);
 int getPrixCarte_Carte6(systemJeu* jeu);
-
+int getPrixCarte_Carte7(systemJeu* jeu);
 
 #endif // SYSTEMJEU_H_INCLUDED
