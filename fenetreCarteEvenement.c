@@ -159,11 +159,6 @@ SDL_Rect positionDescription;
         switch(event.type){                                                                 //regarde le type de l'event
             case SDL_QUIT: *typeFenetre = fenetreQuitter;                                   //event de je veux ferme la fenetre
                 break;
-            /*case SDL_KEYDOWN://event j'appuie sur une touche
-                //event.key.keysym.sym pour savoir laquelle
-                break;*/
-           /* case SDL_KEYUP://quand une touche est relache
-                break;*/
             case SDL_MOUSEBUTTONDOWN:                                                       //quand un bouton de la souris est apuiyer
                     if(cooSouris.cooX < jeu->grilleJeu.taille && carteChoisi!=carteVide){   //si on est dans la grille et que la carte est choisi
                         if(choixEvent(jeu,cooSouris.cooX,cooSouris.cooY,carteChoisi)){
@@ -173,7 +168,7 @@ SDL_Rect positionDescription;
                                                           boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,
                                                           carteEvent3, carteEvent4,carteEvent5,carteEvent6);
                             SDL_UpdateWindowSurface(fenetre);
-                            SDL_Delay(600);
+                            SDL_Delay(chrono_Action);
 
                             if(traitrise(jeu,&cooTraitre)){ //on regarde si il y a un traitre
                                 animationTraitre(ecran,pionSurface,fenetre,cooTraitre,jeu,fondCaseJeu);
@@ -181,7 +176,7 @@ SDL_Rect positionDescription;
                                                               boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,
                                                               carteEvent3, carteEvent4,carteEvent5,carteEvent6);
                                 SDL_UpdateWindowSurface(fenetre);
-                                SDL_Delay(600);
+                                SDL_Delay(chrono_Action);
                             }
                         }
                     }
@@ -215,7 +210,7 @@ SDL_Rect positionDescription;
                                                                               boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3,
                                                                               carteEvent4,carteEvent5,carteEvent6);
                                                             SDL_UpdateWindowSurface(fenetre);
-                                                            SDL_Delay(600);
+                                                            SDL_Delay(chrono_Action);
 
                                                             if(traitrise(jeu,&cooTraitre)){ //on regarde si il y a un traitre
                                                             animationTraitre(ecran,pionSurface,fenetre,cooTraitre,jeu,fondCaseJeu);
@@ -223,7 +218,7 @@ SDL_Rect positionDescription;
                                                                                   boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3,
                                                                                   carteEvent4,carteEvent5,carteEvent6);
                                                             SDL_UpdateWindowSurface(fenetre);
-                                                            SDL_Delay(600);
+                                                            SDL_Delay(chrono_Action);
                                                             }
                                                             break;
                                 default:break;
@@ -256,7 +251,7 @@ SDL_Rect positionDescription;
                                 carteChoisi=carte5_AntiTraitre;
                             }
                         }
-                    //carteEvent 5
+                    //carteEvent 6
                         if(event.button.x>=900 && event.button.y>=220 && event.button.x<900+carteEvent6->w &&event.button.y<220+carteEvent6->h){
                             if(jeu->tabPointEvent[jeu->numJoueur-1]>=getPrixCarte(jeu,carte6_Peinture)){
                                 printf("On choisit la carte peinture\n");

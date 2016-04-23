@@ -161,7 +161,7 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
             default: break;
         }
         SDL_UpdateWindowSurface(fenetre);
-        SDL_Delay(5000);
+        SDL_Delay(chrono_FinPartie);
         *typeFenetre=fenetreTitre;
 
         //a enlever
@@ -210,13 +210,13 @@ InfoBombe.cooCaseTouche=NULL;
 
                         refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
                         SDL_UpdateWindowSurface(fenetre);
-                        SDL_Delay(600);
+                        SDL_Delay(chrono_Action);
 
                         if(traitrise(jeu,&cooTraitre)){                                                     //on regarde si il y a un traitre
                             animationTraitre(ecran,pionSurface,fenetre,cooTraitre,jeu,fondCaseJeu);
                             refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
                             SDL_UpdateWindowSurface(fenetre);
-                            SDL_Delay(600);
+                            SDL_Delay(chrono_Action);
                         }
                         boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,typeFenetre);                                                     //on fait jouer les ia
 
@@ -238,7 +238,7 @@ InfoBombe.cooCaseTouche=NULL;
                                 default: break;
                              }
                              SDL_UpdateWindowSurface(fenetre);
-                             SDL_Delay(5000);
+                             SDL_Delay(chrono_FinPartie);
                              *typeFenetre=fenetreTitre;
                         }
                     }
@@ -445,13 +445,13 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
 
             refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
                 SDL_UpdateWindowSurface(fenetre);
-                SDL_Delay(600);
+                SDL_Delay(chrono_Action);
 
             if(traitrise(jeu,&cooTraitre)){                         //on regarde si il y a un traitre
                 animationTraitre(ecran,pionSurface,fenetre,cooTraitre,jeu,fondCaseJeu);
                 refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
                 SDL_UpdateWindowSurface(fenetre);
-                SDL_Delay(600);
+                SDL_Delay(chrono_Action);
             }
 
 
@@ -517,21 +517,21 @@ void animationBombe_BombeExplo(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syste
    // refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
     SDL_BlitSurface(rayonP,NULL,ecran,&position);//colle la surface sur l'ecran
     SDL_UpdateWindowSurface(fenetre);
-    SDL_Delay(250);
+    SDL_Delay(chrono_AnimationCourte);
 
     position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonM->w/2);      //origine case + centrage du pion
     position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonM->h/2);
   //  refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
     SDL_BlitSurface(rayonM,NULL,ecran,&position);//colle la surface sur l'ecran
     SDL_UpdateWindowSurface(fenetre);
-    SDL_Delay(250);
+    SDL_Delay(chrono_AnimationCourte);
 
     position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonG->w/2);      //origine case + centrage du pion
     position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonG->h/2);
   //  refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
     SDL_BlitSurface(rayonG,NULL,ecran,&position);//colle la surface sur l'ecran
     SDL_UpdateWindowSurface(fenetre);
-    SDL_Delay(250);
+    SDL_Delay(chrono_AnimationCourte);
 
 //free des surface
     SDL_FreeSurface(rayonP);
@@ -609,7 +609,7 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syste
     //refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin, texteBombe);
     tracerLigne(pos1,pos2,ecran,rayon);
     SDL_UpdateWindowSurface(fenetre);
-    SDL_Delay(500);
+    SDL_Delay(chrono_AnimationLongue);
 
     SDL_FreeSurface(rayon);
 }
@@ -637,7 +637,7 @@ void animationBombe_BombeFleche(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syst
     }
 
     SDL_UpdateWindowSurface(fenetre);
-    SDL_Delay(600);
+    SDL_Delay(chrono_AnimationLongue);
 
 //free des surface
     SDL_FreeSurface(fleche);
@@ -672,19 +672,19 @@ void animationBombe_BombeSplash(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syst
 
     SDL_BlitSurface(rayonP,NULL,ecran,&position);//colle la surface sur l'ecran
     SDL_UpdateWindowSurface(fenetre);
-    SDL_Delay(250);
+    SDL_Delay(chrono_AnimationCourte);
 
     position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonM->w/2);      //origine case + centrage du pion
     position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonM->h/2);
     SDL_BlitSurface(rayonM,NULL,ecran,&position);//colle la surface sur l'ecran
     SDL_UpdateWindowSurface(fenetre);
-    SDL_Delay(250);
+    SDL_Delay(chrono_AnimationCourte);
 
     position.x = ((infoBombe.cooX*(fondCaseJeu->w+1))+10)+(fondCaseJeu->w/2)-(rayonG->w/2);      //origine case + centrage du pion
     position.y = ((infoBombe.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(rayonG->h/2);
     SDL_BlitSurface(rayonG,NULL,ecran,&position);//colle la surface sur l'ecran
     SDL_UpdateWindowSurface(fenetre);
-    SDL_Delay(250);
+    SDL_Delay(chrono_AnimationCourte);
 
     //free des surface
     SDL_FreeSurface(rayonP);
@@ -701,7 +701,7 @@ void animationTraitre(SDL_Surface* ecran,SDL_Surface** pionSurface,SDL_Window* f
         position.y = ((cooTraitre.cooY*(fondCaseJeu->h+1))+10)+(fondCaseJeu->h/2)-(pionSurface[jeu->numJoueur-1]->h/2);
         SDL_BlitSurface(pionSurface[i%jeu->nbJoueur],NULL,ecran,&position);                            //  de 0 a 4(max) => numJoueur 1 a 5
         SDL_UpdateWindowSurface(fenetre);
-        SDL_Delay(100);
+        SDL_Delay(chrono_AnimationTraitre);
     }
 
     // on refresh a la fin car on doit garder le plateau dans son ancien etat jusqu'a la fin de l'animation
