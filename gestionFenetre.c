@@ -12,6 +12,8 @@
 #include "fenetreTitre.h"
 #include "fenetreJeu.h"
 #include "fenetreRegles.h"
+#include "fenetreSauvegarde.h"
+//#include "fenetreSauvegarde.h"
 
 void mainInterface(){
 
@@ -60,6 +62,8 @@ void mainInterface(){
                             }
                             jeu = init_SystemJeu_Minimal();             //reste a alloue la grille, score et ia
                             func_fenetreTitre(fenetre,ecran,jeu,&typeFenetre);
+                        break;
+        case fenetreSauvegarde : func_fenetreSauvegarde(fenetre,ecran,jeu,&typeFenetre);
                         break;
         case fenetreSelecNbJoueur: func_fenetreSelectNbJoueur(fenetre,ecran,jeu,&typeFenetre);
                         break;

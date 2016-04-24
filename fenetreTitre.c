@@ -44,7 +44,7 @@ void func_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_f
                                                                                         //event.button.button pour savoir lequel est appuyer
                        if(event.button.x >=210 && event.button.x<=(210+boutonJouer->w) && event.button.y>=260 && event.button.y <= (260+boutonJouer->h) ){
                             printf("Jouer\n");
-                            *typeFenetre=fenetreSelecNbJoueur;
+                            *typeFenetre=fenetreSauvegarde;
                        }
                        else{if(event.button.x >=210 && event.button.x<=(210+boutonRegle->w) && event.button.y>=390 && event.button.y <= (390+boutonRegle->h) ){
                                 printf("Regles du jeu\n");

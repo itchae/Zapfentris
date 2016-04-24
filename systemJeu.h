@@ -83,6 +83,8 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre);                        /
 informationBombe actionIA_jeu(systemJeu* jeu);                              // joue a la place du joueur
 listPosition getListCoupOptimiser(systemJeu* jeu);                         //renvoi la liste du meilleur coup
 Coordonnees getCooCoupOptimiser(systemJeu* jeu);                            //renvoi les coo du meilleur coup
+void sauvegardePartie (systemJeu* jeu, char* nomSauvegarde);
+void chargementPartie (systemJeu* jeu, char* nomSauvegarde);
 
 
 //Les bombes

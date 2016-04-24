@@ -534,6 +534,55 @@ Coordonnees getCooCoupOptimiser(systemJeu* jeu){
     return retour;
 
 }
+
+void sauvegardePartie (systemJeu* jeu, char* nomSauvegarde){
+    FILE* fichier = NULL;
+    int i,j;
+    fichier = fopen(strcat(nomSauvegarde,".txt"),"w");
+    if (fichier != NULL){
+        //- - - - - Parametrages - - - - - - - - -
+        fprintf(fichier,"%d /n", jeu->nbJoueur);
+        //condition joueurs (humain/ia)
+        fprintf(fichier,"%d /n", jeu->grilleJeu.taille);
+        //- - - - - Affichage Scores - - - - - - -
+        fprintf(fichier,"%d /n", jeu->nbBombe);
+        for (i=1; i<=jeu->nbJoueur; i++){
+            fprintf(fichier,"%d %d", jeu->tabNbPionJoueur[i], jeu->tabPointEvent[i]);
+        }
+        //- - - - - Grille de jeu - - - - - - - - -
+        for (j=0; j<jeu->grilleJeu.taille; j++){
+            for(i=0; i<jeu->grilleJeu.taille; i++){
+                fprintf(fichier,"%d %d %d %d\n", jeu->grilleJeu.tabCase[i][j].bombe, jeu->grilleJeu.tabCase[i][j].contenu,jeu->grilleJeu.tabCase[i][j].numJoueur, jeu->grilleJeu.tabCase[i][j].viePion);
+            }
+        }
+        fclose(fichier);
+    }
+}
+
+void chargementPartie (systemJeu* jeu, char* nomSauvegarde){
+    FILE* fichier = NULL;
+    int i,j;
+    fichier = fopen(strcat(nomSauvegarde,".txt"),"r");
+    if (fichier != NULL){
+        //- - - - - Parametrages - - - - - - - - -
+        fscanf(fichier,"%d", jeu->nbJoueur);
+        //condition joueurs (humain/ia)
+        fscanf(fichier,"%d", jeu->grilleJeu.taille);
+        //- - - - - Affichage Scores - - - - - - -
+        fscanf(fichier,"%d", jeu->nbBombe);
+        for (i=1; i<=jeu->nbJoueur; i++){
+            fscanf(fichier,"%d %d", jeu->tabNbPionJoueur[i], jeu->tabPointEvent[i]);
+        }
+        //- - - - - Grille de jeu - - - - - - - - -
+        for (j=0; j<jeu->grilleJeu.taille; j++){
+            for(i=0; i<jeu->grilleJeu.taille; i++){
+                fscanf(fichier,"%d %d %d %d", jeu->grilleJeu.tabCase[i][j].bombe, jeu->grilleJeu.tabCase[i][j].contenu,jeu->grilleJeu.tabCase[i][j].numJoueur, jeu->grilleJeu.tabCase[i][j].viePion);
+            }
+        }
+    }else{
+        printf("Il n'y a pas de sauvegarde sur ce fichier");
+    }
+}
 //-------------------------------------------------------------------------------------------------------
 //---------------------------- GESTION DES BOMBES -------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
