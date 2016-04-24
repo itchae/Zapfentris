@@ -13,8 +13,6 @@ typedef enum { bombeVide=0, bombeExplo, bombeLaser, bombeBloc,bombeFleche,bombeS
 typedef enum {carteVide=0, carte1_Bloc, carte2_SwapFaction, carte3_Jouer2x, carte4_EliminationPion,
             carte5_AntiTraitre,carte6_Peinture,carte7_AideMoi,carte8_Ouups} E_event;
 
-typedef enum {SauvNonDefini=0, Sauvegarde1, Sauvegarde2, Sauvegarde3}E_Sauvegarde;
-
 typedef struct {
 
     E_contenu contenu;
@@ -31,8 +29,6 @@ typedef struct {
 
 }grille;
 
-
-
 typedef struct {
 
     grille grilleJeu;
@@ -42,7 +38,6 @@ typedef struct {
     int* tabNbPionJoueur;
     bool* estIA;                //n-1 pour le joueur n
     int* tabPointEvent;         // pour le joueur n on trouve ses point en n-1 (ex: joueur2 => case 1)
-    E_Sauvegarde slot;
 
 }systemJeu;
 
@@ -65,7 +60,6 @@ systemJeu* init_SystemJeu_Minimal();                                //creation m
 void init_Grille(int taille,grille* grilleJeu);                     //creation de la structure grille
 void init_SystemJeu_setNbJoueur(systemJeu* jeu,int nbJoueur);       //alloue les tabs qui sont en fonction du nbJoueur
 void free_SystemJeu(systemJeu** jeu);                               //permet de liberee jeu et de le remettre a NULL
-void retourSystemJeuMinimal(systemJeu* jeu);                        //permet de liberer les tableau pour un retour a l'etat minimal
 
 //Placement des jetons au début
 bool placerJetonDebut(systemJeu* jeu,int espaceEntreCarre);                             //permet de mettre les pions pour une nouvelle partie
@@ -89,8 +83,8 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre);                        /
 informationBombe actionIA_jeu(systemJeu* jeu);                              // joue a la place du joueur
 listPosition getListCoupOptimiser(systemJeu* jeu);                         //renvoi la liste du meilleur coup
 Coordonnees getCooCoupOptimiser(systemJeu* jeu);                            //renvoi les coo du meilleur coup
-void sauvegardePartie (systemJeu* jeu);
-void chargementPartie (systemJeu* jeu);
+void sauvegardePartie (systemJeu* jeu, char* nomSauvegarde);
+void chargementPartie (systemJeu* jeu, char* nomSauvegarde);
 
 
 //Les bombes

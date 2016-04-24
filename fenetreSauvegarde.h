@@ -5,14 +5,12 @@
 #include "systemJeu.h"
 #include "E_fenetreType.h"
 
-
+typedef enum {SauvNonDefini, Sauvegarde1, Sauvegarde2, Sauvegarde3}E_Sauvegarde;
 
 void func_fenetreSauvegarde(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre);
 
 void refreshFenetreSauvegarde (SDL_Surface* ecran, E_Sauvegarde Sauvegarde,systemJeu* jeu,SDL_Surface* titre,SDL_Surface* boutonSauv1, /*SDL_Surface* boutonSauv1Dessus,*/
                            SDL_Surface* boutonSauv2, /*SDL_Surface* boutonSauv2Desuus,*/ SDL_Surface* boutonSauv3, /*SDL_Surface* boutonSauv3Dessus,*/ SDL_Surface* boutonCharger,
                            SDL_Surface* boutonNouvelle);
-
-char* getStringSauvegarde(E_Sauvegarde slot);       //renvoi le string de la save
 
 #endif // FENETRESAUVEGARDE_H_INCLUDED
