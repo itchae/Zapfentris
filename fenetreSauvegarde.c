@@ -98,7 +98,7 @@ void func_fenetreSauvegarde(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* je
                         }else{
                             if (event.button.x >=520 && event.button.x<(520+boutonNouvelle->w) && event.button.y>=480 && event.button.y < (480+boutonNouvelle->h)){
                                 printf("Nouvelle Partie");
-                                *typeFenetre = fenetreConfigJoueur;
+                                *typeFenetre = fenetreSelecNbJoueur;
                             }
                         }
                     }
