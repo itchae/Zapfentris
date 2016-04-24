@@ -13,7 +13,6 @@
 #include "fenetreJeu.h"
 #include "fenetreRegles.h"
 #include "fenetreSauvegarde.h"
-//#include "fenetreSauvegarde.h"
 
 void mainInterface(){
 
@@ -87,6 +86,11 @@ void mainInterface(){
 
    SDL_DestroyWindow(fenetre);//on detruit la fenetre
    SDL_FreeSurface(fenetre_icon);
+
+
+   if(jeu->nbJoueur != -1){//si un jeu etait en court
+    sauvegardePartie(jeu);
+   }
    free_SystemJeu(&jeu);
 
 }

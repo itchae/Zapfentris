@@ -35,6 +35,7 @@ systemJeu* init_SystemJeu_Minimal(){
     retour->grilleJeu.tabCase=NULL;
     retour->grilleJeu.taille=-1;
     retour->tabNbPionJoueur=NULL;
+    retour->slot=SauvNonDefini;
 
 
     return retour;
@@ -109,6 +110,41 @@ void free_SystemJeu(systemJeu** jeu){                   //on prend un pointeur d
     *jeu = NULL;
 }
 
+void retourSystemJeuMinimal(systemJeu* jeu){
+    int i;
+//on libere tout les pointeur
+    if(jeu->grilleJeu.tabCase!=NULL){
+
+        for(i=0 ; i<jeu->grilleJeu.taille ; i++){
+            free(jeu->grilleJeu.tabCase[i]);         //on libere les tab de caseJeu
+            jeu->grilleJeu.tabCase[i] = NULL;
+        }
+
+        free(jeu->grilleJeu.tabCase);                //on libere le tab de pointeur
+        jeu->grilleJeu.tabCase = NULL;
+
+    }
+
+    free(jeu->tabNbPionJoueur);                      //on libere le tab
+    jeu->tabNbPionJoueur = NULL;
+
+    free(jeu->estIA);                                //on libere le tab
+    jeu->estIA = NULL;
+
+    free(jeu->tabPointEvent);                        //on libere le tab
+    jeu->tabPointEvent = NULL;
+
+    //retour a l'etat initial
+    jeu->nbBombe = -1;
+    jeu->nbJoueur = -1;
+    jeu->numJoueur = 1;
+    jeu->estIA=NULL;
+    jeu->grilleJeu.tabCase=NULL;
+    jeu->grilleJeu.taille=-1;
+    jeu->tabNbPionJoueur=NULL;
+
+    //on ne remets pas le slot de sauvegarde a 0 car il ne faut pas le perdre pendant la sauvegarde
+}
 
 //-------------------------------------------------------------------------------------------------------
 //---------------------------- PLACEMENT DES JETONS AU DEBUT --------------------------------------------
@@ -315,9 +351,10 @@ informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAMod
     }
     seuilProtectbombe= 2*(seuilProtectbombe*4 + jeu->nbJoueur*(4-jeu->nbJoueur));                   //determine la protection contre l'activation des bombe
     // les pion du debut plus 4-nbJoueur tour de protection
+//sauvegarde
+    sauvegardePartie(jeu);
 
-
-
+//placement du jeton
     if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide && jeu->tabNbPionJoueur[0]>seuilProtectbombe){ //si bombe elle explose
        viderList(jetonAModifier);                                                                   //le coup n'existe plus
        retour.typeBombe = jeu->grilleJeu.tabCase[x][y].bombe;
@@ -535,21 +572,40 @@ Coordonnees getCooCoupOptimiser(systemJeu* jeu){
 
 }
 
-void sauvegardePartie (systemJeu* jeu, char* nomSauvegarde){
+void sauvegardePartie (systemJeu* jeu){
     FILE* fichier = NULL;
     int i,j;
-    fichier = fopen(strcat(nomSauvegarde,".txt"),"w");
+    char nomSauvegarde [50];
+    sprintf(nomSauvegarde,"Save/slot%d.sav",jeu->slot);
+    fichier = fopen(nomSauvegarde,"w");
     if (fichier != NULL){
-        //- - - - - Parametrages - - - - - - - - -
-        fprintf(fichier,"%d /n", jeu->nbJoueur);
-        //condition joueurs (humain/ia)
-        fprintf(fichier,"%d /n", jeu->grilleJeu.taille);
-        //- - - - - Affichage Scores - - - - - - -
-        fprintf(fichier,"%d /n", jeu->nbBombe);
-        for (i=1; i<=jeu->nbJoueur; i++){
-            fprintf(fichier,"%d %d", jeu->tabNbPionJoueur[i], jeu->tabPointEvent[i]);
+//- - - - - Parametrages - - - - - - - - -
+        fprintf(fichier,"%d \n", jeu->nbJoueur);
+
+    //parametre de la grille
+        fprintf(fichier,"%d \n", jeu->grilleJeu.taille);
+
+    //condition joueurs (humain/ia)
+        for(i=0 ; i<jeu->nbJoueur ; i++){
+            fprintf(fichier,"%d \n",jeu->estIA[i]);
         }
-        //- - - - - Grille de jeu - - - - - - - - -
+    //a qui le tour
+        fprintf(fichier,"%d \n", jeu->numJoueur);
+
+//- - - - - Affichage Scores - - - - - - -
+        fprintf(fichier,"%d \n", jeu->nbBombe);
+
+    //tab de score de 0 a nb joueur
+        for (i=0; i<=jeu->nbJoueur; i++){
+            fprintf(fichier,"%d \n", jeu->tabNbPionJoueur[i]);
+        }
+
+    //tab des minerai de 0 a nbjoueur-1
+        for (i=0; i<jeu->nbJoueur; i++){
+            fprintf(fichier,"%d \n", jeu->tabPointEvent[i]);
+        }
+
+//- - - - - Grille de jeu - - - - - - - - -
         for (j=0; j<jeu->grilleJeu.taille; j++){
             for(i=0; i<jeu->grilleJeu.taille; i++){
                 fprintf(fichier,"%d %d %d %d\n", jeu->grilleJeu.tabCase[i][j].bombe, jeu->grilleJeu.tabCase[i][j].contenu,jeu->grilleJeu.tabCase[i][j].numJoueur, jeu->grilleJeu.tabCase[i][j].viePion);
@@ -557,32 +613,66 @@ void sauvegardePartie (systemJeu* jeu, char* nomSauvegarde){
         }
         fclose(fichier);
     }
+    else{
+        printf("ERREUR! impossible de sauvegarder la partie sur %s \n",nomSauvegarde);
+    }
 }
 
-void chargementPartie (systemJeu* jeu, char* nomSauvegarde){
+void chargementPartie (systemJeu* jeu){
     FILE* fichier = NULL;
     int i,j;
-    fichier = fopen(strcat(nomSauvegarde,".txt"),"r");
+    char nomSauvegarde [50];
+    sprintf(nomSauvegarde,"Save/slot%d.sav",jeu->slot);
+    fichier = fopen(nomSauvegarde,"r");
+
+    if(jeu->nbJoueur != -1 ){           //si le jeu a ete initaliser on le ramene a l'etat minimal
+        retourSystemJeuMinimal(jeu);
+    }
+
+
+//chargement
     if (fichier != NULL){
-        //- - - - - Parametrages - - - - - - - - -
-        fscanf(fichier,"%d", jeu->nbJoueur);
-        //condition joueurs (humain/ia)
-        fscanf(fichier,"%d", jeu->grilleJeu.taille);
-        //- - - - - Affichage Scores - - - - - - -
-        fscanf(fichier,"%d", jeu->nbBombe);
-        for (i=1; i<=jeu->nbJoueur; i++){
-            fscanf(fichier,"%d %d", jeu->tabNbPionJoueur[i], jeu->tabPointEvent[i]);
+//- - - - - Parametrages - - - - - - - - -
+        fscanf(fichier,"%d \n", &jeu->nbJoueur);
+
+    //parametre de la grille
+        fscanf(fichier,"%d \n", &(jeu->grilleJeu.taille));
+
+    //fin creation de la structure
+        init_SystemJeu_setNbJoueur(jeu,jeu->nbJoueur);
+        init_Grille(jeu->grilleJeu.taille,&(jeu->grilleJeu));
+
+    //condition joueurs (humain/ia)
+        for(i=0 ; i<jeu->nbJoueur ; i++){
+            fscanf(fichier,"%d \n",(int*)(&(jeu->estIA[i])));
         }
-        //- - - - - Grille de jeu - - - - - - - - -
+    //a qui le tour
+        fscanf(fichier,"%d \n", &(jeu->numJoueur));
+
+//- - - - - Affichage Scores - - - - - - -
+        fscanf(fichier,"%d \n", &(jeu->nbBombe));
+
+    //tab de score de 0 a nb joueur
+        for (i=0; i<=jeu->nbJoueur; i++){
+            fscanf(fichier,"%d \n", &(jeu->tabNbPionJoueur[i]));
+        }
+
+    //tab des minerai de 0 a nbjoueur-1
+        for (i=0; i<jeu->nbJoueur; i++){
+            fscanf(fichier,"%d \n", &(jeu->tabPointEvent[i]));
+        }
+
+//- - - - - Grille de jeu - - - - - - - - -
         for (j=0; j<jeu->grilleJeu.taille; j++){
             for(i=0; i<jeu->grilleJeu.taille; i++){
-                fscanf(fichier,"%d %d %d %d", jeu->grilleJeu.tabCase[i][j].bombe, jeu->grilleJeu.tabCase[i][j].contenu,jeu->grilleJeu.tabCase[i][j].numJoueur, jeu->grilleJeu.tabCase[i][j].viePion);
+                fscanf(fichier,"%d %d %d %d\n", (int*)&(jeu->grilleJeu.tabCase[i][j].bombe),(int*) &(jeu->grilleJeu.tabCase[i][j].contenu),&(jeu->grilleJeu.tabCase[i][j].numJoueur), &(jeu->grilleJeu.tabCase[i][j].viePion));
             }
         }
-    }else{
-        printf("Il n'y a pas de sauvegarde sur ce fichier");
+        fclose(fichier);
     }
-    fclose(fichier);
+    else{
+        printf("ERREUR! impossible de charger la partie sur %s \n",nomSauvegarde);
+    }
 }
 //-------------------------------------------------------------------------------------------------------
 //---------------------------- GESTION DES BOMBES -------------------------------------------------------
@@ -815,6 +905,9 @@ void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info){
 bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
     bool activer=false;
     listPosition coup=NULL;
+    //sauvegarde
+    sauvegardePartie(jeu);
+    //choix de la carte
     switch (numCarte){
         case carte1_Bloc : if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide){        //si la case contient une bombe
                             jeu->nbBombe--;                                     //on decremente le nb de bombe

@@ -13,8 +13,6 @@ void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu*
     if(titre==NULL){
         printf("PROBLEME!! erreur lors de la creation du titre\n");
     }
-    SDL_FillRect(titre, NULL, SDL_MapRGB(titre->format,0,0,0));
-
 
     //Bouton Humain
     SDL_Surface* boutonHumain = SDL_CreateRGBSurface(0,200,150,32,0,0,0,0);

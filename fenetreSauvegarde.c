@@ -92,13 +92,19 @@ void func_fenetreSauvegarde(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* je
                         Sauvegarde = Sauvegarde3;
                     }else{
                         if (event.button.x >=320 && event.button.x<(320+boutonCharger->w) && event.button.y>=480 && event.button.y < (480+boutonCharger->h)){
-                            printf("Charger");
-                            chargementPartie(jeu, &Sauvegarde);
-                            *typeFenetre = fenetreJeu;
+                                if(Sauvegarde != SauvNonDefini){
+                                    printf("Charger");
+                                    jeu->slot = Sauvegarde;
+                                    chargementPartie(jeu);
+                                    *typeFenetre = fenetreJeu;
+                                }
                         }else{
                             if (event.button.x >=520 && event.button.x<(520+boutonNouvelle->w) && event.button.y>=480 && event.button.y < (480+boutonNouvelle->h)){
-                                printf("Nouvelle Partie");
-                                *typeFenetre = fenetreConfigJoueur;
+                                if(Sauvegarde != SauvNonDefini){
+                                    printf("Nouvelle Partie");
+                                    jeu->slot = Sauvegarde;
+                                    *typeFenetre = fenetreSelecNbJoueur;
+                                }
                             }
                         }
                     }
