@@ -582,6 +582,7 @@ void chargementPartie (systemJeu* jeu, char* nomSauvegarde){
     }else{
         printf("Il n'y a pas de sauvegarde sur ce fichier");
     }
+    fclose(fichier);
 }
 //-------------------------------------------------------------------------------------------------------
 //---------------------------- GESTION DES BOMBES -------------------------------------------------------
