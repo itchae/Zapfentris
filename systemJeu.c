@@ -109,7 +109,7 @@ void free_SystemJeu(systemJeu** jeu){                   //on prend un pointeur d
     free(*jeu);                                         //on libere le jeu
     *jeu = NULL;
 }
-
+//-------------------------------------------------------------------------------------------------------
 void retourSystemJeuMinimal(systemJeu* jeu){
     int i;
 //on libere tout les pointeur
@@ -342,7 +342,7 @@ informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAMod
     retour.cooCaseTouche=NULL;
     retour.cooX=x;
     retour.cooY=y;
-
+    sauvegardePartie(jeu);
 
     int seuilProtectbombe=0;
     int i;
@@ -351,10 +351,9 @@ informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAMod
     }
     seuilProtectbombe= 2*(seuilProtectbombe*4 + jeu->nbJoueur*(4-jeu->nbJoueur));                   //determine la protection contre l'activation des bombe
     // les pion du debut plus 4-nbJoueur tour de protection
-//sauvegarde
-    sauvegardePartie(jeu);
 
-//placement du jeton
+
+
     if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide && jeu->tabNbPionJoueur[0]>seuilProtectbombe){ //si bombe elle explose
        viderList(jetonAModifier);                                                                   //le coup n'existe plus
        retour.typeBombe = jeu->grilleJeu.tabCase[x][y].bombe;
@@ -572,6 +571,8 @@ Coordonnees getCooCoupOptimiser(systemJeu* jeu){
 
 }
 
+//-------------------------------------------------------------------------------
+
 void sauvegardePartie (systemJeu* jeu){
     FILE* fichier = NULL;
     int i,j;
@@ -579,7 +580,7 @@ void sauvegardePartie (systemJeu* jeu){
     sprintf(nomSauvegarde,"Save/slot%d.sav",jeu->slot);
     fichier = fopen(nomSauvegarde,"w");
     if (fichier != NULL){
-//- - - - - Parametrages - - - - - - - - -
+        //- - - - - Parametrages - - - - - - - - -
         fprintf(fichier,"%d \n", jeu->nbJoueur);
 
     //parametre de la grille
@@ -593,6 +594,7 @@ void sauvegardePartie (systemJeu* jeu){
         fprintf(fichier,"%d \n", jeu->numJoueur);
 
 //- - - - - Affichage Scores - - - - - - -
+    //bombe
         fprintf(fichier,"%d \n", jeu->nbBombe);
 
     //tab de score de 0 a nb joueur
@@ -604,8 +606,7 @@ void sauvegardePartie (systemJeu* jeu){
         for (i=0; i<jeu->nbJoueur; i++){
             fprintf(fichier,"%d \n", jeu->tabPointEvent[i]);
         }
-
-//- - - - - Grille de jeu - - - - - - - - -
+        //- - - - - Grille de jeu - - - - - - - - -
         for (j=0; j<jeu->grilleJeu.taille; j++){
             for(i=0; i<jeu->grilleJeu.taille; i++){
                 fprintf(fichier,"%d %d %d %d\n", jeu->grilleJeu.tabCase[i][j].bombe, jeu->grilleJeu.tabCase[i][j].contenu,jeu->grilleJeu.tabCase[i][j].numJoueur, jeu->grilleJeu.tabCase[i][j].viePion);
@@ -617,6 +618,8 @@ void sauvegardePartie (systemJeu* jeu){
         printf("ERREUR! impossible de sauvegarder la partie sur %s \n",nomSauvegarde);
     }
 }
+
+//---------------------------------------------------------------------------------
 
 void chargementPartie (systemJeu* jeu){
     FILE* fichier = NULL;
@@ -651,6 +654,7 @@ void chargementPartie (systemJeu* jeu){
         fscanf(fichier,"%d \n", &(jeu->numJoueur));
 
 //- - - - - Affichage Scores - - - - - - -
+    //bombe
         fscanf(fichier,"%d \n", &(jeu->nbBombe));
 
     //tab de score de 0 a nb joueur
@@ -663,16 +667,15 @@ void chargementPartie (systemJeu* jeu){
             fscanf(fichier,"%d \n", &(jeu->tabPointEvent[i]));
         }
 
-//- - - - - Grille de jeu - - - - - - - - -
+        //- - - - - Grille de jeu - - - - - - - - -
         for (j=0; j<jeu->grilleJeu.taille; j++){
             for(i=0; i<jeu->grilleJeu.taille; i++){
-                fscanf(fichier,"%d %d %d %d\n", (int*)&(jeu->grilleJeu.tabCase[i][j].bombe),(int*) &(jeu->grilleJeu.tabCase[i][j].contenu),&(jeu->grilleJeu.tabCase[i][j].numJoueur), &(jeu->grilleJeu.tabCase[i][j].viePion));
+             fscanf(fichier,"%d %d %d %d\n", (int*)&(jeu->grilleJeu.tabCase[i][j].bombe),(int*) &(jeu->grilleJeu.tabCase[i][j].contenu),&(jeu->grilleJeu.tabCase[i][j].numJoueur), &(jeu->grilleJeu.tabCase[i][j].viePion));
             }
         }
         fclose(fichier);
-    }
-    else{
-        printf("ERREUR! impossible de charger la partie sur %s \n",nomSauvegarde);
+    }else{
+        printf("Il n'y a pas de sauvegarde sur ce fichier");
     }
 }
 //-------------------------------------------------------------------------------------------------------
@@ -906,9 +909,7 @@ void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info){
 bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
     bool activer=false;
     listPosition coup=NULL;
-    //sauvegarde
     sauvegardePartie(jeu);
-    //choix de la carte
     switch (numCarte){
         case carte1_Bloc : if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide){        //si la case contient une bombe
                             jeu->nbBombe--;                                     //on decremente le nb de bombe

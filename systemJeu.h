@@ -15,6 +15,7 @@ typedef enum {carteVide=0, carte1_Bloc, carte2_SwapFaction, carte3_Jouer2x, cart
 
 typedef enum {SauvNonDefini=0, Sauvegarde1, Sauvegarde2, Sauvegarde3}E_Sauvegarde;
 
+
 typedef struct {
 
     E_contenu contenu;
@@ -31,8 +32,6 @@ typedef struct {
 
 }grille;
 
-
-
 typedef struct {
 
     grille grilleJeu;
@@ -42,7 +41,7 @@ typedef struct {
     int* tabNbPionJoueur;
     bool* estIA;                //n-1 pour le joueur n
     int* tabPointEvent;         // pour le joueur n on trouve ses point en n-1 (ex: joueur2 => case 1)
-    E_Sauvegarde slot;
+     E_Sauvegarde slot;
 
 }systemJeu;
 
