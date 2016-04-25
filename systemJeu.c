@@ -635,6 +635,7 @@ void chargementPartie (systemJeu* jeu){
 //- - - - - Parametrages - - - - - - - - -
         fscanf(fichier,"%d \n", &jeu->nbJoueur);
 
+
     //parametre de la grille
         fscanf(fichier,"%d \n", &(jeu->grilleJeu.taille));
 
