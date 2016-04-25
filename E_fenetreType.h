@@ -9,5 +9,7 @@ typedef enum{fenetreQuitter=-1,fenetreTitre,fenetreSelecNbJoueur,fenetreConfigJo
 #define chrono_FinPartie 5000                       //temps ou on affiche le vainqueur
 #define chrono_AnimationTraitre 100                //celui des animationTraitre
 
+#define nbCarteEvent 8
+
 
 #endif // E_FENETRETYPE_H_INCLUDED

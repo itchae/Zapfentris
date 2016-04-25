@@ -80,20 +80,20 @@ void func_fenetreSauvegarde(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* je
                         break;
         case SDL_MOUSEBUTTONDOWN :
             if (event.button.x >=350 && event.button.x<(350+boutonSauv1->w) && event.button.y>=170 && event.button.y < (170+boutonSauv1->h)){
-                    printf("Sauvegarde 1");
+                    printf("Sauvegarde 1\n");
                     Sauvegarde = Sauvegarde1;
             }else{
                 if (event.button.x >=250 && event.button.x<(350+boutonSauv2->w) && event.button.y>=270 && event.button.y < (270+boutonSauv2->h)){
-                    printf("Sauvegarde 2");
+                    printf("Sauvegarde 2\n");
                     Sauvegarde = Sauvegarde2;
                 }else{
                     if (event.button.x >=350 && event.button.x<(350+boutonSauv3->w) && event.button.y>=370 && event.button.y < (370+boutonSauv3->h)){
-                        printf("Sauvegarde 3");
+                        printf("Sauvegarde 3\n");
                         Sauvegarde = Sauvegarde3;
                     }else{
                         if (event.button.x >=320 && event.button.x<(320+boutonCharger->w) && event.button.y>=480 && event.button.y < (480+boutonCharger->h)){
                             if(Sauvegarde != SauvNonDefini){
-                                    printf("Charger");
+                                    printf("Charger\n");
                                     jeu->slot = Sauvegarde;
                                     chargementPartie(jeu);
                                     *typeFenetre = fenetreJeu;
@@ -101,7 +101,7 @@ void func_fenetreSauvegarde(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* je
                         }else{
                             if (event.button.x >=520 && event.button.x<(520+boutonNouvelle->w) && event.button.y>=480 && event.button.y < (480+boutonNouvelle->h)){
                                 if(Sauvegarde != SauvNonDefini){
-                                    printf("Nouvelle Partie");
+                                    printf("Nouvelle Partie\n");
                                     jeu->slot = Sauvegarde;
                                     *typeFenetre = fenetreSelecNbJoueur;
                                 }
@@ -135,6 +135,10 @@ void refreshFenetreSauvegarde (SDL_Surface* ecran, E_Sauvegarde Sauvegarde,syste
 
     // PLACEMENT DES CARRES DE COULEURS
     SDL_Rect position;
+    char nomFichier[50];
+    sprintf(nomFichier,"Save/slot%d.sav",Sauvegarde);
+    FILE* fichier = fopen(nomFichier,"r");
+
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));
 
 
@@ -157,13 +161,20 @@ void refreshFenetreSauvegarde (SDL_Surface* ecran, E_Sauvegarde Sauvegarde,syste
     SDL_BlitSurface(boutonSauv3,NULL,ecran,&position);
     //SDL_BlitSurface(boutonSauv3,NULL,ecran,&position);
 
-    position.x=320;
-    position.y=480;
-    SDL_BlitSurface(boutonCharger,NULL,ecran,&position);
+
+    if(fichier != NULL){
+        position.x=320;
+        position.y=480;
+        SDL_BlitSurface(boutonCharger,NULL,ecran,&position);
+        fclose(fichier);
+    }
 
 
-    position.x=520;
-    position.y=480;
-    SDL_BlitSurface(boutonNouvelle,NULL,ecran,&position);
+    if(Sauvegarde != SauvNonDefini){
+        position.x=520;
+        position.y=480;
+        SDL_BlitSurface(boutonNouvelle,NULL,ecran,&position);
+    }
+
 
 }
