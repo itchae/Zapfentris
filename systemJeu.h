@@ -42,6 +42,7 @@ typedef struct {
     bool* estIA;                //n-1 pour le joueur n
     int* tabPointEvent;         // pour le joueur n on trouve ses point en n-1 (ex: joueur2 => case 1)
      E_Sauvegarde slot;
+     bool apresExplosionBombe;
 
 }systemJeu;
 
@@ -88,8 +89,8 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre);                        /
 informationBombe actionIA_jeu(systemJeu* jeu);                              // joue a la place du joueur
 listPosition getListCoupOptimiser(systemJeu* jeu);                         //renvoi la liste du meilleur coup
 Coordonnees getCooCoupOptimiser(systemJeu* jeu);                            //renvoi les coo du meilleur coup
-void sauvegardePartie (systemJeu* jeu);
-void chargementPartie (systemJeu* jeu);
+void sauvegardePartie (systemJeu* jeu);                                     //sauvegarde la partie
+void chargementPartie (systemJeu* jeu);                                     //charge la partie
 
 
 //Les bombes

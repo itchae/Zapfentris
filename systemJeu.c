@@ -36,6 +36,7 @@ systemJeu* init_SystemJeu_Minimal(){
     retour->grilleJeu.taille=-1;
     retour->tabNbPionJoueur=NULL;
     retour->slot=SauvNonDefini;
+    retour->apresExplosionBombe=false;
 
 
     return retour;
@@ -142,6 +143,7 @@ void retourSystemJeuMinimal(systemJeu* jeu){
     jeu->grilleJeu.tabCase=NULL;
     jeu->grilleJeu.taille=-1;
     jeu->tabNbPionJoueur=NULL;
+    jeu->apresExplosionBombe=false;
 
     //on ne remets pas le slot de sauvegarde a 0 car il ne faut pas le perdre pendant la sauvegarde
 }
@@ -342,7 +344,12 @@ informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAMod
     retour.cooCaseTouche=NULL;
     retour.cooX=x;
     retour.cooY=y;
-    sauvegardePartie(jeu);
+//sauvegarde
+    if(jeu->estIA[jeu->numJoueur-1]){   //si on est un ia on sauvegarde pas comme ca le joueur humain qui joue avant moi peut vouloir revenir en arriere
+        sauvegardePartie(jeu);
+    }
+
+
 
     int seuilProtectbombe=0;
     int i;
@@ -358,10 +365,12 @@ informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAMod
        viderList(jetonAModifier);                                                                   //le coup n'existe plus
        retour.typeBombe = jeu->grilleJeu.tabCase[x][y].bombe;
         declancherBombe(jeu,x,y,&retour);
+        jeu->apresExplosionBombe=true;                                                              //on memorise l'explosion
     }
     else{                                                                                           //sinon on place le jeton
         jeu->tabNbPionJoueur[0]++;                                                                  //on ajoute un jeton au score total
         prendreJeton(jeu,jetonAModifier);
+        jeu->apresExplosionBombe=false;                                                             //pas d'explosion
     }
 
     //on passe au joueur suivant
@@ -910,6 +919,7 @@ bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
     bool activer=false;
     listPosition coup=NULL;
     sauvegardePartie(jeu);
+    jeu->apresExplosionBombe=false;                                             //pas d'explosion pour une carte event sauf en jouer2x mais gerer par placeJeton
     switch (numCarte){
         case carte1_Bloc : if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide){        //si la case contient une bombe
                             jeu->nbBombe--;                                     //on decremente le nb de bombe

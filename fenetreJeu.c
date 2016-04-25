@@ -164,14 +164,6 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
         SDL_Delay(chrono_FinPartie);
         *typeFenetre=fenetreTitre;
 
-        //a enlever
-        int moyenne=0;
-        for(i=1; i <= jeu->nbJoueur ; i++){
-            printf("Minerai J%d : %d\n",i,jeu->tabPointEvent[i-1]);
-            moyenne+=jeu->tabPointEvent[i-1];
-        }
-        printf("Moyenne : %f\n",(float)moyenne/jeu->nbJoueur);
-        // fin du a enlever
     }
 Coordonnees cooSouris,cooLecture,cooTraitre;
 
