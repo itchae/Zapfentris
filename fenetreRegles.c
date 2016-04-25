@@ -121,9 +121,24 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
         printf("PROBLEME!! erreur lors de la creation du minerai\n");
     }
 
+//les carte event
+    SDL_Surface** carteEvent = (SDL_Surface**) malloc(8*sizeof(SDL_Surface*));
+    if(carteEvent == NULL){
+        printf("PROBLEME! erreur lors de la creation du tab des cartes Event\n");
+    }
+    else{
+            //charger les images ici
+        for (i=0 ; i<nbCarteEvent ; i++){
+            carteEvent[i]= SDL_CreateRGBSurface(0,70,100,32,0,0,0,0);//a enlever
+            if(carteEvent[i]==NULL){
+                printf("PROBLEME! erreur lors de la creation de la carteEvent %d",i+1);
+            }
+
+        }
+    }
 
     while(*typeFenetre==fenetreRegles){
-        refresh_fenetreRegles(fenetre,ecran,indicePageRegles,indiceAnimation,boutonRetour,regles,chiffres,pixel,flecheDroite,flecheGauche,traitre,explosif,splash,fondRegles,caseBloque,flecheBombe,minerai);
+        refresh_fenetreRegles(fenetre,ecran,indicePageRegles,indiceAnimation,boutonRetour,regles,chiffres,pixel,flecheDroite,flecheGauche,traitre,explosif,splash,fondRegles,caseBloque,flecheBombe,minerai,carteEvent);
         SDL_UpdateWindowSurface(fenetre);
         SDL_Delay(200);
         if(SDL_PollEvent(&event) || clicMaintenu){                                                        //on regarde si il y a un event
@@ -183,7 +198,7 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
 void refresh_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,int indicePageRegles,int indiceAnimation,SDL_Surface* boutonRetour,
                             SDL_Surface** regles,SDL_Surface** chiffres,SDL_Surface* pixel,SDL_Surface* flecheDroite,SDL_Surface* flecheGauche,
                             SDL_Surface** traitre,SDL_Surface** explosif,SDL_Surface** splash ,SDL_Surface* fondRegles,SDL_Surface* caseBloque,
-                            SDL_Surface* flecheBombe,SDL_Surface* minerai)
+                            SDL_Surface* flecheBombe,SDL_Surface* minerai,SDL_Surface** carteEvent)
 {
 
     SDL_Rect position,finDroite;
@@ -291,6 +306,12 @@ void refresh_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,int indicePage
                 position.x=800;
                 position.y=110;
                 SDL_BlitSurface(minerai,NULL,ecran,&position);
+                //carte bloc
+                position.y=160;
+                SDL_BlitSurface(carteEvent[0],NULL,ecran,&position);
+                //mettre les carte ici
+            break;
+        case 5://mettre les carte ici
             break;
         default:
             break;

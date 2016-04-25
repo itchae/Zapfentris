@@ -8,6 +8,6 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
 void refresh_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,int indicePageRegles,int indiceAnimation,SDL_Surface* boutonRetour,
                             SDL_Surface** regles,SDL_Surface** chiffres,SDL_Surface* pixel,SDL_Surface* flecheDroite,SDL_Surface* flecheGauche,
                             SDL_Surface** traitre,SDL_Surface** explosif,SDL_Surface** splash,SDL_Surface* fondRegles,SDL_Surface* caseBloque,
-                            SDL_Surface* flecheBombe,SDL_Surface* minerai );
+                            SDL_Surface* flecheBombe,SDL_Surface* minerai,SDL_Surface** carteEvent );
 
 #endif // FENETREREGLES_H_INCLUDED

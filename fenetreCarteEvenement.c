@@ -7,8 +7,6 @@
 #include "fenetreJeu.h" //pour l'animation des traitre apres une carte event
 
 
-#define nbCarteEvent 8
-
 void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre){
     int i;
     char fichier[25];
@@ -438,15 +436,15 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
     ecritureNombre(chiffres,&position,jeu->tabPointEvent[jeu->numJoueur-1],ecran);             //ecrit le nb de minerai
 
 
-    //on les remets toutes a rouge
-    SDL_FillRect(carteEvent1,NULL,SDL_MapRGB(carteEvent1->format,255,0,0));
-    SDL_FillRect(carteEvent2,NULL,SDL_MapRGB(carteEvent2->format,255,0,0));
-    SDL_FillRect(carteEvent3,NULL,SDL_MapRGB(carteEvent3->format,255,0,0));
-    SDL_FillRect(carteEvent4,NULL,SDL_MapRGB(carteEvent4->format,255,0,0));
-    SDL_FillRect(carteEvent5,NULL,SDL_MapRGB(carteEvent5->format,255,0,0));
-    SDL_FillRect(carteEvent6,NULL,SDL_MapRGB(carteEvent6->format,255,0,0));
-    SDL_FillRect(carteEvent7,NULL,SDL_MapRGB(carteEvent7->format,255,0,0));
-    SDL_FillRect(carteEvent8,NULL,SDL_MapRGB(carteEvent8->format,255,0,0));
+    //on les remets toutes a leur couleur de rarete
+    SDL_FillRect(carteEvent1,NULL,SDL_MapRGB(carteEvent1->format,0,170,0));
+    SDL_FillRect(carteEvent2,NULL,SDL_MapRGB(carteEvent2->format,255,160,32));
+    SDL_FillRect(carteEvent3,NULL,SDL_MapRGB(carteEvent3->format,150,0,200));
+    SDL_FillRect(carteEvent4,NULL,SDL_MapRGB(carteEvent4->format,0,170,0));
+    SDL_FillRect(carteEvent5,NULL,SDL_MapRGB(carteEvent5->format,150,0,200));
+    SDL_FillRect(carteEvent6,NULL,SDL_MapRGB(carteEvent6->format,0,50,200));
+    SDL_FillRect(carteEvent7,NULL,SDL_MapRGB(carteEvent7->format,0,170,0));
+    SDL_FillRect(carteEvent8,NULL,SDL_MapRGB(carteEvent8->format,0,50,200));
 
     //collage bouton valider pour les evenements qui n'ont pas besoin de cible
     switch(carteChoisi){

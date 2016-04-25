@@ -21,13 +21,7 @@ void mainInterface(){
     systemJeu* jeu =NULL;
 
     SDL_Window* fenetre;                                                                                                //pointeur sur la fenetre
-    fenetre = SDL_CreateWindow("Zapfentris",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,600,SDL_WINDOW_SHOWN);  //cree la fenetre
-
-    /* Liste des noms
-
-        -Zapfentris
-        -Zapfun
-    */
+    fenetre = SDL_CreateWindow("Pawn Hey",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,600,SDL_WINDOW_SHOWN);  //cree la fenetre
 
 
     if(fenetre== 0)                                                                                                     //verification que la fenetre a ete cree

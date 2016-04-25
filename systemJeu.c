@@ -1170,26 +1170,26 @@ int getPrixCarte_Carte4(systemJeu* jeu){
     switch(jeu->grilleJeu.taille){
         case 10:                //cas des petite grille (2,3,4 joueur)
         case 11:
-        case 12:prix=1;
+        case 12:prix=15;
                 break;
 
         case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
-                    prix=1;
+                    prix=15;
                 }
                 else{//cas moyenne grille a 2 joueur
-                    prix=1;
+                    prix=30;
                 }
                 break;
 
         case 14:                //cas des moyenne grille (3,4,5 joueur)
         case 15:
-        case 16:prix=1;
+        case 16:prix=30;
                 break;
 
         case 17:                //cas des grande grille (2,3,4,5 joueur)
         case 18:
         case 19:
-        case 20:prix=1;
+        case 20:prix=75;
                 break;
 
         default :  prix=0;
@@ -1203,26 +1203,26 @@ int getPrixCarte_Carte5(systemJeu* jeu){
     switch(jeu->grilleJeu.taille){
         case 10:                //cas des petite grille (2,3,4 joueur)
         case 11:
-        case 12:prix=2;
+        case 12:prix=80;
                 break;
 
         case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
-                    prix=2;
+                    prix=80;
                 }
                 else{//cas moyenne grille a 2 joueur
-                    prix=2;
+                    prix=160;
                 }
                 break;
 
         case 14:                //cas des moyenne grille (3,4,5 joueur)
         case 15:
-        case 16:prix=2;
+        case 16:prix=160;
                 break;
 
         case 17:                //cas des grande grille (2,3,4,5 joueur)
         case 18:
         case 19:
-        case 20:prix=2;
+        case 20:prix=400;
                 break;
 
         default :  prix=0;
@@ -1236,26 +1236,26 @@ int getPrixCarte_Carte6(systemJeu* jeu){
     switch(jeu->grilleJeu.taille){
         case 10:                //cas des petite grille (2,3,4 joueur)
         case 11:
-        case 12:prix=3;
+        case 12:prix=25;
                 break;
 
         case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
-                    prix=3;
+                    prix=25;
                 }
                 else{//cas moyenne grille a 2 joueur
-                    prix=3;
+                    prix=50;
                 }
                 break;
 
         case 14:                //cas des moyenne grille (3,4,5 joueur)
         case 15:
-        case 16:prix=3;
+        case 16:prix=50;
                 break;
 
         case 17:                //cas des grande grille (2,3,4,5 joueur)
         case 18:
         case 19:
-        case 20:prix=3;
+        case 20:prix=125;
                 break;
 
         default :  prix=0;
@@ -1269,26 +1269,26 @@ int getPrixCarte_Carte7(systemJeu* jeu){
     switch(jeu->grilleJeu.taille){
         case 10:                //cas des petite grille (2,3,4 joueur)
         case 11:
-        case 12:prix=4;
+        case 12:prix=5;
                 break;
 
         case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
-                    prix=4;
+                    prix=5;
                 }
                 else{//cas moyenne grille a 2 joueur
-                    prix=4;
+                    prix=10;
                 }
                 break;
 
         case 14:                //cas des moyenne grille (3,4,5 joueur)
         case 15:
-        case 16:prix=4;
+        case 16:prix=10;
                 break;
 
         case 17:                //cas des grande grille (2,3,4,5 joueur)
         case 18:
         case 19:
-        case 20:prix=4;
+        case 20:prix=25;
                 break;
 
         default :  prix=0;
@@ -1302,26 +1302,26 @@ int getPrixCarte_Carte8(systemJeu* jeu){
     switch(jeu->grilleJeu.taille){
         case 10:                //cas des petite grille (2,3,4 joueur)
         case 11:
-        case 12:prix=5;
+        case 12:prix=20;
                 break;
 
         case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
-                    prix=5;
+                    prix=20;
                 }
                 else{//cas moyenne grille a 2 joueur
-                    prix=5;
+                    prix=40;
                 }
                 break;
 
         case 14:                //cas des moyenne grille (3,4,5 joueur)
         case 15:
-        case 16:prix=5;
+        case 16:prix=40;
                 break;
 
         case 17:                //cas des grande grille (2,3,4,5 joueur)
         case 18:
         case 19:
-        case 20:prix=5;
+        case 20:prix=100;
                 break;
 
         default :  prix=0;
