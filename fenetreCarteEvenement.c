@@ -107,10 +107,10 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     SDL_FillRect(carteEvent2,NULL,SDL_MapRGB(carteEvent2->format,255,0,0));
 
     //desus
-    /*SDL_Surface* carteEvent2Dessus = SDL_LoadBMP("Images/carteEvent2.bmp");
+    SDL_Surface* carteEvent2Dessus = SDL_LoadBMP("Images/carteEvent2.bmp");
     if(carteEvent2Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte2\n");
-    }*/
+    }
 
     //carte3
     SDL_Surface* carteEvent3 = SDL_CreateRGBSurface(0,70,100,32,0,0,0,0);
@@ -120,10 +120,10 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     SDL_FillRect(carteEvent3,NULL,SDL_MapRGB(carteEvent3->format,255,0,0));
 
     //desus
-    /*SDL_Surface* carteEvent3Dessus = SDL_LoadBMP("Images/carteEvent3.bmp");
+    SDL_Surface* carteEvent3Dessus = SDL_LoadBMP("Images/carteEvent3.bmp");
     if(carteEvent3Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte3\n");
-    }*/
+    }
 
 
     //carte4
@@ -134,10 +134,10 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     SDL_FillRect(carteEvent4,NULL,SDL_MapRGB(carteEvent4->format,255,0,0));
 
     //desus
-    /*SDL_Surface* carteEvent4Dessus = SDL_LoadBMP("Images/carteEvent4.bmp");
+    SDL_Surface* carteEvent4Dessus = SDL_LoadBMP("Images/carteEvent4.bmp");
     if(carteEvent4Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte4\n");
-    }*/
+    }
 
 
     //carte5
@@ -148,24 +148,22 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     SDL_FillRect(carteEvent5,NULL,SDL_MapRGB(carteEvent5->format,255,0,0));
 
     //desus
-    /*SDL_Surface* carteEvent5Dessus = SDL_LoadBMP("Images/carteEvent5.bmp");
+    SDL_Surface* carteEvent5Dessus = SDL_LoadBMP("Images/carteEvent5.bmp");
     if(carteEvent5Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte5\n");
-    }*/
+    }
 
      //carte6
     SDL_Surface* carteEvent6 = SDL_CreateRGBSurface(0,70,100,32,0,0,0,0);
     if(carteEvent6==NULL){
         printf("PROBLEME !! Impossible de cree la surface carteEvent6\n");
-
+    }
         //desus
-    /*SDL_Surface* carteEvent6Dessus = SDL_LoadBMP("Images/carteEvent6.bmp");
+    SDL_Surface* carteEvent6Dessus = SDL_LoadBMP("Images/carteEvent6.bmp");
     if(carteEvent6Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte6\n");
-    }*/
-
     }
-    SDL_FillRect(carteEvent6,NULL,SDL_MapRGB(carteEvent6->format,255,0,0));
+
 
     //carte7
     SDL_Surface* carteEvent7 = SDL_CreateRGBSurface(0,70,100,32,0,0,0,0);
@@ -175,10 +173,10 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     SDL_FillRect(carteEvent7,NULL,SDL_MapRGB(carteEvent7->format,255,0,0));
 
     //desus
-    /*SDL_Surface* carteEvent7Dessus = SDL_LoadBMP("Images/carteEvent7.bmp");
+    SDL_Surface* carteEvent7Dessus = SDL_LoadBMP("Images/carteEvent7.bmp");
     if(carteEvent7Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte7\n");
-    }*/
+    }
 
     //carte8
     SDL_Surface* carteEvent8 = SDL_CreateRGBSurface(0,70,100,32,0,0,0,0);
@@ -188,10 +186,10 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     SDL_FillRect(carteEvent8,NULL,SDL_MapRGB(carteEvent8->format,255,0,0));
 
     //desus
-    /*SDL_Surface* carteEvent8Dessus = SDL_LoadBMP("Images/carteEvent8.bmp");
+    SDL_Surface* carteEvent8Dessus = SDL_LoadBMP("Images/carteEvent8.bmp");
     if(carteEvent8Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte8\n");
-    }*/
+    }
 
 //creation des chiffres
 
@@ -203,8 +201,8 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,
                                   boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteVide,carteEvent1,carteEvent2,
                                   carteEvent3,carteEvent4,carteEvent5,carteEvent6,carteEvent7,carteEvent8,
-                                  carteEvent1Dessus/*,carteEvent2Dessus,carteEvent3Dessus,carteEvent4Dessus,
-                                  carteEvent5Dessus,carteEvent6Dessus,carteEvent7Dessus,carteEvent8Dessus*/);
+                                  carteEvent1Dessus,carteEvent2Dessus,carteEvent3Dessus,carteEvent4Dessus,
+                                  carteEvent5Dessus,carteEvent6Dessus,carteEvent7Dessus,carteEvent8Dessus);
     SDL_UpdateWindowSurface(fenetre);
 
 Coordonnees cooSouris,cooTraitre;
@@ -223,8 +221,8 @@ SDL_Rect positionDescription;
         refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler, boutonAnnulerDessus,
                                       boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3,
                                       carteEvent4,carteEvent5,carteEvent6,carteEvent7,carteEvent8,
-                                        carteEvent1Dessus/*,carteEvent2Dessus,carteEvent3Dessus,carteEvent4Dessus,
-                                        carteEvent5Dessus,carteEvent6Dessus,carteEvent7Dessus,carteEvent8Dessus*/);
+                                        carteEvent1Dessus,carteEvent2Dessus,carteEvent3Dessus,carteEvent4Dessus,
+                                        carteEvent5Dessus,carteEvent6Dessus,carteEvent7Dessus,carteEvent8Dessus);
 
         switch(event.type){                                                                 //regarde le type de l'event
             case SDL_QUIT: *typeFenetre = fenetreQuitter;                                   //event de je veux ferme la fenetre
@@ -237,8 +235,8 @@ SDL_Rect positionDescription;
                             refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,
                                                           boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,
                                                           carteEvent3, carteEvent4,carteEvent5,carteEvent6,carteEvent7,carteEvent8,
-                                                            carteEvent1Dessus/*,carteEvent2Dessus,carteEvent3Dessus,carteEvent4Dessus,
-                                                            carteEvent5Dessus,carteEvent6Dessus,carteEvent7Dessus,carteEvent8Dessus*/);
+                                                            carteEvent1Dessus,carteEvent2Dessus,carteEvent3Dessus,carteEvent4Dessus,
+                                                            carteEvent5Dessus,carteEvent6Dessus,carteEvent7Dessus,carteEvent8Dessus);
                             SDL_UpdateWindowSurface(fenetre);
                             SDL_Delay(chrono_Action);
 
@@ -247,8 +245,8 @@ SDL_Rect positionDescription;
                                 refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,
                                                               boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,
                                                               carteEvent3, carteEvent4,carteEvent5,carteEvent6,carteEvent7,carteEvent8,
-                                                                carteEvent1Dessus/*,carteEvent2Dessus,carteEvent3Dessus,carteEvent4Dessus,
-                                                                carteEvent5Dessus,carteEvent6Dessus,carteEvent7Dessus,carteEvent8Dessus*/);
+                                                                carteEvent1Dessus,carteEvent2Dessus,carteEvent3Dessus,carteEvent4Dessus,
+                                                                carteEvent5Dessus,carteEvent6Dessus,carteEvent7Dessus,carteEvent8Dessus);
                                 SDL_UpdateWindowSurface(fenetre);
                                 SDL_Delay(chrono_Action);
                             }
@@ -283,8 +281,8 @@ SDL_Rect positionDescription;
                                                             refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,
                                                                               boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3,
                                                                               carteEvent4,carteEvent5,carteEvent6,carteEvent7,carteEvent8,
-                                                                                carteEvent1Dessus/*,carteEvent2Dessus,carteEvent3Dessus,carteEvent4Dessus,
-                                                                                carteEvent5Dessus,carteEvent6Dessus,carteEvent7Dessus,carteEvent8Dessus*/);
+                                                                                carteEvent1Dessus,carteEvent2Dessus,carteEvent3Dessus,carteEvent4Dessus,
+                                                                                carteEvent5Dessus,carteEvent6Dessus,carteEvent7Dessus,carteEvent8Dessus);
                                                             SDL_UpdateWindowSurface(fenetre);
                                                             SDL_Delay(chrono_Action);
 
@@ -293,8 +291,8 @@ SDL_Rect positionDescription;
                                                                 refresh_fenetreCarteEvenement(ecran,fondCaseJeu,fondGrilleJeu,fondMagasin,jeu,pionSurface,caseBloc,chiffres,boutonAnnuler,
                                                                                   boutonAnnulerDessus,boutonValider,boutonValiderDessus,carteChoisi,carteEvent1,carteEvent2,carteEvent3,
                                                                                   carteEvent4,carteEvent5,carteEvent6,carteEvent7,carteEvent8,
-                                                                                    carteEvent1Dessus/*,carteEvent2Dessus,carteEvent3Dessus,carteEvent4Dessus,
-                                                                                    carteEvent5Dessus,carteEvent6Dessus,carteEvent7Dessus,carteEvent8Dessus*/);
+                                                                                    carteEvent1Dessus,carteEvent2Dessus,carteEvent3Dessus,carteEvent4Dessus,
+                                                                                    carteEvent5Dessus,carteEvent6Dessus,carteEvent7Dessus,carteEvent8Dessus);
                                                                 SDL_UpdateWindowSurface(fenetre);
                                                                 SDL_Delay(chrono_Action);
                                                             }
@@ -426,13 +424,13 @@ SDL_Rect positionDescription;
     SDL_FreeSurface(carteEvent7);
     SDL_FreeSurface(carteEvent8);
     SDL_FreeSurface(carteEvent1Dessus);
-    /*SDL_FreeSurface(carteEvent2Dessus);
+    SDL_FreeSurface(carteEvent2Dessus);
     SDL_FreeSurface(carteEvent3Dessus);
     SDL_FreeSurface(carteEvent4Dessus);
     SDL_FreeSurface(carteEvent5Dessus);
     SDL_FreeSurface(carteEvent6Dessus);
     SDL_FreeSurface(carteEvent7Dessus);
-    SDL_FreeSurface(carteEvent8Dessus);*/
+    SDL_FreeSurface(carteEvent8Dessus);
     SDL_FreeSurface(caseBloc);
     SDL_FreeSurface(boutonValiderDessus);
     SDL_FreeSurface(boutonAnnulerDessus);
@@ -457,8 +455,8 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
                          SDL_Surface* boutonValider,SDL_Surface* boutonValiderDessus, E_event carteChoisi,SDL_Surface* carteEvent1,
                          SDL_Surface* carteEvent2,SDL_Surface* carteEvent3,SDL_Surface* carteEvent4,SDL_Surface* carteEvent5,SDL_Surface* carteEvent6,
                          SDL_Surface* carteEvent7,SDL_Surface* carteEvent8,SDL_Surface* carteEvent1Dessus
-                         /* ,SDL_Surface* carteEvent2Dessus,SDL_Surface* carteEvent3Dessus,SDL_Surface* carteEvent4Dessus,
-                         SDL_Surface* carteEvent5Dessus,SDL_Surface* carteEvent6Dessus,,SDL_Surface* carteEvent7Dessus,SDL_Surface* carteEvent8Dessus*/){
+                          ,SDL_Surface* carteEvent2Dessus,SDL_Surface* carteEvent3Dessus,SDL_Surface* carteEvent4Dessus,
+                         SDL_Surface* carteEvent5Dessus,SDL_Surface* carteEvent6Dessus,SDL_Surface* carteEvent7Dessus,SDL_Surface* carteEvent8Dessus){
 
     SDL_Rect position;//permet de def une position sur l'ecran
 
@@ -579,9 +577,9 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
     position.x=810;
     position.y=100;
     SDL_BlitSurface(carteEvent2,NULL,ecran,&position);//colle la surface sur l'ecran
-    /*position.x+=((carteEvent2->w/2)-(carteEvent2Dessus->w/2));
+    position.x+=((carteEvent2->w/2)-(carteEvent2Dessus->w/2));
     position.y+=((carteEvent2->h/2)-(carteEvent2Dessus->h/2));
-    SDL_BlitSurface(carteEvent2Dessus,NULL,ecran,&position);*/
+    SDL_BlitSurface(carteEvent2Dessus,NULL,ecran,&position);
     position.x=815;
     position.y=100+(carteEvent2->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte2_SwapFaction),ecran);
@@ -589,9 +587,9 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
     position.x=900;
     position.y=100;
     SDL_BlitSurface(carteEvent3,NULL,ecran,&position);//colle la surface sur l'ecran
-    /*position.x+=((carteEvent3->w/2)-(carteEvent3Dessus->w/2));
+    position.x+=((carteEvent3->w/2)-(carteEvent3Dessus->w/2));
     position.y+=((carteEvent3->h/2)-(carteEvent3Dessus->h/2));
-    SDL_BlitSurface(carteEvent3Dessus,NULL,ecran,&position);*/
+    SDL_BlitSurface(carteEvent3Dessus,NULL,ecran,&position);
     position.x=905;
     position.y=100+(carteEvent3->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte3_Jouer2x),ecran);
@@ -599,9 +597,9 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
     position.x=720;
     position.y=220;
     SDL_BlitSurface(carteEvent4,NULL,ecran,&position);//colle la surface sur l'ecran
-    /*position.x+=((carteEvent4->w/2)-(carteEvent4Dessus->w/2));
+    position.x+=((carteEvent4->w/2)-(carteEvent4Dessus->w/2));
     position.y+=((carteEvent4->h/2)-(carteEvent4Dessus->h/2));
-    SDL_BlitSurface(carteEvent4Dessus,NULL,ecran,&position);*/
+    SDL_BlitSurface(carteEvent4Dessus,NULL,ecran,&position);
     position.x=725;
     position.y=220+(carteEvent4->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte4_EliminationPion),ecran);
@@ -609,9 +607,9 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
     position.x=810;
     position.y=220;
     SDL_BlitSurface(carteEvent5,NULL,ecran,&position);//colle la surface sur l'ecran
-    /*position.x+=((carteEvent5->w/2)-(carteEvent5Dessus->w/2));
+    position.x+=((carteEvent5->w/2)-(carteEvent5Dessus->w/2));
     position.y+=((carteEvent5->h/2)-(carteEvent5Dessus->h/2));
-    SDL_BlitSurface(carteEvent5Dessus,NULL,ecran,&position);*/
+    SDL_BlitSurface(carteEvent5Dessus,NULL,ecran,&position);
     position.x=815;
     position.y=220+(carteEvent5->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte5_AntiTraitre),ecran);
@@ -619,9 +617,9 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
     position.x=900;
     position.y=220;
     SDL_BlitSurface(carteEvent6,NULL,ecran,&position);//colle la surface sur l'ecran
-    /*position.x+=((carteEvent6->w/2)-(carteEvent6Dessus->w/2));
+    position.x+=((carteEvent6->w/2)-(carteEvent6Dessus->w/2));
     position.y+=((carteEvent6->h/2)-(carteEvent6Dessus->h/2));
-    SDL_BlitSurface(carteEvent6Dessus,NULL,ecran,&position);*/
+    SDL_BlitSurface(carteEvent6Dessus,NULL,ecran,&position);
     position.x=905;
     position.y=220+(carteEvent6->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte6_Peinture),ecran);
@@ -629,9 +627,9 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
     position.x=720;
     position.y=340;
     SDL_BlitSurface(carteEvent7,NULL,ecran,&position);//colle la surface sur l'ecran
-    /*position.x+=((carteEvent7->w/2)-(carteEvent7Dessus->w/2));
+    position.x+=((carteEvent7->w/2)-(carteEvent7Dessus->w/2));
     position.y+=((carteEvent7->h/2)-(carteEvent7Dessus->h/2));
-    SDL_BlitSurface(carteEvent7Dessus,NULL,ecran,&position);*/
+    SDL_BlitSurface(carteEvent7Dessus,NULL,ecran,&position);
     position.x=725;
     position.y=340+(carteEvent7->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte7_AideMoi),ecran);
@@ -640,9 +638,9 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
         position.x=900;
         position.y=340;
         SDL_BlitSurface(carteEvent8,NULL,ecran,&position);//colle la surface sur l'ecran
-        /*position.x+=((carteEvent8->w/2)-(carteEvent8Dessus->w/2));
+        position.x+=((carteEvent8->w/2)-(carteEvent8Dessus->w/2));
         position.y+=((carteEvent8->h/2)-(carteEvent8Dessus->h/2));
-        SDL_BlitSurface(carteEvent8Dessus,NULL,ecran,&position);*/
+        SDL_BlitSurface(carteEvent8Dessus,NULL,ecran,&position);
         position.x=905;
         position.y=340+(carteEvent8->h-20);
         ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte8_Ouups),ecran);

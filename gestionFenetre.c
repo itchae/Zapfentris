@@ -66,6 +66,7 @@ void mainInterface(){
         case fenetreDureePartie: func_fenetreDureePartie(fenetre,ecran,jeu,&typeFenetre);
                         break;
         case fenetreDifficulte: func_fenetreDifficulte(fenetre,ecran,jeu,&typeFenetre);
+                                sauvegardePartie(jeu);                                  //on sauvegarde ici pour supprimer l'ancienne
                         break;
         case fenetreJeu: func_fenetreJeu(fenetre,ecran,jeu,&typeFenetre);
                         break;
