@@ -128,10 +128,18 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
     }
     else{
             //charger les images ici
+           /* carteEvent[0]=SDL_LoadBMP("Images/bloc.bmp");
+            carteEvent[1]=SDL_LoadBMP("Images/carteEvent2.bmp");
+            carteEvent[2]=SDL_LoadBMP("Images/carteEvent3.bmp");
+            carteEvent[3]=SDL_LoadBMP("Images/carteEvent4.bmp");
+            carteEvent[4]=SDL_LoadBMP("Images/carteEvent5.bmp");
+            carteEvent[5]=SDL_LoadBMP("Images/carteEvent6.bmp");
+            carteEvent[7]=SDL_LoadBMP("Images/carteEvent7.bmp");
+            carteEvent[8]=SDL_LoadBMP("Images/carteEvent8.bmp");*/
         for (i=0 ; i<nbCarteEvent ; i++){
-            carteEvent[i]= SDL_CreateRGBSurface(0,70,100,32,0,0,0,0);//a enlever
+            carteEvent[i]=SDL_CreateRGBSurface(0,45,45,32,0,0,0,0);
             if(carteEvent[i]==NULL){
-                printf("PROBLEME! erreur lors de la creation de la carteEvent %d",i+1);
+                printf("PROBLEME! erreur lors de la creation de la carteEvent %d\n",i+1);
             }
 
         }
@@ -191,6 +199,9 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
     SDL_FreeSurface(caseBloque);
     SDL_FreeSurface(flecheBombe);
     SDL_FreeSurface(minerai);
+    for(i=0 ; i < nbCarteEvent ; i++){
+        SDL_FreeSurface(carteEvent[i]);
+    }
 }
 
 
