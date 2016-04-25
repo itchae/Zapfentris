@@ -84,7 +84,6 @@ void mainInterface(){
         }
    }
 
-
    SDL_DestroyWindow(fenetre);//on detruit la fenetre
    SDL_FreeSurface(fenetre_icon);
    free_SystemJeu(&jeu);

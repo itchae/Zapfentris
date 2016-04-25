@@ -535,6 +535,8 @@ Coordonnees getCooCoupOptimiser(systemJeu* jeu){
 
 }
 
+//-------------------------------------------------------------------------------
+
 void sauvegardePartie (systemJeu* jeu, char* nomSauvegarde){
     FILE* fichier = NULL;
     int i,j;
@@ -558,6 +560,8 @@ void sauvegardePartie (systemJeu* jeu, char* nomSauvegarde){
         fclose(fichier);
     }
 }
+
+//---------------------------------------------------------------------------------
 
 void chargementPartie (systemJeu* jeu, char* nomSauvegarde){
     FILE* fichier = NULL;
