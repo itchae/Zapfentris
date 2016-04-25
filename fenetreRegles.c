@@ -296,7 +296,12 @@ void refresh_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,int indicePage
                 finDroite.x=position.x+100;
                 finDroite.y=position.y;
                 SDL_FillRect(pixel,NULL,SDL_MapRGB(pixel->format,rouge*255,vert*255,((vert+2*rouge+1)%2)*255));         //color la surface
-                tracerLigne(position,finDroite,ecran,pixel);
+
+                for(i=0 ; i<10 ; i++){
+                   tracerLigne(position,finDroite,ecran,pixel);
+                   position.y+=pixel->h;
+                    finDroite.y=position.y;
+                }
                 SDL_FillRect(pixel,NULL,SDL_MapRGB(pixel->format,0,0,0));
             break;
         case 2://animation bombes splash
@@ -317,11 +322,31 @@ void refresh_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,int indicePage
                 position.y=110;
                 SDL_BlitSurface(minerai,NULL,ecran,&position);
                 //carte bloc
-                position.y=160;
+                position.y=210;
                 SDL_BlitSurface(carteEvent[0],NULL,ecran,&position);
-                //mettre les carte ici
+                //carte Swap
+                position.y=280;
+                SDL_BlitSurface(carteEvent[1],NULL,ecran,&position);
+                //carte 2x
+                position.y=380;
+                SDL_BlitSurface(carteEvent[2],NULL,ecran,&position);
             break;
-        case 5://mettre les carte ici
+        case 5:position.x=800;
+                //carte peinture
+                position.y=60;
+                SDL_BlitSurface(carteEvent[5],NULL,ecran,&position);
+                //carte anti traitre
+                position.y=130;
+                SDL_BlitSurface(carteEvent[4],NULL,ecran,&position);
+                //carte anti pion
+                position.y=220;
+                SDL_BlitSurface(carteEvent[3],NULL,ecran,&position);
+                //carte aide moi
+                position.y=280;
+                SDL_BlitSurface(carteEvent[6],NULL,ecran,&position);
+                //carte ouups
+                position.y=380;
+                SDL_BlitSurface(carteEvent[7],NULL,ecran,&position);
             break;
         default:
             break;
