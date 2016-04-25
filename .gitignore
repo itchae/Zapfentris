@@ -19,6 +19,8 @@ $RECYCLE.BIN/
 
 # gcc compile output
 *.o
+#on ignore les .sav
+*.sav
 
 # on ignore tous les .layout et .depend
 *.layout
