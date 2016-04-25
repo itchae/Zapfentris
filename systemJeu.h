@@ -90,8 +90,8 @@ informationBombe actionIA_jeu(systemJeu* jeu);                              // j
 listPosition getListCoupOptimiser(systemJeu* jeu);                         //renvoi la liste du meilleur coup
 Coordonnees getCooCoupOptimiser(systemJeu* jeu);                            //renvoi les coo du meilleur coup
 void sauvegardePartie (systemJeu* jeu);                                     //sauvegarde la partie
-void chargementPartie (systemJeu* jeu);                                     //charge la partie
-
+bool chargementPartie (systemJeu* jeu);                                     //charge la partie
+int getNbMineraiDansSauvegarde(systemJeu* jeu);                            //va lire dans la save le nb de minerai que possedait le joueur au moent de la save
 
 //Les bombes
 bool placerBombeDebut(systemJeu* jeu);                          //place les bombe au début du jeu
@@ -120,5 +120,6 @@ int getPrixCarte_Carte4(systemJeu* jeu);
 int getPrixCarte_Carte5(systemJeu* jeu);
 int getPrixCarte_Carte6(systemJeu* jeu);
 int getPrixCarte_Carte7(systemJeu* jeu);
+int getPrixCarte_Carte8(systemJeu* jeu);
 
 #endif // SYSTEMJEU_H_INCLUDED
