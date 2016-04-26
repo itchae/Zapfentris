@@ -4,19 +4,25 @@
 #include <math.h>
 #include <time.h>
 
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+//                                      SystemJeu                                                   //
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+
 //-----------------------------------------------------------------------------------------------------
 //--------------------------------- INITIALISATION D'UNE PARTIE ---------------------------------------
 //-----------------------------------------------------------------------------------------------------
 
 systemJeu* init_SystemJeu(int nbJoueur, int nbBombe, int taille){
-    systemJeu* retour=NULL;
+    systemJeu* retour = NULL;
     if(nbJoueur>1){
         retour = (systemJeu*)malloc(sizeof(systemJeu));
         retour->nbBombe = nbBombe;
-        retour->numJoueur = 1;                                //1=premier joueur
+        retour->numJoueur = 1;                                //1 = premier joueur
         init_Grille(taille, &retour->grilleJeu);
 
-        init_SystemJeu_setNbJoueur(retour,nbJoueur);            // alloue les tab en fonction du nbjoueur et affecte ce nb a sa variable
+        init_SystemJeu_setNbJoueur(retour,nbJoueur);            // alloue les tab en fonction du nbjoueur et affecte ce nb à sa variable
     }
     else{
         printf("\n PROBLEME!! Il est imposible de jouer avec seulement %d joueur\n",nbJoueur);
@@ -31,13 +37,12 @@ systemJeu* init_SystemJeu_Minimal(){
     retour->nbBombe = -1;
     retour->nbJoueur = -1;
     retour->numJoueur = 1;
-    retour->estIA=NULL;
-    retour->grilleJeu.tabCase=NULL;
-    retour->grilleJeu.taille=-1;
-    retour->tabNbPionJoueur=NULL;
-    retour->slot=SauvNonDefini;
-    retour->apresExplosionBombe=false;
-
+    retour->estIA = NULL;
+    retour->grilleJeu.tabCase = NULL;
+    retour->grilleJeu.taille = -1;
+    retour->tabNbPionJoueur = NULL;
+    retour->slot = SauvNonDefini;
+    retour->apresExplosionBombe = false;
 
     return retour;
 }
@@ -64,22 +69,22 @@ void init_SystemJeu_setNbJoueur(systemJeu* jeu,int nbJoueur){
     jeu->nbJoueur=nbJoueur;
 
     //creation tab score
-        jeu->tabNbPionJoueur= (int*)malloc((nbJoueur+1)*sizeof(int));
+        jeu->tabNbPionJoueur = (int*)malloc((nbJoueur+1)*sizeof(int));
         int i;
-        for(i=0;i<=nbJoueur;i++){
-            jeu->tabNbPionJoueur[i]=0;
+        for(i=0 ; i<=nbJoueur ; i++){
+            jeu->tabNbPionJoueur[i] = 0;
         }
 
     //creation tab IA
         jeu->estIA = (bool*) malloc(nbJoueur*sizeof(bool));
         for(i=0;i<nbJoueur;i++){
-            jeu->estIA[i]=false;                   //on mets toute les ia a faux
+            jeu->estIA[i] = false;                   //on met toutes les ia à faux
         }
 
     //creation tab point d'event
         jeu->tabPointEvent = (int*)malloc(nbJoueur*sizeof(int));
         for(i=0;i<nbJoueur;i++){
-            jeu->tabPointEvent[i]=0;                   //on mets toute a 0 les point
+            jeu->tabPointEvent[i] = 0;                   //on mets toute a 0 les point
         }
 }
 //-------------------------------------------------------------------------------------------
@@ -139,11 +144,11 @@ void retourSystemJeuMinimal(systemJeu* jeu){
     jeu->nbBombe = -1;
     jeu->nbJoueur = -1;
     jeu->numJoueur = 1;
-    jeu->estIA=NULL;
-    jeu->grilleJeu.tabCase=NULL;
-    jeu->grilleJeu.taille=-1;
-    jeu->tabNbPionJoueur=NULL;
-    jeu->apresExplosionBombe=false;
+    jeu->estIA = NULL;
+    jeu->grilleJeu.tabCase = NULL;
+    jeu->grilleJeu.taille = -1;
+    jeu->tabNbPionJoueur = NULL;
+    jeu->apresExplosionBombe = false;
 
     //on ne remets pas le slot de sauvegarde a 0 car il ne faut pas le perdre pendant la sauvegarde
 }
@@ -190,9 +195,9 @@ bool placerPetitCarre(systemJeu* jeu, int origineX, int origineY, int numJ1, int
         jeu->grilleJeu.tabCase[origineX+1][origineY+1].contenu = contenuPion;                                           //pion coin bas droite
         jeu->grilleJeu.tabCase[origineX+1][origineY+1].numJoueur = numJ1;
 
-        jeu->tabNbPionJoueur[numJ1]+=2;                                                                                 //score
-        jeu->tabNbPionJoueur[numJ2]+=2;
-        jeu->tabNbPionJoueur[0]+=4;
+        jeu->tabNbPionJoueur[numJ1] += 2;                                                                                 //score
+        jeu->tabNbPionJoueur[numJ2] += 2;
+        jeu->tabNbPionJoueur[0] += 4;
 
         retour = true;
     }
@@ -267,7 +272,7 @@ listPosition coupPossible(systemJeu* jeu, int x, int y){ //c'est le bordel la de
             int direction;
             for(direction=0 ; direction<8 ; direction++){
                combo = coupPossibleSelonDirection(jeu,direction,memo);      //on regarde dans la direction si il y a un coup possible
-               viderElementDeuxiemeListDansPremiere(retour,combo);          //on ajoute ceci a la liste de retour
+               viderElementDeuxiemeListDansPremiere(retour,combo);          //on ajoute ceux ci a la liste de retour
                free_ListPosition(&combo);                                   //on libere la memoire de combo
             }
 
@@ -282,25 +287,25 @@ listPosition coupPossible(systemJeu* jeu, int x, int y){ //c'est le bordel la de
 //------------------------------------------------------------------------------------------------
 void decalageSelonDirection(systemJeu* jeu , int direction , Coordonnees* memo){
 
-    switch(direction){          //permet de modifie memo selon la direction
-          case 0: memo->cooX--;    // vers la gauche
+    switch(direction){              //permet de modifier memo selon la direction
+          case 0: memo->cooX--;     // vers la gauche
                  break;
-          case 1: memo->cooX--;    // vers la gauche haut
+          case 1: memo->cooX--;     // vers la gauche haut
                   memo->cooY--;
                 break;
-          case 2: memo->cooY--;    // vers le haut
+          case 2: memo->cooY--;     // vers le haut
                 break;
-          case 3: memo->cooX++;    // vers la droite haut
+          case 3: memo->cooX++;     // vers la droite haut
                   memo->cooY--;
                 break;
-          case 4: memo->cooX++;    // vers la droite
+          case 4: memo->cooX++;     // vers la droite
                 break;
-          case 5: memo->cooX++;    // vers la droite bas
+          case 5: memo->cooX++;     // vers la droite bas
                   memo->cooY++;
                 break;
-          case 6: memo->cooY++;    // vers le bas
+          case 6: memo->cooY++;     // vers le bas
                 break;
-          case 7: memo->cooX--;    // vers la gauche bas
+          case 7: memo->cooX--;     // vers la gauche bas
                   memo->cooY++;
                  break;
           default:printf("PROBLEME!! direction incorrect");
@@ -315,17 +320,17 @@ listPosition combo = cree_listPosition();
     do{
         decalageSelonDirection(jeu,direction,&memo);
 
-        //verif que memo appartient a la grille
+        //verification que memo appartient a la grille
         if((memo.cooX>=0) && (memo.cooX<jeu->grilleJeu.taille) && (memo.cooY>=0) && (memo.cooY<jeu->grilleJeu.taille)){
 
-           if(jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].contenu==contenuPion){                                  //si la case contient un pion
+           if(jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].contenu==contenuPion){                   //si la case contient un pion
 
-              if(jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].numJoueur!=jeu->numJoueur){                          //si ce n'est pas mon pion
-                  ajouterElement(combo,memo);                                                                      //je me souvient que je suis passer desus
+              if(jeu->grilleJeu.tabCase[memo.cooX][memo.cooY].numJoueur!=jeu->numJoueur){           //si ce n'est pas mon pion
+                  ajouterElement(combo,memo);                                                       //je me souvient que je suis passer desus
                    }
             }
-            else{                                                                                                  //cas d'une case ne contenant pas un pion
-                 viderList(combo);                                                                                 //je n'ai pas trouver un jeton a moi =>je peux pas prendre les pion sur ce chemin
+            else{                                                                                   //cas d'une case ne contenant pas un pion
+                 viderList(combo);                                                                  //je n'ai pas trouver un jeton a moi =>je peux pas prendre les pion sur ce chemin
             }
         }
         else{                                                                                                      //cas ou on est sorti de la grille
@@ -338,25 +343,25 @@ listPosition combo = cree_listPosition();
 //-------------------------------------------------------------------------------------------
 
 informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAModifier,bool passerTour){
-    informationBombe retour;    //struture de communication avec l'interface
-    retour.direction=-1;
-    retour.typeBombe=bombeVide;
-    retour.cooCaseTouche=NULL;
-    retour.cooX=x;
-    retour.cooY=y;
+    informationBombe retour;    //structure de communication avec l'interface
+    retour.direction = -1;
+    retour.typeBombe = bombeVide;
+    retour.cooCaseTouche = NULL;
+    retour.cooX = x;
+    retour.cooY = y;
 //sauvegarde
-    if(!jeu->estIA[jeu->numJoueur-1]){   //si on est un ia on sauvegarde pas comme ca le joueur humain qui joue avant moi peut vouloir revenir en arriere
+    if(!jeu->estIA[jeu->numJoueur-1]){   //si on est une ia on sauvegarde pas, comme ça le joueur humain qui joue avant peut revenir en arriere
         sauvegardePartie(jeu);
     }
 
 
 
-    int seuilProtectbombe=0;
+    int seuilProtectbombe = 0;
     int i;
-    for(i=2 ; i<=jeu->nbJoueur ;i++){
-        seuilProtectbombe+=(i-1);
+    for(i=2 ; i<=jeu->nbJoueur ; i++){
+        seuilProtectbombe += (i-1);
     }
-    seuilProtectbombe= 2*(seuilProtectbombe*4 + jeu->nbJoueur*(4-jeu->nbJoueur));                   //determine la protection contre l'activation des bombe
+    seuilProtectbombe = 2*(seuilProtectbombe*4 + jeu->nbJoueur*(4-jeu->nbJoueur));                   //determine la protection contre l'activation des bombe
     // les pion du debut plus 4-nbJoueur tour de protection
 
 
@@ -365,12 +370,12 @@ informationBombe placeJeton(systemJeu* jeu, int x, int y, listPosition jetonAMod
        viderList(jetonAModifier);                                                                   //le coup n'existe plus
        retour.typeBombe = jeu->grilleJeu.tabCase[x][y].bombe;
         declancherBombe(jeu,x,y,&retour);
-        jeu->apresExplosionBombe=true;                                                              //on memorise l'explosion
+        jeu->apresExplosionBombe = true;                                                              //on memorise l'explosion
     }
     else{                                                                                           //sinon on place le jeton
         jeu->tabNbPionJoueur[0]++;                                                                  //on ajoute un jeton au score total
         prendreJeton(jeu,jetonAModifier);
-        jeu->apresExplosionBombe=false;                                                             //pas d'explosion
+        jeu->apresExplosionBombe = false;                                                             //pas d'explosion
     }
 
     //on passe au joueur suivant
@@ -438,11 +443,11 @@ void decrementationNbPion(systemJeu* jeu,int x,int y,bool destruction){
 
 //-------------------------------------------------------------------------------------------------------
 int  quiGagne(systemJeu* jeu){                          //cas des egalites non gerer <= mais c'est rare
-    int vainqueur=1;
+    int vainqueur = 1;
     int i;
     for (i=2 ; i<= jeu->nbJoueur ; i++){
         if(jeu->tabNbPionJoueur[i] > jeu->tabNbPionJoueur[vainqueur]){
-            vainqueur=i;
+            vainqueur = i;
         }
     }
     return vainqueur;
@@ -450,7 +455,7 @@ int  quiGagne(systemJeu* jeu){                          //cas des egalites non g
 //-------------------------------------------------------------------------------------------------------
 void prendreJeton(systemJeu* jeu , listPosition pionAPrendre){
 
-        jeu->tabNbPionJoueur[jeu->numJoueur]+=pionAPrendre->nbElement;                            //on augment son score du nbElement dans la liste
+        jeu->tabNbPionJoueur[jeu->numJoueur] += pionAPrendre->nbElement;                            //on augment son score du nbElement dans la liste
         PileCoordonnes pileMemo = pionAPrendre->pile;
         Coordonnees memo;
 
@@ -464,6 +469,7 @@ void prendreJeton(systemJeu* jeu , listPosition pionAPrendre){
 
         }
 }
+
 //-------------------------------------------------------------------------------------------------------
 //---------------------------- BONUS --------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
@@ -488,8 +494,8 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre){
                 //pas de % 0 car il y a un ++ avant et viePion >=0
 
                 posteLibre = false;
-                cooTraitre->cooX=x;
-                cooTraitre->cooY=y;
+                cooTraitre->cooX = x;
+                cooTraitre->cooY = y;
                 jeu->grilleJeu.tabCase[x][y].contenu = contenuVide;     //pour que coupPosiible fonctionne on vide la case
                 retour = coupPossible(jeu,x,y);
                 jeu->grilleJeu.tabCase[x][y].contenu = contenuPion;     //pour que decrementation fonctionne on remets le jeton
@@ -516,11 +522,11 @@ bool traitrise(systemJeu* jeu,Coordonnees* cooTraitre){
 informationBombe actionIA_jeu(systemJeu* jeu){
 
 
-    listPosition memoPion   = getListCoupOptimiser(jeu);        //on recupere la liste des jeton recup par le coupOptimiser
-    Coordonnees endroitJouer = lirePremierElement(memoPion);    //on recupere les coo du coup jouer (c'est les dernere mise donc c'est sur le desus de la pile)
+    listPosition memoPion = getListCoupOptimiser(jeu);                  //on recupere la liste des jetons recup par le coupOptimiser
+    Coordonnees endroitJouer = lirePremierElement(memoPion);            //on recupere les coo du coup joué (c'est les dernere mise donc c'est sur le desus de la pile)
     printf("Joueur %d joue en %d %d avec %d pion retourner\n",jeu->numJoueur,endroitJouer.cooX,endroitJouer.cooY,memoPion->nbElement-1);
-    informationBombe retour =placeJeton(jeu,endroitJouer.cooX,endroitJouer.cooY,memoPion,true);                   //IA joue son coup
-    free_ListPosition(&memoPion);                                   //on libere la liste
+    informationBombe retour = placeJeton(jeu,endroitJouer.cooX,endroitJouer.cooY,memoPion,true);         //IA joue son coup
+    free_ListPosition(&memoPion);                                       //on libere la liste
 
     return retour;
 }
@@ -589,7 +595,7 @@ void sauvegardePartie (systemJeu* jeu){
     sprintf(nomSauvegarde,"Save/slot%d.sav",jeu->slot);
     fichier = fopen(nomSauvegarde,"w");
     if (fichier != NULL){
-        //- - - - - Parametrages - - - - - - - - -
+//- - - - - Parametrages - - - - - - - - -
         fprintf(fichier,"%d \n", jeu->nbJoueur);
 
     //parametre de la grille
@@ -612,12 +618,12 @@ void sauvegardePartie (systemJeu* jeu){
         }
 
     //tab des minerai de 0 a nbjoueur-1
-        for (i=0; i<jeu->nbJoueur; i++){
+        for (i=0 ; i<jeu->nbJoueur ; i++){
             fprintf(fichier,"%d \n", jeu->tabPointEvent[i]);
         }
-        //- - - - - Grille de jeu - - - - - - - - -
-        for (j=0; j<jeu->grilleJeu.taille; j++){
-            for(i=0; i<jeu->grilleJeu.taille; i++){
+//- - - - - Grille de jeu - - - - - - - - -
+        for (j=0 ; j<jeu->grilleJeu.taille ; j++){
+            for(i=0 ; i<jeu->grilleJeu.taille ; i++){
                 fprintf(fichier,"%d %d %d %d\n", jeu->grilleJeu.tabCase[i][j].bombe, jeu->grilleJeu.tabCase[i][j].contenu,jeu->grilleJeu.tabCase[i][j].numJoueur, jeu->grilleJeu.tabCase[i][j].viePion);
             }
         }
@@ -668,23 +674,23 @@ bool chargementPartie (systemJeu* jeu){
         fscanf(fichier,"%d \n", &(jeu->nbBombe));
 
     //tab de score de 0 a nb joueur
-        for (i=0; i<=jeu->nbJoueur; i++){
+        for (i=0 ; i<=jeu->nbJoueur ; i++){
             fscanf(fichier,"%d \n", &(jeu->tabNbPionJoueur[i]));
         }
 
     //tab des minerai de 0 a nbjoueur-1
-        for (i=0; i<jeu->nbJoueur; i++){
+        for (i=0 ; i<jeu->nbJoueur ; i++){
             fscanf(fichier,"%d \n", &(jeu->tabPointEvent[i]));
         }
 
-        //- - - - - Grille de jeu - - - - - - - - -
-        for (j=0; j<jeu->grilleJeu.taille; j++){
-            for(i=0; i<jeu->grilleJeu.taille; i++){
+//- - - - - Grille de jeu - - - - - - - - -
+        for (j=0 ; j<jeu->grilleJeu.taille ; j++){
+            for(i=0 ; i<jeu->grilleJeu.taille ; i++){
              fscanf(fichier,"%d %d %d %d\n", (int*)&(jeu->grilleJeu.tabCase[i][j].bombe),(int*) &(jeu->grilleJeu.tabCase[i][j].contenu),&(jeu->grilleJeu.tabCase[i][j].numJoueur), &(jeu->grilleJeu.tabCase[i][j].viePion));
             }
         }
         fclose(fichier);
-        retour=true;
+        retour = true;
     }else{
         printf("Il n'y a pas de sauvegarde sur ce fichier");
     }
@@ -695,10 +701,10 @@ bool chargementPartie (systemJeu* jeu){
 int getNbMineraiDansSauvegarde(systemJeu* jeu){
     systemJeu* sauvegarde = init_SystemJeu_Minimal();
     sauvegarde->slot = jeu->slot;
-    int retour =0;
+    int retour = 0;
 
     if(chargementPartie(sauvegarde)){
-        retour=sauvegarde->tabPointEvent[sauvegarde->numJoueur-1];
+        retour = sauvegarde->tabPointEvent[sauvegarde->numJoueur-1];
     }
 
     free_SystemJeu(&sauvegarde);    //on elimine le jeu de la save
@@ -706,6 +712,8 @@ int getNbMineraiDansSauvegarde(systemJeu* jeu){
     return retour;
 
 }
+
+
 //-------------------------------------------------------------------------------------------------------
 //---------------------------- GESTION DES BOMBES -------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
@@ -904,7 +912,7 @@ void func_bombeSplash(systemJeu* jeu, int x, int y){
 }
 //-------------------------------------------------------------------------------------------
 void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info){
-    int direction=-1;
+    int direction = -1;
     switch (jeu->grilleJeu.tabCase[x][y].bombe){
         case bombeExplo : func_bombeExplo(jeu,x,y);
                           printf("Bombe explosif en %d %d\n",x,y);
@@ -919,7 +927,7 @@ void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info){
                            printf("Bombe Fleche en %d %d\n",x,y);
                           break;
 
-        case bombeSplash: func_bombeSplash(jeu,x,y);
+        case bombeSplash : func_bombeSplash(jeu,x,y);
                            printf("Bombe Splash en %d %d\n",x,y);
                            break;
         default : printf("WARNING : Type de bombe non reconnue");
@@ -927,22 +935,24 @@ void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info){
                   break;
     }
     jeu->nbBombe--;                                                             //enleve la bombe qui a explos
-    info->direction=direction;
+    info->direction = direction;
 }
+
+
 
 //-------------------------------------------------------------------------------------------------------
 //---------------------------- CARTE EVENEMENT ----------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
 
 bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
-    bool activer=false;
-    listPosition coup=NULL;
+    bool activer = false;
+    listPosition coup = NULL;
 
     if(numCarte != carte8_Ouups){   //si je ne suis pas en train d'utiliser un retour je sauvegarde
         sauvegardePartie(jeu);
     }
 
-    jeu->apresExplosionBombe=false;                                             //pas d'explosion pour une carte event sauf en jouer2x mais gerer par placeJeton
+    jeu->apresExplosionBombe = false;                                             //pas d'explosion pour une carte event sauf en jouer2x mais gerer par placeJeton
     switch (numCarte){
         case carte1_Bloc : if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide){        //si la case contient une bombe
                             jeu->nbBombe--;                                     //on decremente le nb de bombe
@@ -950,54 +960,54 @@ bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
                         decrementationNbPion(jeu,x,y,true);                     //on decrement le score du proprio du jeton qui pourrai ce trouver la et aussi le nb total
 
                       func_bombeBloc(jeu, x, y);                                //vide la case de sa bombe et du jeton quel contenait et la bloque
-                      jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte1_Bloc);                  //on enleve le prix de l'evenement
+                      jeu->tabPointEvent[jeu->numJoueur-1] -= getPrixCarte(jeu,carte1_Bloc);                  //on enleve le prix de l'evenement
                        passerJoueurSuivant(jeu);
                        activer=true;
                 break;
         case carte2_SwapFaction : event_swapJoueur(jeu);
-                      jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte2_SwapFaction);                 //on enleve le prix de l'evenement
+                      jeu->tabPointEvent[jeu->numJoueur-1] -= getPrixCarte(jeu,carte2_SwapFaction);                 //on enleve le prix de l'evenement
                        passerJoueurSuivant(jeu);
-                       activer=true;
+                       activer = true;
                 break;
         case carte3_Jouer2x : coup = coupPossible(jeu,x,y);
-                        if(coup->nbElement >0){                                                     //si le coup est possible
+                        if(coup->nbElement >0){                                                         //si le coup est possible
                             placeJeton(jeu,x,y,coup,false);                                             //on joue mais on passe pas au joueur suivant
-                            activer=true;
-                            jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte3_Jouer2x);                 //on enleve le prix de l'evenement
+                            activer = true;
+                            jeu->tabPointEvent[jeu->numJoueur-1] -= getPrixCarte(jeu,carte3_Jouer2x);   //on enleve le prix de l'evenement
                         }
                         free_ListPosition(&coup);
 
                 break;
-        case carte4_EliminationPion :   if (jeu->grilleJeu.tabCase[x][y].contenu==contenuPion){
-                            activer=true;
+        case carte4_EliminationPion : if (jeu->grilleJeu.tabCase[x][y].contenu==contenuPion){
+                            activer = true;
                             decrementationNbPion(jeu,x,y,true);
-                            jeu->grilleJeu.tabCase[x][y].contenu=contenuVide;
-                            jeu->grilleJeu.tabCase[x][y].numJoueur=0;
-                            jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte4_EliminationPion);
+                            jeu->grilleJeu.tabCase[x][y].contenu = contenuVide;
+                            jeu->grilleJeu.tabCase[x][y].numJoueur = 0;
+                            jeu->tabPointEvent[jeu->numJoueur-1] -= getPrixCarte(jeu,carte4_EliminationPion);
                             passerJoueurSuivant(jeu);
                         }
                 break;
-        case carte5_AntiTraitre : activer=true;
+        case carte5_AntiTraitre : activer = true;
                                   event_AntiTraitre(jeu);
-                                  jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte5_AntiTraitre);
+                                  jeu->tabPointEvent[jeu->numJoueur-1] -= getPrixCarte(jeu,carte5_AntiTraitre);
                                   passerJoueurSuivant(jeu);
                 break;
         case carte6_Peinture: if(jeu->grilleJeu.tabCase[x][y].contenu ==contenuPion && jeu->grilleJeu.tabCase[x][y].numJoueur != jeu->numJoueur){ //si c'est pas mon pion
-                                    activer=true;
+                                    activer = true;
                                     decrementationNbPion(jeu,x,y,false);                        //il pert un point
                                     jeu->grilleJeu.tabCase[x][y].numJoueur = jeu->numJoueur;
                                     jeu->tabNbPionJoueur[jeu->numJoueur]++;                     //j'en gagne un
 
-                                    jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte6_Peinture);
+                                    jeu->tabPointEvent[jeu->numJoueur-1] -= getPrixCarte(jeu,carte6_Peinture);
                                     passerJoueurSuivant(jeu);
                               }
                 break;
-        case carte7_AideMoi:activer=true;                                                           //rien a faire il y a que des affichage
-                            jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte7_AideMoi);
+        case carte7_AideMoi : activer=true;                                                           //rien a faire il y a que des affichage
+                            jeu->tabPointEvent[jeu->numJoueur-1] -= getPrixCarte(jeu,carte7_AideMoi);
                     break;
-        case carte8_Ouups:chargementPartie(jeu);
+        case carte8_Ouups : chargementPartie(jeu);
                           //on a charger donc est est sur la personne qui voulait revenir
-                          jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte8_Ouups);
+                          jeu->tabPointEvent[jeu->numJoueur-1] -= getPrixCarte(jeu,carte8_Ouups);
                           break;
         default : printf("WARNING : Carte evenement non reconnue\n");
                 break;
@@ -1014,11 +1024,11 @@ void event_swapJoueur(systemJeu* jeu){
         }
     }
 
-    //changement des score decalage a droite
-    j=jeu->tabNbPionJoueur[jeu->nbJoueur];  //on stock le score de 5
+    //changement des scores decalage a droite
+    j=jeu->tabNbPionJoueur[jeu->nbJoueur];                          //on stock le score de 5
     for(i=jeu->nbJoueur ; i>1 ; i--){
 
-        jeu->tabNbPionJoueur[i]=jeu->tabNbPionJoueur[i-1];                      //n prend les valeur de n-1
+        jeu->tabNbPionJoueur[i] = jeu->tabNbPionJoueur[i-1];                      //n prend les valeurs de n-1
     }
     jeu->tabNbPionJoueur[1] = j;                                                // 1 prend la valeur du dernier joueur
 }
@@ -1028,36 +1038,41 @@ void event_AntiTraitre(systemJeu* jeu){
     int x,y;
     for(x=0 ; x<jeu->grilleJeu.taille ; x++){
         for(y=0 ; y< jeu->grilleJeu.taille ; y++){
-            if(jeu->grilleJeu.tabCase[x][y].contenu ==contenuPion && jeu->grilleJeu.tabCase[x][y].numJoueur == jeu->numJoueur){//si c'est mon pion
-                jeu->grilleJeu.tabCase[x][y].viePion=jeu->grilleJeu.tabCase[x][y].viePion/2;     //on diminue  l'age
+            // si c'est mon pion on diminue l'age
+            if(jeu->grilleJeu.tabCase[x][y].contenu ==contenuPion && jeu->grilleJeu.tabCase[x][y].numJoueur == jeu->numJoueur){
+                jeu->grilleJeu.tabCase[x][y].viePion=jeu->grilleJeu.tabCase[x][y].viePion/2;
             }
         }
     }
 
 }
+
+
 //-------------------------------------------------------------------------------------------------------
 //---------------------------- Prix des cartes ----------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
+
+
 int getPrixCarte(systemJeu* jeu,E_event numCarte){
     int prix;
     switch(numCarte){
-        case carte1_Bloc:prix = getPrixCarte_Carte1(jeu);
+        case carte1_Bloc : prix = getPrixCarte_Carte1(jeu);
                 break;
-        case carte2_SwapFaction: prix = getPrixCarte_Carte2(jeu);
+        case carte2_SwapFaction : prix = getPrixCarte_Carte2(jeu);
                 break;
-        case carte3_Jouer2x: prix = getPrixCarte_Carte3(jeu);
+        case carte3_Jouer2x : prix = getPrixCarte_Carte3(jeu);
                 break;
-        case carte4_EliminationPion: prix = getPrixCarte_Carte4(jeu);
+        case carte4_EliminationPion : prix = getPrixCarte_Carte4(jeu);
                 break;
-        case carte5_AntiTraitre: prix = getPrixCarte_Carte5(jeu);
+        case carte5_AntiTraitre : prix = getPrixCarte_Carte5(jeu);
                 break;
-        case carte6_Peinture: prix = getPrixCarte_Carte6(jeu);
+        case carte6_Peinture : prix = getPrixCarte_Carte6(jeu);
                 break;
-        case carte7_AideMoi: prix = getPrixCarte_Carte7(jeu);
+        case carte7_AideMoi : prix = getPrixCarte_Carte7(jeu);
                 break;
-        case carte8_Ouups: prix = getPrixCarte_Carte8(jeu);
+        case carte8_Ouups : prix = getPrixCarte_Carte8(jeu);
                 break;
-        default: prix=-1;
+        default : prix=-1;
                 printf("WARNING !! Ce n'est pas une carte evenement reconnu : %d\n",numCarte);
             break;
     }
@@ -1067,31 +1082,31 @@ int getPrixCarte(systemJeu* jeu,E_event numCarte){
 int getPrixCarte_Carte1(systemJeu* jeu){
     int prix;
     switch(jeu->grilleJeu.taille){
-        case 10:                //cas des petite grille (2,3,4 joueur)
-        case 11:
-        case 12:prix=10;
+        case 10 :                                //cas des petite grille (2,3,4 joueur)
+        case 11 :
+        case 12 : prix = 10;
                 break;
 
-        case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
-                    prix=10;
+        case 13 : if(jeu->nbJoueur !=2){        //cas petite grille a 5 joueur
+                    prix = 10;
                 }
-                else{//cas moyenne grille a 2 joueur
-                    prix=20;
+                else{                           //cas moyenne grille a 2 joueur
+                    prix = 20;
                 }
                 break;
 
-        case 14:                //cas des moyenne grille (3,4,5 joueur)
-        case 15:
-        case 16:prix=20;
+        case 14 :                //cas des moyennes grilles (3,4,5 joueurs)
+        case 15 :
+        case 16 : prix = 20;
                 break;
 
-        case 17:                //cas des grande grille (2,3,4,5 joueur)
-        case 18:
-        case 19:
-        case 20:prix=50;
+        case 17 :                //cas des grandes grilles (2,3,4,5 joueurs)
+        case 18 :
+        case 19 :
+        case 20 : prix = 50;
                 break;
 
-        default :  prix=0;
+        default : prix = 0;
                 break;
     }
     return prix;
@@ -1101,31 +1116,31 @@ int getPrixCarte_Carte1(systemJeu* jeu){
 int getPrixCarte_Carte2(systemJeu* jeu){
     int prix;
     switch(jeu->grilleJeu.taille){
-        case 10:                //cas des petite grille (2,3,4 joueur)
-        case 11:
-        case 12:prix=200;
+        case 10 :                           //cas des petites grilles (2,3,4 joueur)
+        case 11 :
+        case 12 : prix = 200;
                 break;
 
-        case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
-                    prix=200;
+        case 13 : if(jeu->nbJoueur !=2){     //cas petite grille a 5 joueur
+                    prix = 200;
                 }
-                else{//cas moyenne grille a 2 joueur
-                    prix=400;
+                else{                       //cas moyenne grille a 2 joueur
+                    prix = 400;
                 }
                 break;
 
-        case 14:                //cas des moyenne grille (3,4,5 joueur)
-        case 15:
-        case 16:prix=400;
+        case 14 :                //cas des moyennes grilles (3,4,5 joueurs)
+        case 15 :
+        case 16 : prix = 400;
                 break;
 
-        case 17:                //cas des grande grille (2,3,4,5 joueur)
-        case 18:
-        case 19:
-        case 20:prix=1200;
+        case 17 :                //cas des grandes grilles (2,3,4,5 joueurs)
+        case 18 :
+        case 19 :
+        case 20 : prix = 1200;
                 break;
 
-        default :  prix=0;
+        default :  prix = 0;
                 break;
     }
     return prix;
@@ -1135,31 +1150,31 @@ int getPrixCarte_Carte2(systemJeu* jeu){
 int getPrixCarte_Carte3(systemJeu* jeu){
     int prix;
     switch(jeu->grilleJeu.taille){
-        case 10:                //cas des petite grille (2,3,4 joueur)
-        case 11:
-        case 12:prix=100;
+        case 10 :                           //cas des petites grilles (2,3,4 joueurs)
+        case 11 :
+        case 12 : prix = 100;
                 break;
 
-        case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
-                    prix=100;
+        case 13 : if(jeu->nbJoueur !=2){     //cas petite grille a 5 joueur
+                    prix = 100;
                 }
-                else{//cas moyenne grille a 2 joueur
-                    prix=200;
+                else{                       //cas moyenne grille a 2 joueur
+                    prix = 200;
                 }
                 break;
 
-        case 14:                //cas des moyenne grille (3,4,5 joueur)
-        case 15:
-        case 16:prix=200;
+        case 14 :                //cas des moyennes grilles (3,4,5 joueurs)
+        case 15 :
+        case 16 : prix = 200;
                 break;
 
-        case 17:                //cas des grande grille (2,3,4,5 joueur)
-        case 18:
-        case 19:
-        case 20:prix=500;
+        case 17 :                //cas des grandes grilles (2,3,4,5 joueurs)
+        case 18 :
+        case 19 :
+        case 20 : prix = 500;
                 break;
 
-        default :  prix=0;
+        default :  prix = 0;
                 break;
     }
     return prix;
@@ -1168,31 +1183,31 @@ int getPrixCarte_Carte3(systemJeu* jeu){
 int getPrixCarte_Carte4(systemJeu* jeu){
     int prix;
     switch(jeu->grilleJeu.taille){
-        case 10:                //cas des petite grille (2,3,4 joueur)
-        case 11:
-        case 12:prix=15;
+        case 10 :                            //cas des petites grilles (2,3,4 joueur)
+        case 11 :
+        case 12 : prix = 15;
                 break;
 
-        case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
-                    prix=15;
+        case 13 : if(jeu->nbJoueur !=2){     //cas petite grille a 5 joueur
+                    prix = 15;
                 }
-                else{//cas moyenne grille a 2 joueur
-                    prix=30;
+                else{                       //cas moyenne grille a 2 joueur
+                    prix = 30;
                 }
                 break;
 
-        case 14:                //cas des moyenne grille (3,4,5 joueur)
-        case 15:
-        case 16:prix=30;
+        case 14 :                //cas des moyennes grilles (3,4,5 joueurs)
+        case 15 :
+        case 16 : prix = 30;
                 break;
 
-        case 17:                //cas des grande grille (2,3,4,5 joueur)
-        case 18:
-        case 19:
-        case 20:prix=75;
+        case 17 :                //cas des grandes grilles (2,3,4,5 joueurs)
+        case 18 :
+        case 19 :
+        case 20 : prix = 75;
                 break;
 
-        default :  prix=0;
+        default : prix = 0;
                 break;
     }
     return prix;
@@ -1201,31 +1216,31 @@ int getPrixCarte_Carte4(systemJeu* jeu){
 int getPrixCarte_Carte5(systemJeu* jeu){
     int prix;
     switch(jeu->grilleJeu.taille){
-        case 10:                //cas des petite grille (2,3,4 joueur)
-        case 11:
-        case 12:prix=80;
+        case 10 :                //cas des petites grilles (2,3,4 joueurs)
+        case 11 :
+        case 12 : prix = 80;
                 break;
 
-        case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
-                    prix=80;
+        case 13 : if(jeu->nbJoueur !=2){//cas petite grille a 5 joueurs
+                    prix = 80;
                 }
-                else{//cas moyenne grille a 2 joueur
-                    prix=160;
+                else{//cas moyenne grille a 2 joueurs
+                    prix = 160;
                 }
                 break;
 
-        case 14:                //cas des moyenne grille (3,4,5 joueur)
-        case 15:
-        case 16:prix=160;
+        case 14 :                //cas des moyennes grilles (3,4,5 joueurs)
+        case 15 :
+        case 16 : prix = 160;
                 break;
 
-        case 17:                //cas des grande grille (2,3,4,5 joueur)
-        case 18:
-        case 19:
-        case 20:prix=400;
+        case 17 :                //cas des grandes grilles (2,3,4,5 joueurs)
+        case 18 :
+        case 19 :
+        case 20 : prix = 400;
                 break;
 
-        default :  prix=0;
+        default : prix = 0;
                 break;
     }
     return prix;
@@ -1234,28 +1249,28 @@ int getPrixCarte_Carte5(systemJeu* jeu){
 int getPrixCarte_Carte6(systemJeu* jeu){
     int prix;
     switch(jeu->grilleJeu.taille){
-        case 10:                //cas des petite grille (2,3,4 joueur)
-        case 11:
-        case 12:prix=25;
+        case 10 :                //cas des petites grilles (2,3,4 joueurs)
+        case 11 :
+        case 12 : prix = 25;
                 break;
 
-        case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
+        case 13 : if(jeu->nbJoueur !=2){//cas petite grille a 5 joueurs
                     prix=25;
                 }
-                else{//cas moyenne grille a 2 joueur
+                else{//cas moyenne grille a 2 joueurs
                     prix=50;
                 }
                 break;
 
-        case 14:                //cas des moyenne grille (3,4,5 joueur)
-        case 15:
-        case 16:prix=50;
+        case 14 :                //cas des moyennes grilles (3,4,5 joueurs)
+        case 15 :
+        case 16 : prix = 50;
                 break;
 
-        case 17:                //cas des grande grille (2,3,4,5 joueur)
-        case 18:
-        case 19:
-        case 20:prix=125;
+        case 17 :                //cas des grandes grilles (2,3,4,5 joueurs)
+        case 18 :
+        case 19 :
+        case 20 : prix = 125;
                 break;
 
         default :  prix=0;
@@ -1267,31 +1282,31 @@ int getPrixCarte_Carte6(systemJeu* jeu){
 int getPrixCarte_Carte7(systemJeu* jeu){
     int prix;
     switch(jeu->grilleJeu.taille){
-        case 10:                //cas des petite grille (2,3,4 joueur)
-        case 11:
-        case 12:prix=5;
+        case 10 :                //cas des petites grilles (2,3,4 joueurs)
+        case 11 :
+        case 12 : prix = 5;
                 break;
 
-        case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
-                    prix=5;
+        case 13 : if(jeu->nbJoueur !=2){//cas petites grilles a 5 joueurs
+                    prix = 5;
                 }
                 else{//cas moyenne grille a 2 joueur
-                    prix=10;
+                    prix = 10;
                 }
                 break;
 
-        case 14:                //cas des moyenne grille (3,4,5 joueur)
-        case 15:
-        case 16:prix=10;
+        case 14 :                //cas des moyenne grille (3,4,5 joueur)
+        case 15 :
+        case 16 : prix = 10;
                 break;
 
-        case 17:                //cas des grande grille (2,3,4,5 joueur)
-        case 18:
-        case 19:
-        case 20:prix=25;
+        case 17 :                //cas des grande grille (2,3,4,5 joueur)
+        case 18 :
+        case 19 :
+        case 20 : prix = 25;
                 break;
 
-        default :  prix=0;
+        default : prix = 0;
                 break;
     }
     return prix;
@@ -1300,31 +1315,31 @@ int getPrixCarte_Carte7(systemJeu* jeu){
 int getPrixCarte_Carte8(systemJeu* jeu){
     int prix;
     switch(jeu->grilleJeu.taille){
-        case 10:                //cas des petite grille (2,3,4 joueur)
-        case 11:
-        case 12:prix=20;
+        case 10 :                //cas des petites grilles (2,3,4 joueurs)
+        case 11 :
+        case 12 : prix = 20;
                 break;
 
-        case 13: if(jeu->nbJoueur !=2){//cas petite grille a 5 joueur
-                    prix=20;
+        case 13 : if(jeu->nbJoueur !=2){//cas petite grille a 5 joueurs
+                    prix = 20;
                 }
-                else{//cas moyenne grille a 2 joueur
-                    prix=40;
+                else{//cas moyenne grille à 2 joueurs
+                    prix = 40;
                 }
                 break;
 
-        case 14:                //cas des moyenne grille (3,4,5 joueur)
-        case 15:
-        case 16:prix=40;
+        case 14 :                //cas des moyennes grilles (3,4,5 joueurs)
+        case 15 :
+        case 16 : prix = 40;
                 break;
 
-        case 17:                //cas des grande grille (2,3,4,5 joueur)
-        case 18:
-        case 19:
-        case 20:prix=100;
+        case 17 :                //cas des grandes grilles (2,3,4,5 joueurs)
+        case 18 :
+        case 19 :
+        case 20 : prix = 100;
                 break;
 
-        default :  prix=0;
+        default : prix = 0;
                 break;
     }
     return prix;

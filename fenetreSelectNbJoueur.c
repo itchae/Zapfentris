@@ -5,6 +5,9 @@
 
 void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre,SDL_Surface* fondFenetre){
 
+//---------------------------------------------------------------------------------
+//---------------------------- CREATION DES SURFACES ------------------------------
+//---------------------------------------------------------------------------------
 
 //creation du titre
     SDL_Surface* titre = SDL_LoadBMP("Images/nbJoueurTitre.bmp");
@@ -67,6 +70,11 @@ void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     SDL_Rect position;
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));                           //color la surface
 
+
+//---------------------------------------------------------------------------------
+//---------------------------- POSITIONNEMENT IMAGE -------------------------------
+//---------------------------------------------------------------------------------
+
     position.x=0;
     position.y=0;
     SDL_BlitSurface(fondFenetre,NULL,ecran,&position);
@@ -95,13 +103,18 @@ void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     SDL_BlitSurface(bouton5J,NULL,ecran,&position);
     SDL_BlitSurface(bouton5JImage,NULL,ecran,&position);
 
+
+//---------------------------------------------------------------------------------
+//---------------------------- BOUCLE EVENEMENT -----------------------------------
+//---------------------------------------------------------------------------------
+
     SDL_Event event;                                                                    //permetra de stock le dernier event effectuer
     SDL_UpdateWindowSurface(fenetre);
     while(*typeFenetre==fenetreSelecNbJoueur){
         SDL_WaitEvent(&event);                                                          //attend le prochain event
 
         switch(event.type){                                                             //regarde le type de l'event
-            case SDL_QUIT: *typeFenetre=fenetreQuitter;                                 //event de je veux ferme la fenetre
+            case SDL_QUIT : *typeFenetre=fenetreQuitter;                                 //event de je veux ferme la fenetre
                 break;
             case SDL_MOUSEBUTTONDOWN:                                                   //quand un bouton de la souris est appuyer
                                                                                         //event.button.button pour savoir lequel est appuyer

@@ -17,7 +17,7 @@
 
 void mainInterface(){
 
-    E_fenetre typeFenetre=fenetreTitre;
+    E_fenetre typeFenetre = fenetreTitre;
     systemJeu* jeu = init_SystemJeu_Minimal();
 
     SDL_Window* fenetre;                                                                                                //pointeur sur la fenetre
@@ -56,36 +56,36 @@ void mainInterface(){
         switch(typeFenetre){
         //case type : func_fenetreType(fenetre,ecran,jeu,&typeFenetre); break;
 
-        case fenetreTitre:  retourSystemJeuMinimal(jeu);             //reste a alloue la grille, score et ia
+        case fenetreTitre :  retourSystemJeuMinimal(jeu);             //reste a alloue la grille, score et ia
                             func_fenetreTitre(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                         break;
         case fenetreSauvegarde : func_fenetreSauvegarde(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                         break;
-        case fenetreSelecNbJoueur: func_fenetreSelectNbJoueur(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
+        case fenetreSelecNbJoueur : func_fenetreSelectNbJoueur(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                         break;
-        case fenetreConfigJoueur: func_fenetreConfigJoueur(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
+        case fenetreConfigJoueur : func_fenetreConfigJoueur(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                         break;
-        case fenetreDureePartie: func_fenetreDureePartie(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
+        case fenetreDureePartie : func_fenetreDureePartie(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                         break;
-        case fenetreDifficulte: func_fenetreDifficulte(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
+        case fenetreDifficulte : func_fenetreDifficulte(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                                 sauvegardePartie(jeu);                                  //on sauvegarde ici pour supprimer l'ancienne
                         break;
-        case fenetreJeu: func_fenetreJeu(fenetre,ecran,jeu,&typeFenetre);
+        case fenetreJeu : func_fenetreJeu(fenetre,ecran,jeu,&typeFenetre);
                         break;
-        case fenetreCarteEvenement: func_fenetreCarteEvenement(fenetre,ecran,jeu,&typeFenetre);
+        case fenetreCarteEvenement : func_fenetreCarteEvenement(fenetre,ecran,jeu,&typeFenetre);
                         break;
-        case fenetreRegles: func_fenetreRegles(fenetre,ecran,&typeFenetre,fondFenetre);
+        case fenetreRegles : func_fenetreRegles(fenetre,ecran,&typeFenetre,fondFenetre);
                         break;
         default:typeFenetre=fenetreQuitter;
             break;
         }
    }
 
-   SDL_DestroyWindow(fenetre);//on detruit la fenetre
+   SDL_DestroyWindow(fenetre);      //on detruit la fenetre
    SDL_FreeSurface(fenetre_icon);
    SDL_FreeSurface(fondFenetre);
 
-   if(jeu->nbBombe != -1){//si un jeu etait en court
+   if(jeu->nbBombe != -1){          //si un jeu etait en court
     sauvegardePartie(jeu);
    }
    free_SystemJeu(&jeu);

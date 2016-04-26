@@ -8,6 +8,10 @@ void func_fenetreSauvegarde(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* je
 
     E_Sauvegarde Sauvegarde = SauvNonDefini;
 
+//---------------------------------------------------------------------------------
+//---------------------------- CREATION DES SURFACES ------------------------------
+//---------------------------------------------------------------------------------
+
     SDL_Surface* titre = SDL_LoadBMP("Images/sauvegardeTitre.bmp");
     if(titre==NULL){
         printf("PROBLEME!! erreur lors de la creation du titre\n");
@@ -64,6 +68,9 @@ void func_fenetreSauvegarde(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* je
     }
 
 
+//---------------------------------------------------------------------------------
+//---------------------------- BOUCLE EVENEMENT -----------------------------------
+//---------------------------------------------------------------------------------
 
     SDL_Event event;
 
@@ -158,37 +165,41 @@ void refreshFenetreSauvegarde (SDL_Surface* ecran, E_Sauvegarde Sauvegarde,syste
     default : break;
     }
 
-    position.x=250;
-    position.y=30;
+//---------------------------------------------------------------------------------
+//---------------------------- POSITIONNEMENT IMAGE -------------------------------
+//---------------------------------------------------------------------------------
+
+    position.x = 250;
+    position.y = 30;
     SDL_BlitSurface(titre,NULL,ecran,&position);
 
-    position.x=350;
-    position.y=170;
+    position.x = 350;
+    position.y = 170;
     SDL_BlitSurface(boutonSauv1,NULL,ecran,&position);
     SDL_BlitSurface(boutonSauv1Dessus,NULL,ecran,&position);
 
-    position.x=350;
-    position.y=270;
+    position.x = 350;
+    position.y = 270;
     SDL_BlitSurface(boutonSauv2,NULL,ecran,&position);
     SDL_BlitSurface(boutonSauv2Dessus,NULL,ecran,&position);
 
-    position.x=350;
-    position.y=370;
+    position.x = 350;
+    position.y = 370;
     SDL_BlitSurface(boutonSauv3,NULL,ecran,&position);
     SDL_BlitSurface(boutonSauv3Dessus,NULL,ecran,&position);
 
 
     if(fichier != NULL){
-        position.x=320;
-        position.y=480;
+        position.x = 320;
+        position.y = 480;
         SDL_BlitSurface(boutonCharger,NULL,ecran,&position);
         fclose(fichier);
     }
 
 
     if(Sauvegarde != SauvNonDefini){
-        position.x=520;
-        position.y=480;
+        position.x = 520;
+        position.y = 480;
         SDL_BlitSurface(boutonNouvelle,NULL,ecran,&position);
     }
 

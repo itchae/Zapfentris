@@ -8,8 +8,13 @@
 
 
 void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre){
+
     int i;
     char fichier[25];
+
+//---------------------------------------------------------------------------------
+//---------------------------- CREATION DES SURFACES ------------------------------
+//---------------------------------------------------------------------------------
 
 //creation fond de la zone de magasin
     SDL_Surface* fondMagasin = SDL_CreateRGBSurface(0,300,600,32,0,0,0,0);
@@ -59,8 +64,8 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     if(caseBloc==NULL){
         printf("PROBLEME!! erreur lors de la creation de caseBloc\n");
     }
-//creation du bouton annuler
 
+//creation du bouton annuler
     SDL_Surface* boutonAnnuler = SDL_CreateRGBSurface(0,255,55,32,0,0,0,0);
     if(boutonAnnuler==NULL){
         printf("PROBLEME !! Impossible de cree la surface boutonAnnuler\n");
@@ -93,7 +98,7 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     }
     SDL_FillRect(carteEvent1,NULL,SDL_MapRGB(carteEvent1->format,255,0,0));
 
-    //desus
+    //desus carte 1
     SDL_Surface* carteEvent1Dessus = SDL_LoadBMP("Images/bloc.bmp");
     if(carteEvent1Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte1\n");
@@ -106,7 +111,7 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     }
     SDL_FillRect(carteEvent2,NULL,SDL_MapRGB(carteEvent2->format,255,0,0));
 
-    //desus
+    //desus carte 2
     SDL_Surface* carteEvent2Dessus = SDL_LoadBMP("Images/carteEvent2.bmp");
     if(carteEvent2Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte2\n");
@@ -119,7 +124,7 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     }
     SDL_FillRect(carteEvent3,NULL,SDL_MapRGB(carteEvent3->format,255,0,0));
 
-    //desus
+    //dessus carte 3
     SDL_Surface* carteEvent3Dessus = SDL_LoadBMP("Images/carteEvent3.bmp");
     if(carteEvent3Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte3\n");
@@ -133,7 +138,7 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     }
     SDL_FillRect(carteEvent4,NULL,SDL_MapRGB(carteEvent4->format,255,0,0));
 
-    //desus
+    //desus carte 4
     SDL_Surface* carteEvent4Dessus = SDL_LoadBMP("Images/carteEvent4.bmp");
     if(carteEvent4Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte4\n");
@@ -147,7 +152,7 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     }
     SDL_FillRect(carteEvent5,NULL,SDL_MapRGB(carteEvent5->format,255,0,0));
 
-    //desus
+    //desus carte 5
     SDL_Surface* carteEvent5Dessus = SDL_LoadBMP("Images/carteEvent5.bmp");
     if(carteEvent5Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte5\n");
@@ -158,7 +163,7 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     if(carteEvent6==NULL){
         printf("PROBLEME !! Impossible de cree la surface carteEvent6\n");
     }
-        //desus
+    //desus carte 6
     SDL_Surface* carteEvent6Dessus = SDL_LoadBMP("Images/carteEvent6.bmp");
     if(carteEvent6Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte6\n");
@@ -172,7 +177,7 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     }
     SDL_FillRect(carteEvent7,NULL,SDL_MapRGB(carteEvent7->format,255,0,0));
 
-    //desus
+    //desus carte 7
     SDL_Surface* carteEvent7Dessus = SDL_LoadBMP("Images/carteEvent7.bmp");
     if(carteEvent7Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte7\n");
@@ -185,7 +190,7 @@ void  func_fenetreCarteEvenement(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
     }
     SDL_FillRect(carteEvent8,NULL,SDL_MapRGB(carteEvent8->format,255,0,0));
 
-    //desus
+    //desus carte 8
     SDL_Surface* carteEvent8Dessus = SDL_LoadBMP("Images/carteEvent8.bmp");
     if(carteEvent8Dessus == NULL){
         printf("PROBLEME! erreur lors de la creation du desus de la carte8\n");
@@ -210,7 +215,11 @@ E_event carteChoisi=carteVide;
 SDL_Rect positionDescription;
     positionDescription.x=0;
 
-    //boucle evenmentiel
+
+//---------------------------------------------------------------------------------
+//---------------------------- BOUCLE EVENEMENT -----------------------------------
+//---------------------------------------------------------------------------------
+
     SDL_Event event;
                                                                                             //permetra de stock le dernier event effectuer
     while(*typeFenetre==fenetreCarteEvenement){
@@ -458,16 +467,21 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
                           ,SDL_Surface* carteEvent2Dessus,SDL_Surface* carteEvent3Dessus,SDL_Surface* carteEvent4Dessus,
                          SDL_Surface* carteEvent5Dessus,SDL_Surface* carteEvent6Dessus,SDL_Surface* carteEvent7Dessus,SDL_Surface* carteEvent8Dessus){
 
-    SDL_Rect position;//permet de def une position sur l'ecran
+    SDL_Rect position;          //permet de definir une position sur l'ecran
 
 //creation du visuel
 
-    SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255)); //on efface l'ecran
+    SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));     //on efface l'ecran
 
-    //collage du fondmenuscore
+
+//---------------------------------------------------------------------------------
+//---------------------------- POSITIONNEMENT IMAGE -------------------------------
+//---------------------------------------------------------------------------------
+
+    //collage du fond menu score
     position.x = 700;
     position.y = 0;
-    SDL_BlitSurface(fondMagasin,NULL,ecran,&position);//colle la surface sur l'ecran
+    SDL_BlitSurface(fondMagasin,NULL,ecran,&position);                  //colle la surface sur l'ecran
 
     //collage du fondgrilleJeu
     position.x = 9;
@@ -500,15 +514,15 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
 
     //collage du texte bouton Annuler
 
-    position.x=720;
-    position.y=20;
+    position.x = 720;
+    position.y = 20;
     SDL_BlitSurface(boutonAnnuler,NULL,ecran,&position);//colle la surface sur l'ecran
     SDL_BlitSurface(boutonAnnulerDessus,NULL,ecran, &position);
 
     //nb de minerai
 
-    position.x=850;
-    position.y=80;
+    position.x = 850;
+    position.y = 80;
     ecritureNombre(chiffres,&position,jeu->tabPointEvent[jeu->numJoueur-1],ecran);             //ecrit le nb de minerai
 
 
@@ -526,11 +540,11 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
     switch(carteChoisi){
         case carte1_Bloc : SDL_FillRect(carteEvent1,NULL,SDL_MapRGB(carteEvent1->format,0,255,0));
                      break;
-        case carte2_SwapFaction :SDL_FillRect(carteEvent2,NULL,SDL_MapRGB(carteEvent2->format,0,255,0));
+        case carte2_SwapFaction : SDL_FillRect(carteEvent2,NULL,SDL_MapRGB(carteEvent2->format,0,255,0));
                     //on mets le bouton valider
-                     position.x=720;
-                     position.y=500;
-                     SDL_BlitSurface(boutonValider,NULL,ecran,&position);//colle la surface sur l'ecran
+                     position.x = 720;
+                     position.y = 500;
+                     SDL_BlitSurface(boutonValider,NULL,ecran,&position);                   //colle la surface sur l'ecran
                      SDL_BlitSurface(boutonValiderDessus,NULL,ecran,&position);
                     break;
         case carte3_Jouer2x : SDL_FillRect(carteEvent3,NULL,SDL_MapRGB(carteEvent3->format,0,255,0));
@@ -539,110 +553,110 @@ void  refresh_fenetreCarteEvenement(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,
                     break;
         case carte5_AntiTraitre : SDL_FillRect(carteEvent5,NULL,SDL_MapRGB(carteEvent5->format,0,255,0));
                                   //on mets le bouton valider
-                                  position.x=720;
-                                  position.y=500;
-                                  SDL_BlitSurface(boutonValider,NULL,ecran,&position);//colle la surface sur l'ecran
+                                  position.x = 720;
+                                  position.y = 500;
+                                  SDL_BlitSurface(boutonValider,NULL,ecran,&position);      //colle la surface sur l'ecran
                                   SDL_BlitSurface(boutonValiderDessus,NULL,ecran,&position);
                     break;
         case carte6_Peinture : SDL_FillRect(carteEvent6,NULL,SDL_MapRGB(carteEvent6->format,0,255,0));
                     break;
         case carte7_AideMoi : SDL_FillRect(carteEvent7,NULL,SDL_MapRGB(carteEvent7->format,0,255,0));
-                                  //on mets le bouton valider
-                                  position.x=720;
-                                  position.y=500;
-                                  SDL_BlitSurface(boutonValider,NULL,ecran,&position);//colle la surface sur l'ecran
+                                  //on met le bouton valider
+                                  position.x = 720;
+                                  position.y = 500;
+                                  SDL_BlitSurface(boutonValider,NULL,ecran,&position);      //colle la surface sur l'ecran
                                   SDL_BlitSurface(boutonValiderDessus,NULL,ecran,&position);
                     break;
         case carte8_Ouups : SDL_FillRect(carteEvent8,NULL,SDL_MapRGB(carteEvent8->format,0,255,0));
-                                  //on mets le bouton valider
-                                  position.x=720;
-                                  position.y=500;
-                                  SDL_BlitSurface(boutonValider,NULL,ecran,&position);//colle la surface sur l'ecran
+                                  //on met le bouton valider
+                                  position.x = 720;
+                                  position.y = 500;
+                                  SDL_BlitSurface(boutonValider,NULL,ecran,&position);      //colle la surface sur l'ecran
                                   SDL_BlitSurface(boutonValiderDessus,NULL,ecran,&position);
                     break;
-    default: break;
+    default : break;
     }
     // collage des carte event
 //carte 1
-    position.x=720;
-    position.y=100;
+    position.x = 720;
+    position.y = 100;
     SDL_BlitSurface(carteEvent1,NULL,ecran,&position);//colle la surface sur l'ecran
-    position.x+=((carteEvent1->w/2)-(carteEvent1Dessus->w/2));
-    position.y+=((carteEvent1->h/2)-(carteEvent1Dessus->h/2));
+    position.x += ((carteEvent1->w/2)-(carteEvent1Dessus->w/2));
+    position.y += ((carteEvent1->h/2)-(carteEvent1Dessus->h/2));
     SDL_BlitSurface(carteEvent1Dessus,NULL,ecran,&position);
-    position.x=725;
-    position.y=100+(carteEvent1->h-20);
+    position.x = 725;
+    position.y = 100+(carteEvent1->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte1_Bloc),ecran);
 //carte 2
-    position.x=810;
-    position.y=100;
+    position.x = 810;
+    position.y = 100;
     SDL_BlitSurface(carteEvent2,NULL,ecran,&position);//colle la surface sur l'ecran
-    position.x+=((carteEvent2->w/2)-(carteEvent2Dessus->w/2));
-    position.y+=((carteEvent2->h/2)-(carteEvent2Dessus->h/2));
+    position.x += ((carteEvent2->w/2)-(carteEvent2Dessus->w/2));
+    position.y += ((carteEvent2->h/2)-(carteEvent2Dessus->h/2));
     SDL_BlitSurface(carteEvent2Dessus,NULL,ecran,&position);
-    position.x=815;
-    position.y=100+(carteEvent2->h-20);
+    position.x = 815;
+    position.y = 100+(carteEvent2->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte2_SwapFaction),ecran);
 //carte3
-    position.x=900;
-    position.y=100;
+    position.x = 900;
+    position.y = 100;
     SDL_BlitSurface(carteEvent3,NULL,ecran,&position);//colle la surface sur l'ecran
-    position.x+=((carteEvent3->w/2)-(carteEvent3Dessus->w/2));
-    position.y+=((carteEvent3->h/2)-(carteEvent3Dessus->h/2));
+    position.x += ((carteEvent3->w/2)-(carteEvent3Dessus->w/2));
+    position.y += ((carteEvent3->h/2)-(carteEvent3Dessus->h/2));
     SDL_BlitSurface(carteEvent3Dessus,NULL,ecran,&position);
-    position.x=905;
-    position.y=100+(carteEvent3->h-20);
+    position.x = 905;
+    position.y = 100+(carteEvent3->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte3_Jouer2x),ecran);
 //carte4
-    position.x=720;
-    position.y=220;
+    position.x = 720;
+    position.y = 220;
     SDL_BlitSurface(carteEvent4,NULL,ecran,&position);//colle la surface sur l'ecran
-    position.x+=((carteEvent4->w/2)-(carteEvent4Dessus->w/2));
-    position.y+=((carteEvent4->h/2)-(carteEvent4Dessus->h/2));
+    position.x += ((carteEvent4->w/2)-(carteEvent4Dessus->w/2));
+    position.y += ((carteEvent4->h/2)-(carteEvent4Dessus->h/2));
     SDL_BlitSurface(carteEvent4Dessus,NULL,ecran,&position);
-    position.x=725;
-    position.y=220+(carteEvent4->h-20);
+    position.x = 725;
+    position.y = 220+(carteEvent4->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte4_EliminationPion),ecran);
 //carte5
-    position.x=810;
-    position.y=220;
+    position.x = 810;
+    position.y = 220;
     SDL_BlitSurface(carteEvent5,NULL,ecran,&position);//colle la surface sur l'ecran
-    position.x+=((carteEvent5->w/2)-(carteEvent5Dessus->w/2));
-    position.y+=((carteEvent5->h/2)-(carteEvent5Dessus->h/2));
+    position.x += ((carteEvent5->w/2)-(carteEvent5Dessus->w/2));
+    position.y += ((carteEvent5->h/2)-(carteEvent5Dessus->h/2));
     SDL_BlitSurface(carteEvent5Dessus,NULL,ecran,&position);
-    position.x=815;
-    position.y=220+(carteEvent5->h-20);
+    position.x = 815;
+    position.y = 220+(carteEvent5->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte5_AntiTraitre),ecran);
 //carte6
-    position.x=900;
-    position.y=220;
+    position.x = 900;
+    position.y = 220;
     SDL_BlitSurface(carteEvent6,NULL,ecran,&position);//colle la surface sur l'ecran
-    position.x+=((carteEvent6->w/2)-(carteEvent6Dessus->w/2));
-    position.y+=((carteEvent6->h/2)-(carteEvent6Dessus->h/2));
+    position.x += ((carteEvent6->w/2)-(carteEvent6Dessus->w/2));
+    position.y += ((carteEvent6->h/2)-(carteEvent6Dessus->h/2));
     SDL_BlitSurface(carteEvent6Dessus,NULL,ecran,&position);
-    position.x=905;
-    position.y=220+(carteEvent6->h-20);
+    position.x = 905;
+    position.y = 220+(carteEvent6->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte6_Peinture),ecran);
 //carte7
-    position.x=720;
-    position.y=340;
+    position.x = 720;
+    position.y = 340;
     SDL_BlitSurface(carteEvent7,NULL,ecran,&position);//colle la surface sur l'ecran
-    position.x+=((carteEvent7->w/2)-(carteEvent7Dessus->w/2));
-    position.y+=((carteEvent7->h/2)-(carteEvent7Dessus->h/2));
+    position.x += ((carteEvent7->w/2)-(carteEvent7Dessus->w/2));
+    position.y += ((carteEvent7->h/2)-(carteEvent7Dessus->h/2));
     SDL_BlitSurface(carteEvent7Dessus,NULL,ecran,&position);
-    position.x=725;
-    position.y=340+(carteEvent7->h-20);
+    position.x = 725;
+    position.y = 340+(carteEvent7->h-20);
     ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte7_AideMoi),ecran);
 //carte8
     if((!jeu->apresExplosionBombe )&& getNbMineraiDansSauvegarde(jeu)>getPrixCarte(jeu,carte8_Ouups)){
-        position.x=900;
-        position.y=340;
+        position.x = 900;
+        position.y = 340;
         SDL_BlitSurface(carteEvent8,NULL,ecran,&position);//colle la surface sur l'ecran
-        position.x+=((carteEvent8->w/2)-(carteEvent8Dessus->w/2));
-        position.y+=((carteEvent8->h/2)-(carteEvent8Dessus->h/2));
+        position.x += ((carteEvent8->w/2)-(carteEvent8Dessus->w/2));
+        position.y += ((carteEvent8->h/2)-(carteEvent8Dessus->h/2));
         SDL_BlitSurface(carteEvent8Dessus,NULL,ecran,&position);
-        position.x=905;
-        position.y=340+(carteEvent8->h-20);
+        position.x = 905;
+        position.y = 340+(carteEvent8->h-20);
         ecritureNombre(chiffres,&position,getPrixCarte(jeu,carte8_Ouups),ecran);
     }
 }
@@ -658,20 +672,20 @@ SDL_Surface** creationDescriptionCarte(){
         for(i=0 ; i<nbCarteEvent ; i++){
                 int hauteur;
             switch(i){
-                case 3:
-                case 0: hauteur=20;
+                case 3 :
+                case 0 : hauteur = 20;
                         break;
-                case 2:
-                case 1: hauteur=65;
+                case 2 :
+                case 1 : hauteur = 65;
                         break;
-                case 4:
-                case 5:
-                case 6: hauteur=40;
+                case 4 :
+                case 5 :
+                case 6 : hauteur = 40;
                         break;
-                default:hauteur=80;
+                default : hauteur = 80;
                         break;
             }
-            tabDescription[i]=SDL_CreateRGBSurface(0,700,hauteur,32,0,0,0,0);
+            tabDescription[i] = SDL_CreateRGBSurface(0,700,hauteur,32,0,0,0,0);
             if(tabDescription[i]==NULL){
                 printf("PROBLEME! Erreur lors de la creation de la description de la carte %d\n",i+1);
             }
@@ -680,55 +694,55 @@ SDL_Surface** creationDescriptionCarte(){
 
         SDL_Surface* pageRegles = SDL_LoadBMP("Images/Regles4.bmp");
         SDL_Rect posDecoupage,posColler;
-        posColler.x=0;
-        posColler.y=0;
-        posDecoupage.x=0;
-        posDecoupage.w=700;
+        posColler.x = 0;
+        posColler.y = 0;
+        posDecoupage.x = 0;
+        posDecoupage.w = 700;
 
         if(pageRegles==NULL){
             printf("PROBLEME! Erreur lors du chargement de la page 4 des regles\n");
         }
         else{
             //carte 1 bloc
-            posDecoupage.y=160;
-            posDecoupage.h=tabDescription[0]->h;
+            posDecoupage.y = 160;
+            posDecoupage.h = tabDescription[0]->h;
             SDL_BlitSurface(pageRegles,&posDecoupage,tabDescription[0],&posColler);
             //carte 2 swapFaction
-            posDecoupage.y=220;
-            posDecoupage.h=tabDescription[1]->h;
+            posDecoupage.y = 220;
+            posDecoupage.h = tabDescription[1]->h;
             SDL_BlitSurface(pageRegles,&posDecoupage,tabDescription[1],&posColler);
             //carte 3 Jouer2x
-            posDecoupage.y=325;
-            posDecoupage.h=tabDescription[2]->h;
+            posDecoupage.y = 325;
+            posDecoupage.h = tabDescription[2]->h;
             SDL_BlitSurface(pageRegles,&posDecoupage,tabDescription[2],&posColler);
 
             //on libere la page de regle
             SDL_FreeSurface(pageRegles);
         }
-        pageRegles =SDL_LoadBMP("Images/Regles5.bmp");
+        pageRegles = SDL_LoadBMP("Images/Regles5.bmp");
         if(pageRegles==NULL){
             printf("PROBLEME! Erreur lors du chargement de la page 5 des regles\n");
         }
         else{
             //carte 4 elimination pion
-            posDecoupage.y=170;
-            posDecoupage.h=tabDescription[3]->h;
+            posDecoupage.y = 170;
+            posDecoupage.h = tabDescription[3]->h;
             SDL_BlitSurface(pageRegles,&posDecoupage,tabDescription[3],&posColler);
             //carte 5 anti traitre
-            posDecoupage.y=85;
-            posDecoupage.h=tabDescription[4]->h;
+            posDecoupage.y = 85;
+            posDecoupage.h = tabDescription[4]->h;
             SDL_BlitSurface(pageRegles,&posDecoupage,tabDescription[4],&posColler);
             //carte 6 peinture
-            posDecoupage.y=0;
-            posDecoupage.h=tabDescription[5]->h;
+            posDecoupage.y = 0;
+            posDecoupage.h = tabDescription[5]->h;
             SDL_BlitSurface(pageRegles,&posDecoupage,tabDescription[5],&posColler);
             //carte 7 aide moi
-            posDecoupage.y=230;
-            posDecoupage.h=tabDescription[6]->h;
+            posDecoupage.y = 230;
+            posDecoupage.h = tabDescription[6]->h;
             SDL_BlitSurface(pageRegles,&posDecoupage,tabDescription[6],&posColler);
             //carte 8 Oups!
-            posDecoupage.y=317;
-            posDecoupage.h=tabDescription[7]->h;
+            posDecoupage.y = 317;
+            posDecoupage.h = tabDescription[7]->h;
             SDL_BlitSurface(pageRegles,&posDecoupage,tabDescription[7],&posColler);
 
             //on libere la page de regle
@@ -754,7 +768,7 @@ void animationMeilleurCoup(Coordonnees meilleurCoup,SDL_Surface* fondCaseJeu,SDL
     int i;
     SDL_Rect position;
 
-    SDL_Surface* fondColorer= SDL_CreateRGBSurface(0,fondCaseJeu->w,fondCaseJeu->h,32,0,0,0,0);
+    SDL_Surface* fondColorer = SDL_CreateRGBSurface(0,fondCaseJeu->w,fondCaseJeu->h,32,0,0,0,0);
     if(fondColorer==NULL){
         printf("PROBLEME! erreur lors de la creation du fond colore\n");
     }

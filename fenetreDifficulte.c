@@ -5,6 +5,9 @@
 
 void  func_fenetreDifficulte(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre,SDL_Surface* fondFenetre){
 
+//---------------------------------------------------------------------------------
+//---------------------------- CREATION DES SURFACES ------------------------------
+//---------------------------------------------------------------------------------
 
 //creation du titre
     SDL_Surface* titre = SDL_LoadBMP("Images/difficultePartieTitre.bmp");
@@ -46,32 +49,42 @@ void  func_fenetreDifficulte(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* j
         printf("PROBLEME!! erreur lors de la creation du bouton difficulte forte dessus\n");
     }
 
+
+//---------------------------------------------------------------------------------
+//---------------------------- POSITIONNEMENT IMAGE -------------------------------
+//---------------------------------------------------------------------------------
+
 //creation de l'ecran
     SDL_Rect position;
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));                           //color la surface
 
-    position.x=0;
-    position.y=0;
+    position.x = 0;
+    position.y = 0;
     SDL_BlitSurface(fondFenetre,NULL,ecran,&position);
 
-    position.x=100;
-    position.y=50;
+    position.x = 100;
+    position.y = 50;
     SDL_BlitSurface(titre,NULL,ecran,&position);
 
-    position.x=100;
-    position.y=200;
+    position.x = 100;
+    position.y = 200;
     SDL_BlitSurface(boutonDifficulteFaible,NULL,ecran,&position);
     SDL_BlitSurface(boutonDifficulteFaibleDessus,NULL,ecran,&position);
 
-    position.x=400;
-    position.y=200;
+    position.x = 400;
+    position.y = 200;
     SDL_BlitSurface(boutonDifficulteMoyenne,NULL,ecran,&position);
     SDL_BlitSurface(boutonDifficulteMoyenneDessus,NULL,ecran,&position);
 
-    position.x=700;
-    position.y=200;
+    position.x = 700;
+    position.y = 200;
     SDL_BlitSurface(boutonDifficulteForte,NULL,ecran,&position);
     SDL_BlitSurface(boutonDifficulteForteDessus,NULL,ecran,&position);
+
+
+//---------------------------------------------------------------------------------
+//---------------------------- BOUCLE EVENEMENT -----------------------------------
+//---------------------------------------------------------------------------------
 
     SDL_Event event;                                                                    //permetra de stock le dernier event effectuer
     SDL_UpdateWindowSurface(fenetre);
@@ -79,26 +92,26 @@ void  func_fenetreDifficulte(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* j
         SDL_WaitEvent(&event);                                                          //attend le prochain event
 
         switch(event.type){                                                             //regarde le type de l'event
-            case SDL_QUIT: *typeFenetre=fenetreQuitter;                                 //event de je veux ferme la fenetre
+            case SDL_QUIT: *typeFenetre = fenetreQuitter;                                 //event de je veux ferme la fenetre
                 break;
             case SDL_MOUSEBUTTONDOWN:                                                   //quand un bouton de la souris est appuyer
                                                                                         //event.button.button pour savoir lequel est appuyer
                        if(event.button.x >=100 && event.button.x<=(100+boutonDifficulteFaible->w) && event.button.y>=200 && event.button.y <= (200+boutonDifficulteFaible->h) ){
                             jeu->nbBombe=0.05*(jeu->grilleJeu.taille*jeu->grilleJeu.taille);        //5% des case
                             placerBombeDebut(jeu);
-                            *typeFenetre=fenetreJeu;
+                            *typeFenetre = fenetreJeu;
                             printf("Difficulte Faible\n");
                        }
                        else{if(event.button.x >=400 && event.button.x<=(400+boutonDifficulteMoyenne->w) && event.button.y>=200 && event.button.y <= (200+boutonDifficulteMoyenne->h) ){
                                 jeu->nbBombe=0.1*(jeu->grilleJeu.taille*jeu->grilleJeu.taille);        //10% des case
                                 placerBombeDebut(jeu);
-                                *typeFenetre=fenetreJeu;
+                                *typeFenetre = fenetreJeu;
                                 printf("Difficulte Moyenne\n");
                             }
                             else{if(event.button.x >=700 && event.button.x<=(700+boutonDifficulteForte->w) && event.button.y>=200 && event.button.y <= (200+boutonDifficulteForte->h) ){
-                                    jeu->nbBombe=0.15*(jeu->grilleJeu.taille*jeu->grilleJeu.taille);        //15% des case
+                                    jeu->nbBombe = 0.15*(jeu->grilleJeu.taille*jeu->grilleJeu.taille);        //15% des case
                                     placerBombeDebut(jeu);
-                                    *typeFenetre=fenetreJeu;
+                                    *typeFenetre = fenetreJeu;
                                     printf("Difficulte Forte\n");
                                 }
 
