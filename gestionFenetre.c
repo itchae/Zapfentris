@@ -18,7 +18,7 @@
 void mainInterface(){
 
     E_fenetre typeFenetre=fenetreTitre;
-    systemJeu* jeu =NULL;
+    systemJeu* jeu = init_SystemJeu_Minimal();
 
     SDL_Window* fenetre;                                                                                                //pointeur sur la fenetre
     fenetre = SDL_CreateWindow("Pawn Hey",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,600,SDL_WINDOW_SHOWN);  //cree la fenetre
@@ -56,10 +56,7 @@ void mainInterface(){
         switch(typeFenetre){
         //case type : func_fenetreType(fenetre,ecran,jeu,&typeFenetre); break;
 
-        case fenetreTitre: if(jeu != NULL){                              //si il y avait une ancienne partie
-                               free_SystemJeu(&jeu);                    //on la free
-                            }
-                            jeu = init_SystemJeu_Minimal();             //reste a alloue la grille, score et ia
+        case fenetreTitre:  retourSystemJeuMinimal(jeu);             //reste a alloue la grille, score et ia
                             func_fenetreTitre(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                         break;
         case fenetreSauvegarde : func_fenetreSauvegarde(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
