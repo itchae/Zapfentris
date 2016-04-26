@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void func_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre){
+void func_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre,SDL_Surface* fondFenetre){
 
     //creation du titre
     SDL_Surface* titre = SDL_CreateRGBSurface(0,650,150,32,0,0,0,0);
@@ -33,7 +33,7 @@ void func_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_f
     SDL_Event event;                                                                    //permetra de stock le dernier event effectuer
     int menuSelectParFleche =0;
     while(*typeFenetre==fenetreTitre){
-        refresh_fenetreTitre(fenetre,ecran,jeu,titre,boutonJouer,boutonRegle,fleche,menuSelectParFleche);
+        refresh_fenetreTitre(fenetre,ecran,jeu,titre,boutonJouer,boutonRegle,fleche,menuSelectParFleche,fondFenetre);
         SDL_UpdateWindowSurface(fenetre);
         SDL_WaitEvent(&event);                                                          //attend le prochain event
 
@@ -76,10 +76,14 @@ void func_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_f
 //-------------------------------------------------------------------
 void refresh_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,SDL_Surface* titre,
                           SDL_Surface* boutonJouer,SDL_Surface* boutonRegle,SDL_Surface* fleche,
-                          int menuSelectParFleche)
+                          int menuSelectParFleche,SDL_Surface* fondFenetre)
 {
     SDL_Rect position;
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));
+
+    position.x=0;
+    position.y=0;
+    SDL_BlitSurface(fondFenetre,NULL,ecran,&position);
 
     position.x=180;
     position.y=80;

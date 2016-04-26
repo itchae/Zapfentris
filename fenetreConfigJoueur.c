@@ -5,7 +5,7 @@
 #include <string.h>
 #include "SDL_ecriture.h"
 
-void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre){
+void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre,SDL_Surface* fondFenetre){
     E_typeJoueur typeJoueur = JoueurTypeNonDefini;
     // CREATION DES CARRES DE COULEUR
     // Titre
@@ -61,7 +61,7 @@ void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu*
     SDL_Event event;
 
     while(*typeFenetre==fenetreConfigJoueur){
-        refreshFenetreConfig (ecran, typeJoueur, jeu,titre ,boutonHumain,boutonHumainDessus, boutonIA, boutonIADessus, boutonValider, boutonValiderDessus,pixel,jeu->numJoueur);
+        refreshFenetreConfig (ecran, typeJoueur, jeu,titre ,boutonHumain,boutonHumainDessus, boutonIA, boutonIADessus, boutonValider, boutonValiderDessus,pixel,jeu->numJoueur,fondFenetre);
         SDL_UpdateWindowSurface(fenetre);
         SDL_WaitEvent(&event);
 
@@ -106,10 +106,14 @@ void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu*
 
 void refreshFenetreConfig (SDL_Surface* ecran,E_typeJoueur typeJoueur,systemJeu* jeu,SDL_Surface* titre,SDL_Surface* boutonHumain,SDL_Surface* boutonHumainDessus,
                            SDL_Surface* boutonIA, SDL_Surface* boutonIADessus,SDL_Surface* boutonValider, SDL_Surface* boutonValiderDessus,
-                           SDL_Surface* pixel,int joueur){
+                           SDL_Surface* pixel,int joueur,SDL_Surface* fondFenetre){
     // PLACEMENT DES CARRES DE COULEURS
     SDL_Rect position;
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));                           //color la surface
+
+    position.x=0;
+    position.y=0;
+    SDL_BlitSurface(fondFenetre,NULL,ecran,&position);
 
     position.x=100;
     position.y=50;

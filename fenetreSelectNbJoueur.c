@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre){
+void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre,SDL_Surface* fondFenetre){
 
 
 //creation du titre
@@ -66,6 +66,11 @@ void  func_fenetreSelectNbJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJe
 //creation de l'ecran
     SDL_Rect position;
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));                           //color la surface
+
+    position.x=0;
+    position.y=0;
+    SDL_BlitSurface(fondFenetre,NULL,ecran,&position);
+
     position.x=100;
     position.y=50;
     SDL_BlitSurface(titre,NULL,ecran,&position);

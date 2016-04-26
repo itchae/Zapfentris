@@ -47,6 +47,11 @@ void mainInterface(){
     }
     SDL_SetWindowIcon(fenetre,fenetre_icon);
 
+    SDL_Surface* fondFenetre = SDL_LoadBMP("Images/fond.bmp");
+    if(fondFenetre==NULL){
+        printf("PROBLEME , Le fond n'a pas ete genere \n");
+    }
+
    while(typeFenetre>=0){
         switch(typeFenetre){
         //case type : func_fenetreType(fenetre,ecran,jeu,&typeFenetre); break;
@@ -55,24 +60,24 @@ void mainInterface(){
                                free_SystemJeu(&jeu);                    //on la free
                             }
                             jeu = init_SystemJeu_Minimal();             //reste a alloue la grille, score et ia
-                            func_fenetreTitre(fenetre,ecran,jeu,&typeFenetre);
+                            func_fenetreTitre(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                         break;
-        case fenetreSauvegarde : func_fenetreSauvegarde(fenetre,ecran,jeu,&typeFenetre);
+        case fenetreSauvegarde : func_fenetreSauvegarde(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                         break;
-        case fenetreSelecNbJoueur: func_fenetreSelectNbJoueur(fenetre,ecran,jeu,&typeFenetre);
+        case fenetreSelecNbJoueur: func_fenetreSelectNbJoueur(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                         break;
-        case fenetreConfigJoueur: func_fenetreConfigJoueur(fenetre,ecran,jeu,&typeFenetre);
+        case fenetreConfigJoueur: func_fenetreConfigJoueur(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                         break;
-        case fenetreDureePartie: func_fenetreDureePartie(fenetre,ecran,jeu,&typeFenetre);
+        case fenetreDureePartie: func_fenetreDureePartie(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                         break;
-        case fenetreDifficulte: func_fenetreDifficulte(fenetre,ecran,jeu,&typeFenetre);
+        case fenetreDifficulte: func_fenetreDifficulte(fenetre,ecran,jeu,&typeFenetre,fondFenetre);
                                 sauvegardePartie(jeu);                                  //on sauvegarde ici pour supprimer l'ancienne
                         break;
         case fenetreJeu: func_fenetreJeu(fenetre,ecran,jeu,&typeFenetre);
                         break;
         case fenetreCarteEvenement: func_fenetreCarteEvenement(fenetre,ecran,jeu,&typeFenetre);
                         break;
-        case fenetreRegles: func_fenetreRegles(fenetre,ecran,&typeFenetre);
+        case fenetreRegles: func_fenetreRegles(fenetre,ecran,&typeFenetre,fondFenetre);
                         break;
         default:typeFenetre=fenetreQuitter;
             break;
@@ -81,6 +86,7 @@ void mainInterface(){
 
    SDL_DestroyWindow(fenetre);//on detruit la fenetre
    SDL_FreeSurface(fenetre_icon);
+   SDL_FreeSurface(fondFenetre);
 
    if(jeu->nbJoueur != -1){//si un jeu etait en court
     sauvegardePartie(jeu);

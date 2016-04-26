@@ -4,7 +4,7 @@
 #include <string.h>
 
 
-void func_fenetreSauvegarde(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre){
+void func_fenetreSauvegarde(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre,SDL_Surface* fondFenetre){
 
     E_Sauvegarde Sauvegarde = SauvNonDefini;
 
@@ -69,7 +69,7 @@ void func_fenetreSauvegarde(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* je
 
     while(*typeFenetre==fenetreSauvegarde){
         refreshFenetreSauvegarde (ecran, Sauvegarde, jeu, titre, boutonSauv1, boutonSauv1Dessus , boutonSauv2, boutonSauv2Dessus, boutonSauv3, boutonSauv3Dessus, boutonCharger,
-                                boutonNouvelle);
+                                boutonNouvelle,fondFenetre);
         SDL_UpdateWindowSurface(fenetre);
         SDL_WaitEvent(&event);
 
@@ -127,7 +127,7 @@ void func_fenetreSauvegarde(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* je
 
 void refreshFenetreSauvegarde (SDL_Surface* ecran, E_Sauvegarde Sauvegarde,systemJeu* jeu,SDL_Surface* titre,SDL_Surface* boutonSauv1, SDL_Surface* boutonSauv1Dessus,
                            SDL_Surface* boutonSauv2, SDL_Surface* boutonSauv2Dessus, SDL_Surface* boutonSauv3, SDL_Surface* boutonSauv3Dessus, SDL_Surface* boutonCharger,
-                           SDL_Surface* boutonNouvelle)
+                           SDL_Surface* boutonNouvelle,SDL_Surface* fondFenetre)
 {
 
 
@@ -138,6 +138,10 @@ void refreshFenetreSauvegarde (SDL_Surface* ecran, E_Sauvegarde Sauvegarde,syste
     FILE* fichier = fopen(nomFichier,"r");
 
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));
+
+    position.x=0;
+    position.y=0;
+    SDL_BlitSurface(fondFenetre,NULL,ecran,&position);
 
 
     position.x=250;

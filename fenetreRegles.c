@@ -7,7 +7,7 @@
 
 #define nbPage 6
 
-void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFenetre){
+void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFenetre,SDL_Surface* fondFenetre){
 
     int indicePageRegles=0;
     int indiceAnimation=0;
@@ -145,7 +145,7 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
     }
 
     while(*typeFenetre==fenetreRegles){
-        refresh_fenetreRegles(fenetre,ecran,indicePageRegles,indiceAnimation,boutonRetour,regles,chiffres,pixel,flecheDroite,flecheGauche,traitre,explosif,splash,fondRegles,caseBloque,flecheBombe,minerai,carteEvent);
+        refresh_fenetreRegles(fenetre,ecran,indicePageRegles,indiceAnimation,boutonRetour,regles,chiffres,pixel,flecheDroite,flecheGauche,traitre,explosif,splash,fondRegles,caseBloque,flecheBombe,minerai,carteEvent,fondFenetre);
         SDL_UpdateWindowSurface(fenetre);
         SDL_Delay(200);
         if(SDL_PollEvent(&event) || clicMaintenu){                                                        //on regarde si il y a un event
@@ -208,7 +208,7 @@ void func_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,E_fenetre* typeFe
 void refresh_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,int indicePageRegles,int indiceAnimation,SDL_Surface* boutonRetour,
                             SDL_Surface** regles,SDL_Surface** chiffres,SDL_Surface* pixel,SDL_Surface* flecheDroite,SDL_Surface* flecheGauche,
                             SDL_Surface** traitre,SDL_Surface** explosif,SDL_Surface** splash ,SDL_Surface* fondRegles,SDL_Surface* caseBloque,
-                            SDL_Surface* flecheBombe,SDL_Surface* minerai,SDL_Surface** carteEvent)
+                            SDL_Surface* flecheBombe,SDL_Surface* minerai,SDL_Surface** carteEvent,SDL_Surface* fondFenetre)
 {
 
     SDL_Rect position,finDroite;
@@ -217,6 +217,10 @@ void refresh_fenetreRegles(SDL_Window* fenetre,SDL_Surface* ecran,int indicePage
     int vert= rand()%2;
 
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));         //on efface l'ecran
+
+    position.x=0;
+    position.y=0;
+    SDL_BlitSurface(fondFenetre,NULL,ecran,&position);
 
  //Bouton Retour
     position.x=380;

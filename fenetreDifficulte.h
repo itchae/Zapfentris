@@ -5,6 +5,6 @@
 #include "systemJeu.h"
 #include "E_fenetreType.h"
 
-void  func_fenetreDifficulte(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre);
+void  func_fenetreDifficulte(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre,SDL_Surface* fondFenetre);
 
 #endif // FENETREDIFFICULTE_H_INCLUDED
