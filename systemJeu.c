@@ -638,7 +638,7 @@ bool chargementPartie (systemJeu* jeu){
     sprintf(nomSauvegarde,"Save/slot%d.sav",jeu->slot);
     fichier = fopen(nomSauvegarde,"r");
 
-    if(jeu->nbJoueur != -1 ){           //si le jeu a ete initaliser on le ramene a l'etat minimal
+    if(jeu->nbBombe != -1 ){           //si le jeu a ete initaliser on le ramene a l'etat minimal
         retourSystemJeuMinimal(jeu);
     }
 
