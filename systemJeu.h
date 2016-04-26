@@ -109,7 +109,7 @@ void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info);      
 //Les cartes
 bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte);               //permet de definir l'effect de la carte choisi
 void event_swapJoueur(systemJeu* jeu);                                          //echange les pion entre les joueur
-void event_AntiTraitre(systemJeu* jeu);                                         //reinitialise l'age des pion du jour
+void event_AntiTraitre(systemJeu* jeu);                                         //diminue l'age des pion du joueur
 
 //Prix des cartes
 int getPrixCarte(systemJeu* jeu,E_event numCarte);                             //permet de savoir le prix d'une carte

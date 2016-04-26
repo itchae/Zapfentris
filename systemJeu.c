@@ -1029,7 +1029,7 @@ void event_AntiTraitre(systemJeu* jeu){
     for(x=0 ; x<jeu->grilleJeu.taille ; x++){
         for(y=0 ; y< jeu->grilleJeu.taille ; y++){
             if(jeu->grilleJeu.tabCase[x][y].contenu ==contenuPion && jeu->grilleJeu.tabCase[x][y].numJoueur == jeu->numJoueur){//si c'est mon pion
-                jeu->grilleJeu.tabCase[x][y].viePion=0;     //on reset l'age
+                jeu->grilleJeu.tabCase[x][y].viePion=jeu->grilleJeu.tabCase[x][y].viePion/2;     //on diminue  l'age
             }
         }
     }

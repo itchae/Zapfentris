@@ -5,6 +5,6 @@
 #include "systemJeu.h"
 #include "E_fenetreType.h"
 
-void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre);
+void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre,SDL_Surface* fondFenetre);
 
 #endif // FENETREDUREEPARTIE_H_INCLUDED
