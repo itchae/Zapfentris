@@ -6,11 +6,10 @@
 void func_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre){
 
     //creation du titre
-    SDL_Surface* titre = SDL_CreateRGBSurface(0,650,150,32,0,0,0,0);
+    SDL_Surface* titre = SDL_LoadBMP("Images/titre.bmp");
     if(titre==NULL){
         printf("PROBLEME!! erreur lors de la creation du titre\n");
     }
-    SDL_FillRect(titre,NULL,SDL_MapRGB(titre->format,0,0,0));
 
     //creation du bouton jouer
     SDL_Surface* boutonJouer = SDL_LoadBMP("Images/boutonJouer.bmp");

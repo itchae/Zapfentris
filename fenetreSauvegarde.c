@@ -8,12 +8,12 @@ void func_fenetreSauvegarde(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* je
 
     E_Sauvegarde Sauvegarde = SauvNonDefini;
 
-    SDL_Surface* titre = SDL_CreateRGBSurface(0,500,100,32,0,0,0,0);
+    SDL_Surface* titre = SDL_LoadBMP("Images/sauvegardeTitre.bmp");
     if(titre==NULL){
         printf("PROBLEME!! erreur lors de la creation du titre\n");
     }
-    SDL_FillRect(titre,NULL,SDL_MapRGB(titre->format,0,0,0));
 
+    // SAUVEGARDE 1
     SDL_Surface* boutonSauv1 = SDL_CreateRGBSurface(0,300,70,32,0,0,0,0);
     if(boutonSauv1==NULL){
         printf("PROBLEME !! erreur lors de la creation du bouton sauv1\n");
@@ -139,6 +139,19 @@ void refreshFenetreSauvegarde (SDL_Surface* ecran, E_Sauvegarde Sauvegarde,syste
 
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));
 
+    SDL_FillRect(boutonSauv1,NULL,SDL_MapRGB(boutonSauv1->format,100,100,255));
+    SDL_FillRect(boutonSauv2,NULL,SDL_MapRGB(boutonSauv2->format,100,100,255));
+    SDL_FillRect(boutonSauv3,NULL,SDL_MapRGB(boutonSauv3->format,100,100,255));
+
+    switch(Sauvegarde){
+    case Sauvegarde1 : SDL_FillRect(boutonSauv1,NULL,SDL_MapRGB(boutonSauv1->format,80,80,150));
+                    break;
+    case Sauvegarde2 : SDL_FillRect(boutonSauv2,NULL,SDL_MapRGB(boutonSauv2->format,80,80,150));
+                    break;
+    case Sauvegarde3 : SDL_FillRect(boutonSauv3,NULL,SDL_MapRGB(boutonSauv3->format,80,80,150));
+                    break;
+    default : break;
+    }
 
     position.x=250;
     position.y=30;
