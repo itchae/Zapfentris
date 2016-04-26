@@ -88,7 +88,7 @@ void mainInterface(){
    SDL_FreeSurface(fenetre_icon);
    SDL_FreeSurface(fondFenetre);
 
-   if(jeu->nbJoueur != -1){//si un jeu etait en court
+   if(jeu->nbBombe != -1){//si un jeu etait en court
     sauvegardePartie(jeu);
    }
    free_SystemJeu(&jeu);
