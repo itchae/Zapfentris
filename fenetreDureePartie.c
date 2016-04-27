@@ -6,7 +6,7 @@
 void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre,SDL_Surface* fondFenetre){
 
 //---------------------------------------------------------------------------------
-//---------------------------- CREATION IMAGE -------------------------------------
+//---------------------------- CREATION DES SURFACES ------------------------------
 //---------------------------------------------------------------------------------
 
 //creation du titre
@@ -59,26 +59,26 @@ void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* 
     SDL_Rect position;
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));                           //color la surface
 
-    position.x=0;
-    position.y=0;
+    position.x = 0;
+    position.y = 0;
     SDL_BlitSurface(fondFenetre,NULL,ecran,&position);
 
-    position.x=100;
-    position.y=50;
+    position.x = 100;
+    position.y = 50;
     SDL_BlitSurface(titre,NULL,ecran,&position);
 
-    position.x=100;
-    position.y=200;
+    position.x = 100;
+    position.y = 200;
     SDL_BlitSurface(boutonDureeCourte,NULL,ecran,&position);
     SDL_BlitSurface(boutonDureeCourteDessus,NULL,ecran,&position);
 
-    position.x=400;
-    position.y=200;
+    position.x = 400;
+    position.y = 200;
     SDL_BlitSurface(boutonDureeMoyenne,NULL,ecran,&position);
     SDL_BlitSurface(boutonDureeMoyenneDessus,NULL,ecran,&position);
 
-    position.x=700;
-    position.y=200;
+    position.x = 700;
+    position.y = 200;
     SDL_BlitSurface(boutonDureeLongue,NULL,ecran,&position);
     SDL_BlitSurface(boutonDureeLongueDessus,NULL,ecran,&position);
 
@@ -100,19 +100,19 @@ void  func_fenetreDureePartie(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* 
                        if(event.button.x >=100 && event.button.x<=(100+boutonDureeCourte->w) && event.button.y>=200 && event.button.y <= (200+boutonDureeCourte->h) ){
                             init_Grille(jeu->nbJoueur+8,&jeu->grilleJeu);               //13 est le min pour 5j et 1 EEC
                             placerJetonDebut(jeu,1);
-                            *typeFenetre=fenetreDifficulte;
+                            *typeFenetre = fenetreDifficulte;
                             printf("Durre Courte\n");
                        }
                        else{if(event.button.x >=400 && event.button.x<=(400+boutonDureeMoyenne->w) && event.button.y>=200 && event.button.y <= (200+boutonDureeMoyenne->h) ){
                                 init_Grille(jeu->nbJoueur+11,&jeu->grilleJeu);
                                 placerJetonDebut(jeu,1);
-                                *typeFenetre=fenetreDifficulte;
+                                *typeFenetre = fenetreDifficulte;
                                 printf("Durre Moyenne\n");
                             }
                             else{if(event.button.x >=700 && event.button.x<=(700+boutonDureeLongue->w) && event.button.y>=200 && event.button.y <= (200+boutonDureeLongue->h) ){
                                     init_Grille(jeu->nbJoueur+15,&jeu->grilleJeu);
                                     placerJetonDebut(jeu,1);
-                                    *typeFenetre=fenetreDifficulte;
+                                    *typeFenetre = fenetreDifficulte;
                                     printf("Durre Longue\n");
                                 }
 

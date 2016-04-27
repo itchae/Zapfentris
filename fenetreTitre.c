@@ -5,6 +5,10 @@
 
 void func_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre,SDL_Surface* fondFenetre){
 
+//---------------------------------------------------------------------------------
+//---------------------------- CREATION DES SURFACES ------------------------------
+//---------------------------------------------------------------------------------
+
     //creation du titre
     SDL_Surface* titre = SDL_LoadBMP("Images/titre.bmp");
     if(titre==NULL){
@@ -28,6 +32,10 @@ void func_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_f
     if(fleche==NULL){
         printf("PROBLEME!! erreur lors de la creation de la fleche\n");
     }
+
+//---------------------------------------------------------------------------------
+//---------------------------- BOUCLE EVENEMENT -----------------------------------
+//---------------------------------------------------------------------------------
 
     SDL_Event event;                                                                    //permetra de stock le dernier event effectuer
     int menuSelectParFleche =0;
@@ -79,6 +87,10 @@ void refresh_fenetreTitre(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,
 {
     SDL_Rect position;
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));
+
+//---------------------------------------------------------------------------------
+//---------------------------- POSITIONNEMENT IMAGE -------------------------------
+//---------------------------------------------------------------------------------
 
     position.x=0;
     position.y=0;

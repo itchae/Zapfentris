@@ -6,8 +6,13 @@
 #include "SDL_ecriture.h"
 
 void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre){
+
     int i;
     char fichier[25];
+
+//---------------------------------------------------------------------------------
+//---------------------------- CREATION DES SURFACES ------------------------------
+//---------------------------------------------------------------------------------
 
 //creation fond de la zone de score
     SDL_Surface* fondMenuScore = SDL_CreateRGBSurface(0,300,600,32,0,0,0,0);
@@ -134,7 +139,11 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
 
 //creation des chiffres
 
-    SDL_Surface** chiffres= creationSurfaceChiffre();
+    SDL_Surface** chiffres = creationSurfaceChiffre();
+
+//---------------------------------------------------------------------------------
+//---------------------------- BOUCLE EVENEMENT -----------------------------------
+//---------------------------------------------------------------------------------
 
 //creation du visuel
     refresh_fenetreJeu(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe);
@@ -144,25 +153,25 @@ void  func_fenetreJeu(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fe
     SDL_Rect position;
 
     if(verifFinPartie(jeu)){                                            //on regarde si quelqu'un peut jouer (on passe les tour de ceux qui peuvent ppas)
-            position.x=50;
-            position.y=250;
+            position.x = 50;
+            position.y = 250;
             SDL_BlitSurface(texteVictoire_Victoire,NULL,ecran,&position);
 
-            position.x=0;
-            position.y+=texteVictoire_Victoire->h;
+            position.x = 0;
+            position.y += texteVictoire_Victoire->h;
             SDL_BlitSurface(texteVictoire_joueur,NULL,ecran,&position);
-            position.x=500;
+            position.x = 500;
          switch(quiGagne(jeu)){
-            case 1:ecrireCarac_1(position,ecran,texteVictoire_pixel); break;
-            case 2:ecrireCarac_2(position,ecran,texteVictoire_pixel); break;
-            case 3:ecrireCarac_3(position,ecran,texteVictoire_pixel); break;
-            case 4:ecrireCarac_4(position,ecran,texteVictoire_pixel); break;
-            case 5:ecrireCarac_5(position,ecran,texteVictoire_pixel); break;
-            default: break;
+            case 1 : ecrireCarac_1(position,ecran,texteVictoire_pixel); break;
+            case 2 : ecrireCarac_2(position,ecran,texteVictoire_pixel); break;
+            case 3 : ecrireCarac_3(position,ecran,texteVictoire_pixel); break;
+            case 4 : ecrireCarac_4(position,ecran,texteVictoire_pixel); break;
+            case 5 : ecrireCarac_5(position,ecran,texteVictoire_pixel); break;
+            default : break;
         }
         SDL_UpdateWindowSurface(fenetre);
         SDL_Delay(chrono_FinPartie);
-        *typeFenetre=fenetreTitre;
+        *typeFenetre = fenetreTitre;
 
     }
 Coordonnees cooSouris,cooLecture,cooTraitre;
@@ -170,7 +179,7 @@ Coordonnees cooSouris,cooLecture,cooTraitre;
 listPosition stockCoup = cree_listPosition();
 PileCoordonnes pileLecture;
 informationBombe InfoBombe;
-InfoBombe.cooCaseTouche=NULL;
+InfoBombe.cooCaseTouche = NULL;
     //boucle evenmentiel
     SDL_Event event;
                                                                                             //permetra de stock le dernier event effectuer
@@ -213,31 +222,31 @@ InfoBombe.cooCaseTouche=NULL;
                         boucle_IA(ecran,fondCaseJeu,fondGrilleJeu,fondMenuScore,jeu,pionSurface,caseBloc,texteMinerai,chiffres,boutonMagasin,texteBombe,fenetre,typeFenetre);                                                     //on fait jouer les ia
 
                         if(verifFinPartie(jeu)){                                            //on regarde si quelqu'un peut jouer (on passe les tour de ceux qui peuvent ppas)
-                             position.x=50;
-                             position.y=250;
+                             position.x = 50;
+                             position.y = 250;
                              SDL_BlitSurface(texteVictoire_Victoire,NULL,ecran,&position);
 
-                             position.x=0;
-                             position.y+=texteVictoire_Victoire->h;
+                             position.x = 0;
+                             position.y += texteVictoire_Victoire->h;
                              SDL_BlitSurface(texteVictoire_joueur,NULL,ecran,&position);
-                             position.x=500;
+                             position.x = 500;
                              switch(quiGagne(jeu)){
-                                case 1:ecrireCarac_1(position,ecran,texteVictoire_pixel); break;
-                                case 2:ecrireCarac_2(position,ecran,texteVictoire_pixel); break;
-                                case 3:ecrireCarac_3(position,ecran,texteVictoire_pixel); break;
-                                case 4:ecrireCarac_4(position,ecran,texteVictoire_pixel); break;
-                                case 5:ecrireCarac_5(position,ecran,texteVictoire_pixel); break;
-                                default: break;
+                                case 1 : ecrireCarac_1(position,ecran,texteVictoire_pixel); break;
+                                case 2 : ecrireCarac_2(position,ecran,texteVictoire_pixel); break;
+                                case 3 : ecrireCarac_3(position,ecran,texteVictoire_pixel); break;
+                                case 4 : ecrireCarac_4(position,ecran,texteVictoire_pixel); break;
+                                case 5 : ecrireCarac_5(position,ecran,texteVictoire_pixel); break;
+                                default : break;
                              }
                              SDL_UpdateWindowSurface(fenetre);
                              SDL_Delay(chrono_FinPartie);
-                             *typeFenetre=fenetreTitre;
+                             *typeFenetre = fenetreTitre;
                         }
                     }
                     else{                                                                   //si on est pas dans la grille
                         if(event.button.x>=715 && event.button.y>=20 && event.button.x<715+boutonMagasin->w &&event.button.y<20+boutonMagasin->h){//bouton du magasin
                             printf("On va au Magasin\n");
-                            *typeFenetre=fenetreCarteEvenement;
+                            *typeFenetre = fenetreCarteEvenement;
                         }
                     }
                 break;
@@ -328,7 +337,9 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
 
     SDL_Rect position;//permet de def une position sur l'ecran
 
-//creation du visuel
+//---------------------------------------------------------------------------------
+//---------------------------- POSITIONNEMENT IMAGE -------------------------------
+//---------------------------------------------------------------------------------
 
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255)); //on efface l'ecran
 
@@ -369,42 +380,42 @@ void  refresh_fenetreJeu(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface
 
     //collage du texte Minerai
 
-    position.x=760;
-    position.y=110;
+    position.x = 760;
+    position.y = 110;
     SDL_BlitSurface(texteMinerai,NULL,ecran,&position);//colle la surface sur l'ecran
 
     //nb de minerai
 
-    position.x=760+(texteMinerai->w+20);
-    position.y=125;
+    position.x = 760+(texteMinerai->w+20);
+    position.y = 125;
     ecritureNombre(chiffres,&position,jeu->tabPointEvent[jeu->numJoueur-1],ecran);             //ecrit le nb de minerai
 
     //collage du bouton Magasin
 
-    position.x=715;
-    position.y=20;
+    position.x = 715;
+    position.y = 20;
     SDL_BlitSurface(boutonMagasin,NULL,ecran,&position);//colle la surface sur l'ecran
 
     //collage texteBombe
 
-    position.x=760;
-    position.y=190;
+    position.x = 760;
+    position.y = 190;
     SDL_BlitSurface(texteBombe,NULL,ecran,&position);//colle la surface sur l'ecran
 
     //nb bombe
 
-    position.x=760+(texteBombe->w+20);
-    position.y=210;
+    position.x = 760+(texteBombe->w+20);
+    position.y = 210;
     ecritureNombre(chiffres,&position,jeu->nbBombe,ecran);
 
     //collage du score
 
     for(i=1 ; i<=jeu->nbJoueur ; i++){
-        position.x=800;
-        position.y=250+i*(pionSurface[i-1]->w+20);
+        position.x = 800;
+        position.y = 250+i*(pionSurface[i-1]->w+20);
         SDL_BlitSurface(pionSurface[i-1],NULL,ecran,&position);//colle la surface sur l'ecran
-        position.x=810+pionSurface[i-1]->w;
-        position.y+=10;
+        position.x = 810+pionSurface[i-1]->w;
+        position.y += 10;
         ecritureNombre(chiffres,&position,jeu->tabNbPionJoueur[i],ecran);
     }
 }
@@ -414,9 +425,9 @@ void  boucle_IA(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,SDL_Surface* fondGri
                          SDL_Surface** pionSurface,SDL_Surface* caseBloc,SDL_Surface* texteMinerai,SDL_Surface** chiffres,SDL_Surface* boutonMagasin,
                          SDL_Surface* texteBombe ,SDL_Window* fenetre,E_fenetre* typeFenetre)
 {
-    bool finDePartie=verifFinPartie(jeu);                           //on trouve le prochain joueur qui peut jouer
+    bool finDePartie = verifFinPartie(jeu);                           //on trouve le prochain joueur qui peut jouer
     informationBombe infoBombe;
-    infoBombe.cooCaseTouche=NULL;
+    infoBombe.cooCaseTouche = NULL;
     Coordonnees cooTraitre;
     SDL_Event event;
     event.type = SDL_MOUSEMOTION;
@@ -468,11 +479,11 @@ void animationBombe(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,systemJeu* jeu,S
                          break;
         case bombeLaser : animationBombe_BombeLaser(ecran,fondCaseJeu,jeu, fenetre ,infoBombe);
                          break;
-        case bombeFleche  :animationBombe_BombeFleche(ecran,fondCaseJeu,jeu, fenetre ,infoBombe);
+        case bombeFleche : animationBombe_BombeFleche(ecran,fondCaseJeu,jeu, fenetre ,infoBombe);
                          break;
-        case bombeSplash  :animationBombe_BombeSplash(ecran,fondCaseJeu,jeu, fenetre ,infoBombe);
+        case bombeSplash : animationBombe_BombeSplash(ecran,fondCaseJeu,jeu, fenetre ,infoBombe);
                          break;
-        default:break;
+        default : break;
     }
 }
 
@@ -538,20 +549,20 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syste
     if(rayon==NULL){
         printf("PROBLEME!! erreur lors de la creation de rayon\n");
     }
-    int rouge=rand()%2;
-    int vert= rand()%2;
+    int rouge = rand()%2;
+    int vert = rand()%2;
     SDL_FillRect(rayon,NULL,SDL_MapRGB(rayon->format,rouge*255,vert*255,((vert+2*rouge+1)%2)*255));         //color la surface
 
 
 
 //calcul des position
     SDL_Rect pos1,pos2;
-    pos1.x=infoBombe.cooX;
-    pos1.y=infoBombe.cooY;
-    pos2.x=infoBombe.cooX;
-    pos2.y=infoBombe.cooY;
+    pos1.x = infoBombe.cooX;
+    pos1.y = infoBombe.cooY;
+    pos2.x = infoBombe.cooX;
+    pos2.y = infoBombe.cooY;
     switch(infoBombe.direction){
-    case 0://cas -
+    case 0 : //cas -
         while (pos1.x>0 ){//= car besoin d'un centrage
             pos1.x--;
         }
@@ -559,7 +570,7 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syste
             pos2.x++;
         }
     break;
-    case 1://cas \  diago
+    case 1 : //cas \  diago
         while (pos1.x>0 && pos1.y>0){
             pos1.x--;
             pos1.y--;
@@ -569,7 +580,7 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syste
             pos2.y++;
         }
     break;
-    case 2://cas |
+    case 2 : //cas |
         while (pos1.y>0){
             pos1.y--;
         }
@@ -577,7 +588,7 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syste
             pos2.y++;
         }
     break;
-    case 3://cas /
+    case 3 : //cas /
         while (pos1.x<jeu->grilleJeu.taille-1 && pos1.y>0){
             pos1.x++;
             pos1.y--;
@@ -591,10 +602,10 @@ void animationBombe_BombeLaser(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syste
     }
 
 
-    pos1.x=((pos1.x*(fondCaseJeu->w+1))+10)-(rayon->w/2)+(fondCaseJeu->w/2);
-    pos1.y=((pos1.y*(fondCaseJeu->h+1))+10)-(rayon->h/2)+(fondCaseJeu->h/2);
-    pos2.x=((pos2.x*(fondCaseJeu->w+1))+10)-(rayon->w/2)+(fondCaseJeu->w/2);
-    pos2.y=((pos2.y*(fondCaseJeu->h+1))+10)-(rayon->h/2)+(fondCaseJeu->h/2);
+    pos1.x = ((pos1.x*(fondCaseJeu->w+1))+10)-(rayon->w/2)+(fondCaseJeu->w/2);
+    pos1.y = ((pos1.y*(fondCaseJeu->h+1))+10)-(rayon->h/2)+(fondCaseJeu->h/2);
+    pos2.x = ((pos2.x*(fondCaseJeu->w+1))+10)-(rayon->w/2)+(fondCaseJeu->w/2);
+    pos2.y = ((pos2.y*(fondCaseJeu->h+1))+10)-(rayon->h/2)+(fondCaseJeu->h/2);
 
 
     //animation
@@ -625,7 +636,7 @@ void animationBombe_BombeFleche(SDL_Surface* ecran,SDL_Surface* fondCaseJeu,syst
         position.y = ((courant->position.cooY*(fondCaseJeu->h+1))+10)-(fleche->h)+(fondCaseJeu->h/2);
 
         SDL_BlitSurface(fleche,NULL,ecran,&position);//colle la surface sur l'ecran
-        courant= courant->suivant;
+        courant = courant->suivant;
     }
 
     SDL_UpdateWindowSurface(fenetre);

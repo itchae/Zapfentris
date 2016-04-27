@@ -6,8 +6,13 @@
 #include "SDL_ecriture.h"
 
 void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu* jeu,E_fenetre* typeFenetre,SDL_Surface* fondFenetre){
+
     E_typeJoueur typeJoueur = JoueurTypeNonDefini;
-    // CREATION DES CARRES DE COULEUR
+
+//---------------------------------------------------------------------------------
+//---------------------------- CREATION DES SURFACES ------------------------------
+//---------------------------------------------------------------------------------
+
     // Titre
     SDL_Surface* titre = SDL_LoadBMP("Images/configTitre.bmp"); //Uint32 flags, width, height, depth, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask
     if(titre==NULL){
@@ -38,6 +43,7 @@ void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu*
     if(boutonIADessus==NULL){
         printf("PROBLEME!! erreur lors de la creation du bouton IA de dessus\n");
     }
+
     //Bouton Valider
     SDL_Surface* boutonValider = SDL_CreateRGBSurface(0,390,90,32,0,0,0,0);
     if(boutonValider == NULL){
@@ -58,6 +64,10 @@ void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu*
     SDL_FillRect(pixel, NULL, SDL_MapRGB(pixel->format,0,0,0));
 
 
+//---------------------------------------------------------------------------------
+//---------------------------- BOUCLE EVENEMENT -----------------------------------
+//---------------------------------------------------------------------------------
+
     SDL_Event event;
 
     while(*typeFenetre==fenetreConfigJoueur){
@@ -66,25 +76,25 @@ void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu*
         SDL_WaitEvent(&event);
 
         switch(event.type){
-        case SDL_QUIT : *typeFenetre=fenetreQuitter;
+        case SDL_QUIT : *typeFenetre = fenetreQuitter;
                         break;
         case SDL_MOUSEBUTTONDOWN :
             if (event.button.x >=250 && event.button.x<(250+boutonHumain->w) && event.button.y>=200 && event.button.y < (200+boutonHumain->h)){
                 printf("Joueur Humain\n");
-                typeJoueur=joueurTypeHumain;
+                typeJoueur = joueurTypeHumain;
             }else{
                 if (event.button.x >=500 && event.button.x<=(500+boutonIA->w) && event.button.y>=200 && event.button.y < (200+boutonIA->h)){
                     printf("Joueur IA\n");
-                    typeJoueur=joueurTypeIA;
+                    typeJoueur = joueurTypeIA;
                 }else{
                     if(event.button.x >=280 && event.button.x<(280+boutonValider->w) && event.button.y>=400 && event.button.y<(400+boutonValider->h)){
                         if(typeJoueur!=JoueurTypeNonDefini){
                             printf("Valider\n");
-                            jeu->estIA[jeu->numJoueur-1]=typeJoueur; //type énum false quand humain true quand IA
+                            jeu->estIA[jeu->numJoueur-1] = typeJoueur; //type énum false quand humain true quand IA
                             passerJoueurSuivant(jeu);
-                            typeJoueur=JoueurTypeNonDefini;
+                            typeJoueur = JoueurTypeNonDefini;
                             if(jeu->numJoueur==1){
-                                *typeFenetre=fenetreDureePartie;
+                                *typeFenetre = fenetreDureePartie;
                             }
                         }
                     }
@@ -107,19 +117,23 @@ void  func_fenetreConfigJoueur(SDL_Window* fenetre,SDL_Surface* ecran,systemJeu*
 void refreshFenetreConfig (SDL_Surface* ecran,E_typeJoueur typeJoueur,systemJeu* jeu,SDL_Surface* titre,SDL_Surface* boutonHumain,SDL_Surface* boutonHumainDessus,
                            SDL_Surface* boutonIA, SDL_Surface* boutonIADessus,SDL_Surface* boutonValider, SDL_Surface* boutonValiderDessus,
                            SDL_Surface* pixel,int joueur,SDL_Surface* fondFenetre){
-    // PLACEMENT DES CARRES DE COULEURS
+
+//---------------------------------------------------------------------------------
+//---------------------------- POSITIONNEMENT IMAGE -------------------------------
+//---------------------------------------------------------------------------------
+
     SDL_Rect position;
     SDL_FillRect(ecran,NULL,SDL_MapRGB(ecran->format,255,255,255));                           //color la surface
 
-    position.x=0;
-    position.y=0;
+    position.x = 0;
+    position.y = 0;
     SDL_BlitSurface(fondFenetre,NULL,ecran,&position);
 
-    position.x=100;
-    position.y=50;
+    position.x = 100;
+    position.y = 50;
     SDL_BlitSurface(titre,NULL,ecran,&position);
 
-    position.x=600;
+    position.x = 600;
     switch(joueur){
         case 1:ecrireCarac_1(position,ecran,pixel); break;
         case 2:ecrireCarac_2(position,ecran,pixel); break;
@@ -141,13 +155,13 @@ void refreshFenetreConfig (SDL_Surface* ecran,E_typeJoueur typeJoueur,systemJeu*
         default: break;
     }
 
-    position.x=250;
-    position.y=200;
+    position.x = 250;
+    position.y = 200;
     SDL_BlitSurface(boutonHumain,NULL,ecran,&position);
     SDL_BlitSurface(boutonHumainDessus,NULL,ecran,&position);
 
-    position.x=500;
-    position.y=200;
+    position.x = 500;
+    position.y = 200;
     SDL_BlitSurface(boutonIA,NULL,ecran,&position);
     SDL_BlitSurface(boutonIADessus,NULL,ecran,&position);
 
