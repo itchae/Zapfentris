@@ -944,15 +944,17 @@ bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
 
     jeu->apresExplosionBombe=false;                                             //pas d'explosion pour une carte event sauf en jouer2x mais gerer par placeJeton
     switch (numCarte){
-        case carte1_Bloc : if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide){        //si la case contient une bombe
-                            jeu->nbBombe--;                                     //on decremente le nb de bombe
-                        }
-                        decrementationNbPion(jeu,x,y,true);                     //on decrement le score du proprio du jeton qui pourrai ce trouver la et aussi le nb total
+        case carte1_Bloc : if(jeu->grilleJeu.tabCase[x][y].contenu!=contenuBloc){
+                            if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide){        //si la case contient une bombe
+                                jeu->nbBombe--;                                     //on decremente le nb de bombe
+                            }
+                            decrementationNbPion(jeu,x,y,true);                     //on decrement le score du proprio du jeton qui pourrai ce trouver la et aussi le nb total
 
-                      func_bombeBloc(jeu, x, y);                                //vide la case de sa bombe et du jeton quel contenait et la bloque
-                      jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte1_Bloc);                  //on enleve le prix de l'evenement
-                       passerJoueurSuivant(jeu);
-                       activer=true;
+                            func_bombeBloc(jeu, x, y);                                //vide la case de sa bombe et du jeton quel contenait et la bloque
+                            jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte1_Bloc);                  //on enleve le prix de l'evenement
+                            passerJoueurSuivant(jeu);
+                            activer=true;
+                        }
                 break;
         case carte2_SwapFaction : event_swapJoueur(jeu);
                       jeu->tabPointEvent[jeu->numJoueur-1]-=getPrixCarte(jeu,carte2_SwapFaction);                 //on enleve le prix de l'evenement
