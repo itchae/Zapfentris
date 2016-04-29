@@ -947,14 +947,10 @@ void declancherBombe(systemJeu* jeu, int x, int y,informationBombe* info){
 bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
     bool activer = false;
     listPosition coup = NULL;
-
-    if(numCarte != carte8_Ouups){   //si je ne suis pas en train d'utiliser un retour je sauvegarde
-        sauvegardePartie(jeu);
-    }
-
     jeu->apresExplosionBombe = false;                                             //pas d'explosion pour une carte event sauf en jouer2x mais gerer par placeJeton
     switch (numCarte){
         case carte1_Bloc : if(jeu->grilleJeu.tabCase[x][y].contenu!=contenuBloc){
+                            sauvegardePartie(jeu);                                   //sauvegarde avant de jouer
                             if(jeu->grilleJeu.tabCase[x][y].bombe!=bombeVide){        //si la case contient une bombe
                                 jeu->nbBombe--;                                     //on decremente le nb de bombe
                             }
@@ -966,13 +962,15 @@ bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
                             activer=true;
                         }
                 break;
-        case carte2_SwapFaction : event_swapJoueur(jeu);
+        case carte2_SwapFaction : sauvegardePartie(jeu);                                   //sauvegarde avant de jouer
+                      event_swapJoueur(jeu);
                       jeu->tabPointEvent[jeu->numJoueur-1] -= getPrixCarte(jeu,carte2_SwapFaction);                 //on enleve le prix de l'evenement
                        passerJoueurSuivant(jeu);
                        activer = true;
                 break;
         case carte3_Jouer2x : coup = coupPossible(jeu,x,y);
                         if(coup->nbElement >0){                                                         //si le coup est possible
+                            sauvegardePartie(jeu);                                   //sauvegarde avant de jouer
                             placeJeton(jeu,x,y,coup,false);                                             //on joue mais on passe pas au joueur suivant
                             activer = true;
                             jeu->tabPointEvent[jeu->numJoueur-1] -= getPrixCarte(jeu,carte3_Jouer2x);   //on enleve le prix de l'evenement
@@ -981,6 +979,7 @@ bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
 
                 break;
         case carte4_EliminationPion : if (jeu->grilleJeu.tabCase[x][y].contenu==contenuPion){
+                            sauvegardePartie(jeu);                                   //sauvegarde avant de jouer
                             activer = true;
                             decrementationNbPion(jeu,x,y,true);
                             jeu->grilleJeu.tabCase[x][y].contenu = contenuVide;
@@ -990,12 +989,14 @@ bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
                         }
                 break;
         case carte5_AntiTraitre : activer = true;
+                                  sauvegardePartie(jeu);                                   //sauvegarde avant de jouer
                                   event_AntiTraitre(jeu);
                                   jeu->tabPointEvent[jeu->numJoueur-1] -= getPrixCarte(jeu,carte5_AntiTraitre);
                                   passerJoueurSuivant(jeu);
                 break;
         case carte6_Peinture: if(jeu->grilleJeu.tabCase[x][y].contenu ==contenuPion && jeu->grilleJeu.tabCase[x][y].numJoueur != jeu->numJoueur){ //si c'est pas mon pion
                                     activer = true;
+                                    sauvegardePartie(jeu);                                   //sauvegarde avant de jouer
                                     decrementationNbPion(jeu,x,y,false);                        //il pert un point
                                     jeu->grilleJeu.tabCase[x][y].numJoueur = jeu->numJoueur;
                                     jeu->tabNbPionJoueur[jeu->numJoueur]++;                     //j'en gagne un
@@ -1005,6 +1006,7 @@ bool choixEvent (systemJeu* jeu, int x, int y, E_event numCarte){
                               }
                 break;
         case carte7_AideMoi : activer=true;                                                           //rien a faire il y a que des affichage
+                                //ne pas sauvegarder car c'est juste de l'aide
                             jeu->tabPointEvent[jeu->numJoueur-1] -= getPrixCarte(jeu,carte7_AideMoi);
                     break;
         case carte8_Ouups : chargementPartie(jeu);
